@@ -1,4 +1,4 @@
-// ******************************************************************************
+﻿// ******************************************************************************
 // ** 
 // **  Yahoo! Managed
 // **  Written by Marius Häusler 2012
@@ -24,13 +24,8 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
 using MaasOne.Xml;
-using System.Xml.Linq;
 
 
 namespace MaasOne.Search.BOSS
@@ -40,7 +35,9 @@ namespace MaasOne.Search.BOSS
     public partial class SearchDownload : Base.DownloadClient<SearchResult>
     {
 
-        public SearchDownloadSettings Settings { get { return (SearchDownloadSettings)base.Settings; } set { base.SetSettings(value); } }
+        public SearchDownloadSettings Settings { get => (SearchDownloadSettings)base.Settings;
+	        set => base.SetSettings(value);
+        }
 
 
         public SearchDownload()

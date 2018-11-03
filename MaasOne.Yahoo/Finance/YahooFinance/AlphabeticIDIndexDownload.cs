@@ -23,13 +23,9 @@
 // **  limitations under the License.
 // ** 
 // ******************************************************************************
-using System;
-using System.Collections;
+
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using MaasOne.Xml;
-using System.Xml.Linq;
 
 
 namespace MaasOne.Finance.YahooFinance
@@ -41,7 +37,9 @@ namespace MaasOne.Finance.YahooFinance
     public partial class AlphabeticIDIndexDownload : Base.DownloadClient<AlphabeticIDIndexResult>
     {
 
-        public AlphabeticIDIndexSettings Settings { get { return (AlphabeticIDIndexSettings)base.Settings; } set { base.SetSettings(value); } }
+        public AlphabeticIDIndexSettings Settings { get => (AlphabeticIDIndexSettings)base.Settings;
+	        set => base.SetSettings(value);
+        }
 
         public AlphabeticIDIndexDownload()
         {
@@ -170,13 +168,10 @@ namespace MaasOne.Finance.YahooFinance
     public class AlphabeticIDIndexResult
     {
 
-        private AlphabeticalIndex[] mItems = null;
-        public AlphabeticalIndex[] Items
-        {
-            get { return mItems; }
-        }
+        private AlphabeticalIndex[] mItems;
+        public AlphabeticalIndex[] Items => mItems;
 
-        public AlphabeticIDIndexResult(AlphabeticalIndex[] items)
+	    public AlphabeticIDIndexResult(AlphabeticalIndex[] items)
         {
             mItems = items;
         }
@@ -187,17 +182,11 @@ namespace MaasOne.Finance.YahooFinance
     {
 
         private string mIndex = string.Empty;
-        public string Index
-        {
-            get { return mIndex; }
-        }
-        private string mURL = string.Empty;
-        internal string URL
-        {
-            get { return mURL; }
-        }
+        public string Index => mIndex;
+	    private string mURL = string.Empty;
+        internal string URL => mURL;
 
-        internal AlphabeticalIndex(string i, string url)
+	    internal AlphabeticalIndex(string i, string url)
         {
             mIndex = i;
             mURL = url;
@@ -213,11 +202,9 @@ namespace MaasOne.Finance.YahooFinance
     {
 
         private AlphabeticalIndex[] mSubIndices = new AlphabeticalIndex[] { };
-        public AlphabeticalIndex[] SubIndices
-        {
-            get { return mSubIndices; }
-        }
-        internal void SetIndices(AlphabeticalIndex[] ind)
+        public AlphabeticalIndex[] SubIndices => mSubIndices;
+
+	    internal void SetIndices(AlphabeticalIndex[] ind)
         {
             mSubIndices = ind;
         }
@@ -232,20 +219,14 @@ namespace MaasOne.Finance.YahooFinance
 
     public class AlphabeticIDIndexSettings : Base.SettingsBase
     {
-        private AlphabeticalTopIndex mTopIndex = null;
+        private AlphabeticalTopIndex mTopIndex;
         /// <summary>
         /// NULL or TopIndex [e.g. '0-9', 'A', 'B', etc.]. If NULL it downloads all TopIndices. If has value it downloads the sub-indices of the TopIndex.
         /// </summary>
         public AlphabeticalTopIndex TopIndex
         {
-            get
-            {
-                return mTopIndex;
-            }
-            set
-            {
-                mTopIndex = value;
-            }
+            get => mTopIndex;
+	        set => mTopIndex = value;
         }
         internal AlphabeticalIndexDownloadType Type
         {
@@ -267,7 +248,7 @@ namespace MaasOne.Finance.YahooFinance
             string whereClause = string.Empty;
             if (mTopIndex != null)
             {
-                 whereClause = string.Format("url='{0}' AND xpath='//html/body/center[3]/table[3]/tr/td'", mTopIndex.URL);
+                 whereClause = $"url='{mTopIndex.URL}' AND xpath='//html/body/center[3]/table[3]/tr/td'";
            }
             else
             {

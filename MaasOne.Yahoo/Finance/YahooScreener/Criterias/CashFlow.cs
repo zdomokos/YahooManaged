@@ -23,13 +23,7 @@
 // **  limitations under the License.
 // ** 
 // ******************************************************************************
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
-using MaasOne.Xml;
+
 using MaasOne.Finance.YahooFinance;
 
 
@@ -43,23 +37,15 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class FreeCashFlowCriteria : StockDigitCriteriaDefinition
 	{
 
-		public override string DisplayName {
-			get { return "Free Cash Flow Criteria"; }
-		}
+		public override string DisplayName => "Free Cash Flow Criteria";
 
-		public override string CriteriaName {
-			get { return "Free Cash Flow"; }
-		}
+		public override string CriteriaName => "Free Cash Flow";
 
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.CashFlow; }
-		}
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization}; }
-		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.FreeCashFlow}; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.CashFlow;
+
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization};
+
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.FreeCashFlow};
 
 		public FreeCashFlowCriteria() : base("8y")
 		{
@@ -73,23 +59,15 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class OperatingCashFlowCriteria : StockDigitCriteriaDefinition
 	{
 
-		public override string DisplayName {
-			get { return "Operating Cash Flow Criteria"; }
-		}
+		public override string DisplayName => "Operating Cash Flow Criteria";
 
-		public override string CriteriaName {
-			get { return "Operating Cash Flow"; }
-		}
+		public override string CriteriaName => "Operating Cash Flow";
 
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.CashFlow; }
-		}
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization}; }
-		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.OperatingCashFlow}; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.CashFlow;
+
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization};
+
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.OperatingCashFlow};
 
 		public OperatingCashFlowCriteria() : base("8z")
 		{

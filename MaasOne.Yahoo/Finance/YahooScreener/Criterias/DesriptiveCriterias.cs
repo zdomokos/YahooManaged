@@ -24,12 +24,6 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
-using MaasOne.Xml;
 using MaasOne.Finance.YahooFinance;
 
 
@@ -43,27 +37,17 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class ExchangeCriteria : StockStringCriteriaDefinition
 	{
 
-		public override string DisplayName {
-			get { return "Exchange Criteria"; }
-		}
+		public override string DisplayName => "Exchange Criteria";
 
-		public override string CriteriaName {
-			get { return "Stock Exchange"; }
-		}
+		public override string CriteriaName => "Stock Exchange";
 
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.Descriptive; }
-		}
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization}; }
-		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio}; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.Descriptive;
 
-		internal override bool IsValid {
-			get { return base.IsValid && (base.Value == "amex" | base.Value == "nasdaq" | base.Value == "nyse"); }
-		}
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization};
+
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio};
+
+		internal override bool IsValid => base.IsValid && (base.Value == "amex" | base.Value == "nasdaq" | base.Value == "nyse");
 
 		public Nullable<StockExchange> Exchange {
 			get {
@@ -104,30 +88,17 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class SectorCriteria : StockStringCriteriaDefinition
 	{
 
-		public override string DisplayName {
-			get { return "Sector Criteria"; }
-		}
+		public override string DisplayName => "Sector Criteria";
 
-		public override string CriteriaName {
-			get { return "Sector"; }
-		}
+		public override string CriteriaName => "Sector";
 
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.Descriptive; }
-		}
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization}; }
-		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio}; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.Descriptive;
 
-		internal override bool IsValid {
-			get {
-				int i = 0;
-				return base.IsValid && int.TryParse(base.Value, out i) && (i >= 1 & i <= 9);
-			}
-		}
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization};
+
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio};
+
+		internal override bool IsValid => base.IsValid && int.TryParse(base.Value, out int i) && (i >= 1 & i <= 9);
 
 		public Nullable<Sector> Sector {
 			get {
@@ -158,30 +129,17 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class IndustryCriteria : StockStringCriteriaDefinition
 	{
 
-		public override string DisplayName {
-			get { return "Industry Criteria"; }
-		}
+		public override string DisplayName => "Industry Criteria";
 
-		public override string CriteriaName {
-			get { return "Industry"; }
-		}
+		public override string CriteriaName => "Industry";
 
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.Descriptive; }
-		}
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization}; }
-		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio}; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.Descriptive;
 
-		internal override bool IsValid {
-			get {
-				int i = 0;
-				return base.IsValid && int.TryParse(base.Value, out i) && (i >= 1 & i <= 9);
-			}
-		}
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization};
+
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio};
+
+		internal override bool IsValid => base.IsValid && int.TryParse(base.Value, out int i) && (i >= 1 & i <= 9);
 
 		public Nullable<Industry> Industry {
 			get {
@@ -213,24 +171,15 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class NumberOfEmployeesCriteria : StockDigitCriteriaDefinition
 	{
 
-		public override string DisplayName {
-			get { return "Number of Employees Criteria"; }
-		}
+		public override string DisplayName => "Number of Employees Criteria";
 
-		public override string CriteriaName {
-			get { return "Number of Employees"; }
-		}
+		public override string CriteriaName => "Number of Employees";
 
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization}; }
-		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.NumberOfEmployees}; }
-		}
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization};
 
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.Descriptive; }
-		}
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.NumberOfEmployees};
+
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.Descriptive;
 
 		public NumberOfEmployeesCriteria() : base("9o")
 		{

@@ -23,10 +23,6 @@
 // **  limitations under the License.
 // ** 
 // ******************************************************************************
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 
 namespace MaasOne
 {
@@ -36,16 +32,11 @@ namespace MaasOne
         private Language mLanguage = Language.en;
 
         private Country mCountry = Country.US;
-        public Language Language
-        {
-            get { return mLanguage; }
-        }
-        public Country Country
-        {
-            get { return mCountry; }
-        }
+        public Language Language => mLanguage;
 
-        public Culture(Language lang, Country cnt)
+	    public Country Country => mCountry;
+
+	    public Culture(Language lang, Country cnt)
             : base(lang.ToString().Replace("no", "nn").Replace("tzh", "zh") + "-" + cnt.ToString().Replace("CT", "ES").Replace("UK", "GB"))
         {
             mLanguage = lang;
@@ -128,192 +119,97 @@ namespace MaasOne
                 mItems[44] = new Culture(Language.vi, Country.VN);
             }
 
-            public static Culture[] Items
-            {
-                get { return mItems; }
-            }
+            public static Culture[] Items => mItems;
 
-            public static Culture Argentina
-            {
-                get { return mItems[0]; }
-            }
-            public static Culture Austria
-            {
-                get { return mItems[1]; }
-            }
-            public static Culture Australia
-            {
-                get { return mItems[2]; }
-            }
-            public static Culture Brazil
-            {
-                get { return mItems[3]; }
-            }
-            public static Culture Canada_English
-            {
-                get { return mItems[4]; }
-            }
-            public static Culture Canada_French
-            {
-                get { return mItems[5]; }
-            }
-            public static Culture Catalan
-            {
-                get { return mItems[6]; }
-            }
-            public static Culture Chile
-            {
-                get { return mItems[7]; }
-            }
-            public static Culture Columbia
-            {
-                get { return mItems[8]; }
-            }
-            public static Culture CzechRepublic
-            {
-                get { return mItems[9]; }
-            }
-            public static Culture Denmark
-            {
-                get { return mItems[10]; }
-            }
-            public static Culture Finland
-            {
-                get { return mItems[11]; }
-            }
-            public static Culture France
-            {
-                get { return mItems[12]; }
-            }
-            public static Culture Germany
-            {
-                get { return mItems[13]; }
-            }
-            public static Culture HongKong
-            {
-                get { return mItems[14]; }
-            }
-            public static Culture Hungary
-            {
-                get { return mItems[15]; }
-            }
-            public static Culture Indonesia
-            {
-                get { return mItems[16]; }
-            }
-            public static Culture India
-            {
-                get { return mItems[17]; }
-            }
-            public static Culture Israel
-            {
-                get { return mItems[18]; }
-            }
-            public static Culture Italy
-            {
-                get { return mItems[19]; }
-            }
-            public static Culture Japan
-            {
-                get { return mItems[20]; }
-            }
-            public static Culture Korea
-            {
-                get { return mItems[21]; }
-            }
-            public static Culture Malaysia_English
-            {
-                get { return mItems[22]; }
-            }
-            public static Culture Malaysia_Malaysian
-            {
-                get { return mItems[23]; }
-            }
-            public static Culture Mexico
-            {
-                get { return mItems[24]; }
-            }
-            public static Culture Netherlands
-            {
-                get { return mItems[25]; }
-            }
-            public static Culture Norway
-            {
-                get { return mItems[26]; }
-            }
-            public static Culture NewZealand
-            {
-                get { return mItems[27]; }
-            }
-            public static Culture Peru
-            {
-                get { return mItems[28]; }
-            }
-            public static Culture Philippines_English
-            {
-                get { return mItems[29]; }
-            }
-            public static Culture Romania
-            {
-                get { return mItems[30]; }
-            }
-            public static Culture Russia
-            {
-                get { return mItems[31]; }
-            }
-            public static Culture Singapore
-            {
-                get { return mItems[32]; }
-            }
-            public static Culture Spain
-            {
-                get { return mItems[33]; }
-            }
-            public static Culture Switzerland_French
-            {
-                get { return mItems[34]; }
-            }
-            public static Culture Switzerland_German
-            {
-                get { return mItems[35]; }
-            }
-            public static Culture Switzerland_Italian
-            {
-                get { return mItems[36]; }
-            }
-            public static Culture Thailand
-            {
-                get { return mItems[37]; }
-            }
-            public static Culture Turkey
-            {
-                get { return mItems[38]; }
-            }
-            public static Culture Taiwan
-            {
-                get { return mItems[39]; }
-            }
-            public static Culture UnitedKingdom
-            {
-                get { return mItems[40]; }
-            }
-            public static Culture UnitedStates_English
-            {
-                get { return mItems[41]; }
-            }
-            public static Culture UnitedStates_Spanish
-            {
-                get { return mItems[42]; }
-            }
-            public static Culture Venezuela
-            {
-                get { return mItems[43]; }
-            }
-            public static Culture Vietnam
-            {
-                get { return mItems[44]; }
-            }
+	        public static Culture Argentina => mItems[0];
 
+	        public static Culture Austria => mItems[1];
+
+	        public static Culture Australia => mItems[2];
+
+	        public static Culture Brazil => mItems[3];
+
+	        public static Culture Canada_English => mItems[4];
+
+	        public static Culture Canada_French => mItems[5];
+
+	        public static Culture Catalan => mItems[6];
+
+	        public static Culture Chile => mItems[7];
+
+	        public static Culture Columbia => mItems[8];
+
+	        public static Culture CzechRepublic => mItems[9];
+
+	        public static Culture Denmark => mItems[10];
+
+	        public static Culture Finland => mItems[11];
+
+	        public static Culture France => mItems[12];
+
+	        public static Culture Germany => mItems[13];
+
+	        public static Culture HongKong => mItems[14];
+
+	        public static Culture Hungary => mItems[15];
+
+	        public static Culture Indonesia => mItems[16];
+
+	        public static Culture India => mItems[17];
+
+	        public static Culture Israel => mItems[18];
+
+	        public static Culture Italy => mItems[19];
+
+	        public static Culture Japan => mItems[20];
+
+	        public static Culture Korea => mItems[21];
+
+	        public static Culture Malaysia_English => mItems[22];
+
+	        public static Culture Malaysia_Malaysian => mItems[23];
+
+	        public static Culture Mexico => mItems[24];
+
+	        public static Culture Netherlands => mItems[25];
+
+	        public static Culture Norway => mItems[26];
+
+	        public static Culture NewZealand => mItems[27];
+
+	        public static Culture Peru => mItems[28];
+
+	        public static Culture Philippines_English => mItems[29];
+
+	        public static Culture Romania => mItems[30];
+
+	        public static Culture Russia => mItems[31];
+
+	        public static Culture Singapore => mItems[32];
+
+	        public static Culture Spain => mItems[33];
+
+	        public static Culture Switzerland_French => mItems[34];
+
+	        public static Culture Switzerland_German => mItems[35];
+
+	        public static Culture Switzerland_Italian => mItems[36];
+
+	        public static Culture Thailand => mItems[37];
+
+	        public static Culture Turkey => mItems[38];
+
+	        public static Culture Taiwan => mItems[39];
+
+	        public static Culture UnitedKingdom => mItems[40];
+
+	        public static Culture UnitedStates_English => mItems[41];
+
+	        public static Culture UnitedStates_Spanish => mItems[42];
+
+	        public static Culture Venezuela => mItems[43];
+
+	        public static Culture Vietnam => mItems[44];
         }
     }
 }

@@ -1,4 +1,4 @@
-// ******************************************************************************
+﻿// ******************************************************************************
 // ** 
 // **  Yahoo! Managed
 // **  Written by Marius Häusler 2012
@@ -24,13 +24,8 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
 using MaasOne.Xml;
-using System.Xml.Linq;
 
 
 namespace MaasOne.Search.BOSS
@@ -80,13 +75,13 @@ namespace MaasOne.Search.BOSS
     public class SuggestionResult
     {
 
-        private SuggestionDownloadSettings mSettings = null;
-        public SuggestionDownloadSettings Settings { get { return mSettings; } }
+        private SuggestionDownloadSettings mSettings;
+        public SuggestionDownloadSettings Settings => mSettings;
 
-        private string[] mItems = null;
-        public string[] Items { get { return mItems; } }
+	    private string[] mItems;
+        public string[] Items => mItems;
 
-        internal SuggestionResult(string[] items, SuggestionDownloadSettings settings)
+	    internal SuggestionResult(string[] items, SuggestionDownloadSettings settings)
         {
             mSettings = settings;
             mItems = items;

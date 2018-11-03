@@ -25,7 +25,6 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 
 namespace MaasOne.Finance.YahooFinance.Support
@@ -41,8 +40,8 @@ namespace MaasOne.Finance.YahooFinance.Support
         /// <remarks></remarks>
         public System.Net.IWebProxy Proxy
         {
-            get { return mDownloader.Proxy; }
-            set { mDownloader.Proxy = value; }
+            get => mDownloader.Proxy;
+	        set => mDownloader.Proxy = value;
         }
 
         /// <summary>

@@ -25,10 +25,7 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
-using MaasOne.Finance.YahooFinance;
 using MaasOne.Xml;
-using System.Xml.Linq;
 
 
 namespace MaasOne.Finance.YahooFinance
@@ -72,7 +69,7 @@ namespace MaasOne.Finance.YahooFinance
 
                 foreach (QuoteProperty qp in prpts)
                 {
-                    sb.Append(qp.ToString());
+                    sb.Append(qp);
                     sb.Append(delimiter);
                 }
                 sb.Remove(sb.Length - 1, 1);
@@ -172,7 +169,7 @@ namespace MaasOne.Finance.YahooFinance
                     {
                         if (!(table[0].Length == properties.Length))
                         {
-                            String[][] semicolTable = MyHelper.CsvTextToStringTable(csvText, Convert.ToChar((delimiter == ';' ? ',' : ';')));
+                            string[][] semicolTable = MyHelper.CsvTextToStringTable(csvText, Convert.ToChar((delimiter == ';' ? ',' : ';')));
                             if (semicolTable[0].Length == properties.Length)
                             {
                                 table = semicolTable;
@@ -215,7 +212,7 @@ namespace MaasOne.Finance.YahooFinance
                     csv.Append(qbd.Symbol);
                     csv.Append("\"");
                     csv.Append("\"");
-                    csv.Append((qbd.Type == QuoteOptionType.Call ? "C" : "P").ToString());
+                    csv.Append((qbd.Type == QuoteOptionType.Call ? "C" : "P"));
                     csv.Append("\"");
                     csv.Append(delimiter);
                     csv.Append(MyHelper.ObjectToString(qbd.LastPrice, ci));
@@ -225,7 +222,7 @@ namespace MaasOne.Finance.YahooFinance
                     csv.Append(MyHelper.ObjectToString(Math.Abs(qbd.Change), ci));
                     csv.Append(delimiter);
                     csv.Append("\"");
-                    csv.Append((qbd.Change >= 0 ? "Up" : "Down").ToString());
+                    csv.Append((qbd.Change >= 0 ? "Up" : "Down"));
                     csv.Append("\"");
                     csv.Append(MyHelper.ObjectToString(qbd.Bid, ci));
                     csv.Append(delimiter);
@@ -265,33 +262,26 @@ namespace MaasOne.Finance.YahooFinance
                             QuoteOptionsData qd = new QuoteOptionsData();
                             qd.Symbol = table[i][0];
                             qd.Type = (QuoteOptionType)(table[i][1].ToLower() == "p" ? QuoteOptionType.Put : QuoteOptionType.Call);
-                            double t1;
-                            double t2;
-                            double t3;
-                            double t4;
-                            double t5;
-                            int t6;
-                            int t7;
-                            if (double.TryParse(table[i][2], System.Globalization.NumberStyles.Currency, ci, out t1) &&
-                                double.TryParse(table[i][3], System.Globalization.NumberStyles.Currency, ci, out t2) &&
-                                double.TryParse(table[i][4], System.Globalization.NumberStyles.Currency, ci, out t3) &&
-                                double.TryParse(table[i][6], System.Globalization.NumberStyles.Currency, ci, out t4) &&
-                                double.TryParse(table[i][7], System.Globalization.NumberStyles.Currency, ci, out t5) &&
-                                int.TryParse(table[i][8], System.Globalization.NumberStyles.Integer, ci, out t6) &&
-                                int.TryParse(table[i][9], System.Globalization.NumberStyles.Integer, ci, out t7))
-                            {
-                                qd.LastPrice = t1;
-                                qd.StrikePrice = t2;
-                                qd.Change = t3;
-                                qd.Bid = t4;
-                                qd.Ask = t5;
-                                qd.Volume = t6;
-                                qd.OpenInterest = t7;
+							if (double.TryParse(table[i][2], System.Globalization.NumberStyles.Currency, ci, out double t1) &&
+								double.TryParse(table[i][3], System.Globalization.NumberStyles.Currency, ci, out double t2) &&
+								double.TryParse(table[i][4], System.Globalization.NumberStyles.Currency, ci, out double t3) &&
+								double.TryParse(table[i][6], System.Globalization.NumberStyles.Currency, ci, out double t4) &&
+								double.TryParse(table[i][7], System.Globalization.NumberStyles.Currency, ci, out double t5) &&
+								int.TryParse(table[i][8], System.Globalization.NumberStyles.Integer, ci, out int t6) &&
+								int.TryParse(table[i][9], System.Globalization.NumberStyles.Integer, ci, out int t7))
+							{
+								qd.LastPrice = t1;
+								qd.StrikePrice = t2;
+								qd.Change = t3;
+								qd.Bid = t4;
+								qd.Ask = t5;
+								qd.Volume = t6;
+								qd.OpenInterest = t7;
 
-                                qd.Change *= Convert.ToInt32((table[i][5].ToLower() == "down" ? -1 : 1));
-                                lst.Add(qd);
-                            }
-                        }
+								qd.Change *= Convert.ToInt32((table[i][5].ToLower() == "down" ? -1 : 1));
+								lst.Add(qd);
+							}
+						}
                     }
                 }
             }
@@ -358,33 +348,26 @@ namespace MaasOne.Finance.YahooFinance
                         if (table[i].Length == 7)
                         {
                             HistQuotesData qd = new HistQuotesData();
-                            System.DateTime t1;
-                            double t2;
-                            double t3;
-                            double t4;
-                            double t5;
-                            double t6;
-                            long t7;
 
-                            if (System.DateTime.TryParse(table[i][0], culture, System.Globalization.DateTimeStyles.None, out t1) &&
-                                double.TryParse(table[i][1], System.Globalization.NumberStyles.Currency, culture, out t2) &&
-                                double.TryParse(table[i][2], System.Globalization.NumberStyles.Currency, culture, out t3) &&
-                                double.TryParse(table[i][3], System.Globalization.NumberStyles.Currency, culture, out t4) &&
-                                double.TryParse(table[i][4], System.Globalization.NumberStyles.Currency, culture, out t5) &&
-                                double.TryParse(table[i][6], System.Globalization.NumberStyles.Currency, culture, out t6) &&
-                                long.TryParse(table[i][5], System.Globalization.NumberStyles.Integer, culture, out t7))
-                            {
-                                qd.TradingDate = t1;
-                                qd.Open = t2;
-                                qd.High = t3;
-                                qd.Low = t4;
-                                qd.Close = t5;
-                                qd.CloseAdjusted = t6;
-                                qd.Volume = t7;
+							if (System.DateTime.TryParse(table[i][0], culture, System.Globalization.DateTimeStyles.None, out DateTime t1) &&
+								double.TryParse(table[i][1], System.Globalization.NumberStyles.Currency, culture, out double t2) &&
+								double.TryParse(table[i][2], System.Globalization.NumberStyles.Currency, culture, out double t3) &&
+								double.TryParse(table[i][3], System.Globalization.NumberStyles.Currency, culture, out double t4) &&
+								double.TryParse(table[i][4], System.Globalization.NumberStyles.Currency, culture, out double t5) &&
+								double.TryParse(table[i][6], System.Globalization.NumberStyles.Currency, culture, out double t6) &&
+								long.TryParse(table[i][5], System.Globalization.NumberStyles.Integer, culture, out long t7))
+							{
+								qd.TradingDate = t1;
+								qd.Open = t2;
+								qd.High = t3;
+								qd.Low = t4;
+								qd.Close = t5;
+								qd.CloseAdjusted = t6;
+								qd.Volume = t7;
 
-                                lst.Add(qd);
-                            }
-                        }
+								lst.Add(qd);
+							}
+						}
                     }
                 }
             }
@@ -408,31 +391,21 @@ namespace MaasOne.Finance.YahooFinance
                         MarketQuotesData quote = new MarketQuotesData();
                         quote.Name = table[i][0];
 
-                        double t1;
-                        double t2;
-                        double t3;
-                        double t4;
-                        double t5;
-                        double t6;
-                        double t7;
-                        double t8;
-
-                        if (double.TryParse(table[i][1], System.Globalization.NumberStyles.Any, ci, out t1))
-                            quote.OneDayPriceChangePercent = t1;
-                        string mktcap = table[i][2];
+						if (double.TryParse(table[i][1], System.Globalization.NumberStyles.Any, ci, out double t1))
+							quote.OneDayPriceChangePercent = t1;
+						string mktcap = table[i][2];
                         if (mktcap != "NA" & mktcap != string.Empty & mktcap.Length > 1)
                         {
-                            double value = 0;
-                            double.TryParse(mktcap.Substring(0, mktcap.Length - 1), System.Globalization.NumberStyles.Any, ci, out value);
-                            quote.MarketCapitalizationInMillion = value * FinanceHelper.GetStringMillionFactor(mktcap);
+							double.TryParse(mktcap.Substring(0, mktcap.Length - 1), System.Globalization.NumberStyles.Any, ci, out double value);
+							quote.MarketCapitalizationInMillion = value * FinanceHelper.GetStringMillionFactor(mktcap);
                         }
-                        if (double.TryParse(table[i][3], System.Globalization.NumberStyles.Any, ci, out t2)) quote.PriceEarningsRatio = t2;
-                        if (double.TryParse(table[i][4], System.Globalization.NumberStyles.Any, ci, out t3)) quote.ReturnOnEquityPercent = t3;
-                        if (double.TryParse(table[i][5], System.Globalization.NumberStyles.Any, ci, out t4)) quote.DividendYieldPercent = t4;
-                        if (double.TryParse(table[i][6], System.Globalization.NumberStyles.Any, ci, out t5)) quote.LongTermDeptToEquity = t5;
-                        if (double.TryParse(table[i][7], System.Globalization.NumberStyles.Any, ci, out t6)) quote.PriceToBookValue = t6;
-                        if (double.TryParse(table[i][8], System.Globalization.NumberStyles.Any, ci, out t7)) quote.NetProfitMarginPercent = t7;
-                        if (double.TryParse(table[i][9], System.Globalization.NumberStyles.Any, ci, out t8)) quote.PriceToFreeCashFlow = t8;
+                        if (double.TryParse(table[i][3], System.Globalization.NumberStyles.Any, ci, out double t2)) quote.PriceEarningsRatio = t2;
+                        if (double.TryParse(table[i][4], System.Globalization.NumberStyles.Any, ci, out double t3)) quote.ReturnOnEquityPercent = t3;
+                        if (double.TryParse(table[i][5], System.Globalization.NumberStyles.Any, ci, out double t4)) quote.DividendYieldPercent = t4;
+                        if (double.TryParse(table[i][6], System.Globalization.NumberStyles.Any, ci, out double t5)) quote.LongTermDeptToEquity = t5;
+                        if (double.TryParse(table[i][7], System.Globalization.NumberStyles.Any, ci, out double t6)) quote.PriceToBookValue = t6;
+                        if (double.TryParse(table[i][8], System.Globalization.NumberStyles.Any, ci, out double t7)) quote.NetProfitMarginPercent = t7;
+                        if (double.TryParse(table[i][9], System.Globalization.NumberStyles.Any, ci, out double t8)) quote.PriceToFreeCashFlow = t8;
                         lst.Add(quote);
                     }
                 }
@@ -443,7 +416,8 @@ namespace MaasOne.Finance.YahooFinance
 
         private static string HistQuotesCSVHeadline(char delimiter)
         {
-            return string.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}Adj Close", delimiter, FinanceHelper.NameHistQuoteDate, FinanceHelper.NameHistQuoteOpen, FinanceHelper.NameHistQuoteHigh, FinanceHelper.NameHistQuoteLow, FinanceHelper.NameHistQuoteClose, FinanceHelper.NameHistQuoteVolume);
+            return
+                $"{FinanceHelper.NameHistQuoteDate}{delimiter}{FinanceHelper.NameHistQuoteOpen}{delimiter}{FinanceHelper.NameHistQuoteHigh}{delimiter}{FinanceHelper.NameHistQuoteLow}{delimiter}{FinanceHelper.NameHistQuoteClose}{delimiter}{FinanceHelper.NameHistQuoteVolume}{delimiter}Adj Close";
         }
 
 
@@ -519,7 +493,7 @@ namespace MaasOne.Finance.YahooFinance
 
                             foreach (KeyValuePair<QuoteProperty, int>[] combination in lst)
                             {
-                                String[] newRowItems = CsvNewRowItems(rowItems, properties, combination);
+                                string[] newRowItems = CsvNewRowItems(rowItems, properties, combination);
 
                                 try
                                 {
@@ -629,17 +603,16 @@ namespace MaasOne.Finance.YahooFinance
 
                         for (int i = actualIndex; i <= (actualIndex + alternatProperty.Value.Value - 1); i++)
                         {
-                            int @int = 0;
-                            if (int.TryParse(oldItems[i], System.Globalization.NumberStyles.Integer, convCulture, out @int) && (oldItems[i] == @int.ToString() || oldItems[i] == "000"))
-                            {
-                                newRowItem += oldItems[i];
-                            }
-                            else
-                            {
-                                newRowItem = string.Empty;
-                                break; // TODO: might not be correct. Was : Exit For
-                            }
-                        }
+							if (int.TryParse(oldItems[i], System.Globalization.NumberStyles.Integer, convCulture, out int @int) && (oldItems[i] == @int.ToString() || oldItems[i] == "000"))
+							{
+								newRowItem += oldItems[i];
+							}
+							else
+							{
+								newRowItem = string.Empty;
+								break; // TODO: might not be correct. Was : Exit For
+							}
+						}
                         if (newRowItem != string.Empty)
                         {
                             newRowItems.Add(newRowItem);
@@ -747,7 +720,7 @@ namespace MaasOne.Finance.YahooFinance
             writer.WriteStartElement("Option");
 
             writer.WriteAttributeString(FinanceHelper.NameOptionSymbol, quoteOption.Symbol);
-            writer.WriteAttributeString(FinanceHelper.NameOptionType, (quoteOption.Type == QuoteOptionType.Call ? "C" : "P").ToString());
+            writer.WriteAttributeString(FinanceHelper.NameOptionType, (quoteOption.Type == QuoteOptionType.Call ? "C" : "P"));
 
             writer.WriteStartElement(FinanceHelper.NameOptionLastPrice);
             writer.WriteValue(MyHelper.ObjectToString(quoteOption.LastPrice, ci));
@@ -762,7 +735,7 @@ namespace MaasOne.Finance.YahooFinance
             writer.WriteEndElement();
 
             writer.WriteStartElement(FinanceHelper.NameOptionChangeDir);
-            writer.WriteValue((quoteOption.Change >= 0 ? "Up" : "Down").ToString());
+            writer.WriteValue((quoteOption.Change >= 0 ? "Up" : "Down"));
             writer.WriteEndElement();
 
             writer.WriteStartElement(FinanceHelper.NameOptionBid);

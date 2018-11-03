@@ -25,15 +25,9 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Net;
-using System.IO;
 using MaasOne.Base;
 using MaasOne.Xml;
-using MaasOne.Finance;
-using MaasOne.Finance.YahooFinance;
-using MaasOne.Finance.YahooFinance.Support;
-using System.Xml.Linq;
 
 
 namespace MaasOne
@@ -45,32 +39,27 @@ namespace MaasOne
 
         public event AsyncIAccountManagerDownloadCompletedEventHandler LoggedStatusChanged;
 
-        private CookieContainer mCookies = null;
+        private CookieContainer mCookies;
         private string mCrumb = string.Empty;
 
         public CookieContainer Cookies
         {
-            get
-            {
-                return mCookies;
-            }
-            set
+            get => mCookies;
+	        set
             {
                 bool islog = (mCookies != value && value != null);
                 mCookies = value;
-                if (islog && this.LoggedStatusChanged != null) this.LoggedStatusChanged(this, new LoginStateEventArgs(this.IsLoggedIn, null));
+                if (islog) LoggedStatusChanged?.Invoke(this, new LoginStateEventArgs(this.IsLoggedIn, null));
                 this.OnPropertyChanged("Cookies");
                 this.OnPropertyChanged("IsLoggedIn");
             }
         }
-        public bool IsLoggedIn { get { return this.IsLoggedInFunc(mCookies); } }
-        public string Crumb
+        public bool IsLoggedIn => this.IsLoggedInFunc(mCookies);
+
+	    public string Crumb
         {
-            get
-            {
-                return mCrumb;
-            }
-            set
+            get => mCrumb;
+		    set
             {
                 mCrumb = value;
                 this.OnPropertyChanged("Crumb");
@@ -83,7 +72,7 @@ namespace MaasOne
 
         protected void OnPropertyChanged(string name)
         {
-            if (this.PropertyChanged != null) this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(name));
+            this.PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
         }
 
 
@@ -156,9 +145,9 @@ namespace MaasOne
         private void logInDl_Completed(WebFormUpload sender, DownloadCompletedEventArgs<XDocument> e)
         {
             sender.AsyncUploadCompleted -= this.logInDl_Completed;
-            if (this.IsLoggedInFunc(mCookies)) { if (this.LoggedStatusChanged != null) this.LoggedStatusChanged(this, new LoginStateEventArgs(this.IsLoggedIn, e.UserArgs)); }
+            if (this.IsLoggedInFunc(mCookies)) { this.LoggedStatusChanged?.Invoke(this, new LoginStateEventArgs(this.IsLoggedIn, e.UserArgs)); }
             else { mCookies = null; }
-            if (this.PropertyChanged != null) this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs("IsLoggedIn"));
+            this.PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs("IsLoggedIn"));
         }
         private bool IsLoggedInFunc(CookieContainer cookies)
         {
@@ -201,8 +190,8 @@ namespace MaasOne
             {
                 mCookies = null;
                 this.SetCrumb(string.Empty);
-                if (this.PropertyChanged != null) this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs("IsLoggedIn"));
-                if (this.LoggedStatusChanged != null) this.LoggedStatusChanged(this, new LoginStateEventArgs(this.IsLoggedIn, e.UserArgs));
+                this.PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs("IsLoggedIn"));
+                this.LoggedStatusChanged?.Invoke(this, new LoginStateEventArgs(this.IsLoggedIn, e.UserArgs));
             }
         }
 

@@ -25,8 +25,6 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
-using MaasOne.Finance.YahooScreener;
 using MaasOne.Finance.YahooScreener.Criterias;
 
 

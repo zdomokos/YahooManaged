@@ -23,12 +23,8 @@
 // **  limitations under the License.
 // ** 
 // ******************************************************************************
-using System;
-using System.Collections;
+
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
 
 
 namespace MaasOne.Finance.Indicators
@@ -39,11 +35,11 @@ namespace MaasOne.Finance.Indicators
     {
 
 
-        public string Name { get { return "Momentum"; } }
-        public bool IsRealative { get { return true; } }
-        public double ScaleMaximum { get { return double.PositiveInfinity; } }
-        public double ScaleMinimum { get { return 0; } }
-        public int Period { get; set; }
+        public string Name => "Momentum";
+	    public bool IsRealative => true;
+	    public double ScaleMaximum => double.PositiveInfinity;
+	    public double ScaleMinimum => 0;
+	    public int Period { get; set; }
 
         public Momentum()
         {

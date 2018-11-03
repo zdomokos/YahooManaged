@@ -23,10 +23,6 @@
 // **  limitations under the License.
 // ** 
 // ******************************************************************************
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 
 namespace MaasOne.Finance
 {
@@ -40,10 +36,10 @@ namespace MaasOne.Finance
     public abstract class IDSearchBaseResult
     {
 
-        private IDSearchBaseData[] mItems = null;
-        public IDSearchBaseData[] Items { get { return mItems; } }
+        private IDSearchBaseData[] mItems;
+        public IDSearchBaseData[] Items => mItems;
 
-        public IDSearchBaseResult(IDSearchBaseData[] items)
+	    public IDSearchBaseResult(IDSearchBaseData[] items)
         {
             mItems = items;
         }
@@ -59,12 +55,9 @@ namespace MaasOne.Finance
         /// </summary>
         /// <value></value>
         /// <returns></returns>
-        public string ID
-        {
-            get { return mID; }
-        }
+        public string ID => mID;
 
-        public IDSearchBaseData(string id)
+	    public IDSearchBaseData(string id)
         {
             mID = id;
         }

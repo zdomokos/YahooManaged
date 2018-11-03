@@ -24,12 +24,6 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
-using MaasOne.Xml;
 using MaasOne.Finance.YahooFinance;
 
 
@@ -43,23 +37,15 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class CurrentPriceCriteria : StockDigitCriteriaDefinition
 	{
 
-		public override string DisplayName {
-			get { return "Current Price Criteria"; }
-		}
+		public override string DisplayName => "Current Price Criteria";
 
-		public override string CriteriaName {
-			get { return "Price"; }
-		}
+		public override string CriteriaName => "Price";
 
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.SharePerformance; }
-		}
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization}; }
-		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio}; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.SharePerformance;
+
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization};
+
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio};
 
 		public CurrentPriceCriteria() : base("b")
 		{
@@ -74,20 +60,15 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class PriceGainerLosersCriteria : StockDigitCriteriaDefinition, IPercentageAvailability, IGainLoss, IAbsoluteTimePoint
 	{
 
-		public override string DisplayName {
-			get { return "Price Gainer/Losers"; }
-		}
+		public override string DisplayName => "Price Gainer/Losers";
 
-		public override string CriteriaName {
-			get { return "Price"; }
-		}
+		public override string CriteriaName => "Price";
 
 		private StockTradingAbsoluteTimePoint mRelativeDate = StockTradingAbsoluteTimePoint.TodaysOpen;
 
 		private StockPriceChangeDirection mGainOrLoss = StockPriceChangeDirection.Gain;
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.SharePerformance; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.SharePerformance;
+
 		public override QuoteProperty[] ProvidedQuoteProperties {
 			get {
 				if (this.ValueRelativeTo == StockTradingAbsoluteTimePoint.TodaysOpen) {
@@ -116,26 +97,24 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 				}
 			}
 		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio}; }
-		}
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio};
 
 		public StockTradingAbsoluteTimePoint ValueRelativeTo {
-			get { return mRelativeDate; }
+			get => mRelativeDate;
 			set {
 				mRelativeDate = value;
 				this.SetOptionalParam();
 			}
 		}
 		public StockPriceChangeDirection GainOrLoss {
-			get { return mGainOrLoss; }
+			get => mGainOrLoss;
 			set {
 				mGainOrLoss = value;
 				this.SetOptionalParam();
 			}
 		}
 		public bool PercentValues {
-			get { return Convert.ToBoolean((base.CriteriaTag == "g" ? true : false)); }
+			get => Convert.ToBoolean((base.CriteriaTag == "g" ? true : false));
 			set {
 				if (value) {
 					base.CriteriaTag = "g";
@@ -176,51 +155,43 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class PriceMomentumCriteria : StockDigitCriteriaDefinition, IPercentageAvailability, IGainLoss, IRelativeTimePoint, IRelativeTimeSpan
 	{
 
-		public override string DisplayName {
-			get { return "Price Momentum Criteria"; }
-		}
+		public override string DisplayName => "Price Momentum Criteria";
 
-		public override string CriteriaName {
-			get { return "Price"; }
-		}
+		public override string CriteriaName => "Price";
 
 		private StockTradingRelativeTimePoint mRelativeDate = StockTradingRelativeTimePoint.BeforeLastTradeTimePoint;
 		private StockPriceChangeDirection mGainOrLoss = StockPriceChangeDirection.Gain;
 
 		private StockTradingTimeSpan mTimeSpanInMinutes = StockTradingTimeSpan._1;
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.SharePerformance; }
-		}
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization}; }
-		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio}; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.SharePerformance;
+
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization};
+
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio};
 
 		public StockTradingRelativeTimePoint TimeSpanRelativeTo {
-			get { return mRelativeDate; }
+			get => mRelativeDate;
 			set {
 				mRelativeDate = value;
 				this.SetOptionalParam();
 			}
 		}
 		public StockPriceChangeDirection GainOrLoss {
-			get { return mGainOrLoss; }
+			get => mGainOrLoss;
 			set {
 				mGainOrLoss = value;
 				this.SetOptionalParam();
 			}
 		}
 		public StockTradingTimeSpan RelativeTimeSpanInMinutes {
-			get { return mTimeSpanInMinutes; }
+			get => mTimeSpanInMinutes;
 			set {
 				mTimeSpanInMinutes = value;
 				this.SetOptionalParam();
 			}
 		}
 		public bool PercentValues {
-			get { return Convert.ToBoolean((base.CriteriaTag == "i" ? true : false)); }
+			get => Convert.ToBoolean((base.CriteriaTag == "i" ? true : false));
 			set {
 				if (value) {
 					base.CriteriaTag = "i";
@@ -249,20 +220,15 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class ExtremePriceCriteria : StockDigitCriteriaDefinition, IPercentageAvailability, IExtremeParameter, ILessGreater
 	{
 
-		public override string DisplayName {
-			get { return "Extreme Price Criteria"; }
-		}
+		public override string DisplayName => "Extreme Price Criteria";
 
-		public override string CriteriaName {
-			get { return "Price"; }
-		}
+		public override string CriteriaName => "Price";
 
 		private StockExtremeParameter mExtremeParameter = StockExtremeParameter.TodaysHigh;
 
 		private LessGreater mLessGreater = LessGreater.Less;
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.SharePerformance; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.SharePerformance;
+
 		public override QuoteProperty[] ProvidedQuoteProperties {
 			get {
 				switch (this.ExtremeParameter) {
@@ -315,15 +281,12 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 				}
 			}
 		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio}; }
-		}
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio};
 
-		internal override bool IsValid {
-			get { return base.IsValid & !((mLessGreater == LessGreater.Greater & mExtremeParameter == StockExtremeParameter.TodaysHigh) | (mLessGreater == LessGreater.Less & mExtremeParameter == StockExtremeParameter.TodaysLow)); }
-		}
+		internal override bool IsValid => base.IsValid & !((mLessGreater == LessGreater.Greater & mExtremeParameter == StockExtremeParameter.TodaysHigh) | (mLessGreater == LessGreater.Less & mExtremeParameter == StockExtremeParameter.TodaysLow));
+
 		public bool PercentValues {
-			get { return Convert.ToBoolean((base.CriteriaTag == "k" ? true : false)); }
+			get => Convert.ToBoolean((base.CriteriaTag == "k" ? true : false));
 			set {
 				if (value) {
 					base.CriteriaTag = "k";
@@ -340,7 +303,7 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 		/// <returns></returns>
 		/// <remarks></remarks>
 		public StockExtremeParameter ExtremeParameter {
-			get { return mExtremeParameter; }
+			get => mExtremeParameter;
 			set {
 				mExtremeParameter = value;
 				this.SetOptionalParam();
@@ -353,7 +316,7 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 		/// <returns></returns>
 		/// <remarks></remarks>
 		public LessGreater LessGreater {
-			get { return mLessGreater; }
+			get => mLessGreater;
 			set {
 				mLessGreater = value;
 				this.SetOptionalParam();
@@ -400,20 +363,14 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class GapVsPreviousClose : StockDigitCriteriaDefinition, IPercentageAvailability, IUpDown
 	{
 
-		public override string DisplayName {
-			get { return "Gap vs. Previous Close"; }
-		}
+		public override string DisplayName => "Gap vs. Previous Close";
 
-		public override string CriteriaName {
-			get { return "Gap"; }
-		}
+		public override string CriteriaName => "Gap";
 
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.SharePerformance; }
-		}
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization}; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.SharePerformance;
+
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization};
+
 		public override StockScreenerProperty[] ProvidedScreenerProperties {
 			get {
 				if (this.PercentValues) {
@@ -435,7 +392,7 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 		}
 
 		public bool PercentValues {
-			get { return Convert.ToBoolean((base.CriteriaTag == "m" ? true : false)); }
+			get => Convert.ToBoolean((base.CriteriaTag == "m" ? true : false));
 			set {
 				if (value) {
 					base.CriteriaTag = "m";
@@ -446,8 +403,8 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 		}
 
 		public UpDown UpDown {
-			get { return (UpDown)base.OptionalParamValue; }
-			set { base.OptionalParamValue = Convert.ToInt32(value); }
+			get => (UpDown)base.OptionalParamValue;
+			set => base.OptionalParamValue = Convert.ToInt32(value);
 		}
 
 		public GapVsPreviousClose() : base("l")
@@ -463,20 +420,15 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class PriceToMovingAverageRatioCriteria : StockDigitCriteriaDefinition, IUpDown, IMovingAverage
 	{
 
-		public override string DisplayName {
-			get { return "Price/Moving Average Ratio Criteria"; }
-		}
+		public override string DisplayName => "Price/Moving Average Ratio Criteria";
 
-		public override string CriteriaName {
-			get { return "Price/MovingAverage"; }
-		}
+		public override string CriteriaName => "Price/MovingAverage";
 
 		private UpDown mUpDown = UpDown.Up;
 
 		private MovingAverageType mMovingAverage = MovingAverageType.FiftyDays;
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.SharePerformance; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.SharePerformance;
+
 		public override QuoteProperty[] ProvidedQuoteProperties {
 			get {
 				if (this.MovingAverage == MovingAverageType.FiftyDays) {
@@ -505,12 +457,10 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 
 			}
 		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio}; }
-		}
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio};
 
 		public UpDown UpDown {
-			get { return mUpDown; }
+			get => mUpDown;
 			set {
 				mUpDown = value;
 				this.SetOptionalParam();
@@ -518,7 +468,7 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 		}
 		public MovingAverageType MovingAverage {
 
-			get { return mMovingAverage; }
+			get => mMovingAverage;
 			set {
 				mMovingAverage = value;
 				this.SetOptionalParam();

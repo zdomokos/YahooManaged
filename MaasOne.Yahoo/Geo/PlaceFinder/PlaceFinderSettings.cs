@@ -24,13 +24,6 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
-using MaasOne.Xml;
-using MaasOne;
 
 
 namespace MaasOne.Geo.PlaceFinder
@@ -130,7 +123,7 @@ namespace MaasOne.Geo.PlaceFinder
                 flags.Append("X");
             if (flags.Length > 0)
             {
-                url.Append("&flags=" + flags.ToString());
+                url.Append("&flags=" + flags);
             }
             System.Text.StringBuilder gflags = new System.Text.StringBuilder();
             if (this.IncludeNeighborhoodNames)
@@ -145,7 +138,7 @@ namespace MaasOne.Geo.PlaceFinder
                 gflags.Append("R");
             if (gflags.Length > 0)
             {
-                url.Append("&gflags=" + gflags.ToString());
+                url.Append("&gflags=" + gflags);
             }
             if (this.Culture != null && !(this.Culture.Language == Language.en & this.Culture.Country == Country.US))
             {
@@ -236,7 +229,7 @@ namespace MaasOne.Geo.PlaceFinder
         {
             if (this.WOEID == 0)
                 throw new ArgumentException("The WOEID is invalid", "WOEID");
-            return "&woeid=" + this.WOEID.ToString();
+            return "&woeid=" + this.WOEID;
         }
     }
 

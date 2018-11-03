@@ -26,8 +26,6 @@
 using System;
 using System.Collections.Generic;
 using MaasOne.Xml;
-using System.Text;
-using System.Xml.Linq;
 
 
 namespace MaasOne.Finance.YahooFinance
@@ -39,7 +37,9 @@ namespace MaasOne.Finance.YahooFinance
     public partial class QuoteOptionsDownload : Base.DownloadClient<QuoteOptionsResult>
     {
 
-        public QuoteOptionsDownloadSettings Settings { get { return (QuoteOptionsDownloadSettings)base.Settings; } set { base.SetSettings(value); } }
+        public QuoteOptionsDownloadSettings Settings { get => (QuoteOptionsDownloadSettings)base.Settings;
+	        set => base.SetSettings(value);
+        }
 
 
         /// <summary>
@@ -181,12 +181,11 @@ namespace MaasOne.Finance.YahooFinance
             {
                 string idAtt = MyHelper.GetXmlAttributeValue(chain, "symbol");
                 string expirationDateAtt = MyHelper.GetXmlAttributeValue(chain, "expiration");
-                DateTime expirationDate = default(DateTime);
-                if (!System.DateTime.TryParseExact(expirationDateAtt, "yyyy-MM-dd", culture, System.Globalization.DateTimeStyles.None, out expirationDate))
-                {
-                    System.DateTime.TryParseExact(expirationDateAtt, "yyyy-MM", culture, System.Globalization.DateTimeStyles.None, out expirationDate);
-                }
-                List<QuoteOptionsData> lst = new List<QuoteOptionsData>();
+				if (!System.DateTime.TryParseExact(expirationDateAtt, "yyyy-MM-dd", culture, System.Globalization.DateTimeStyles.None, out DateTime expirationDate))
+				{
+					System.DateTime.TryParseExact(expirationDateAtt, "yyyy-MM", culture, System.Globalization.DateTimeStyles.None, out expirationDate);
+				}
+				List<QuoteOptionsData> lst = new List<QuoteOptionsData>();
                 foreach (XElement optionNode in chain.Elements())
                 {
                     if (optionNode.Name.LocalName == "option")
@@ -211,12 +210,10 @@ namespace MaasOne.Finance.YahooFinance
     /// </summary>
     public class QuoteOptionsResult
     {
-        private QuoteOptionsDataChain[] mItems = null;
-        public QuoteOptionsDataChain[] Items
-        {
-            get { return mItems; }
-        }
-        internal QuoteOptionsResult(QuoteOptionsDataChain[] items)
+        private QuoteOptionsDataChain[] mItems;
+        public QuoteOptionsDataChain[] Items => mItems;
+
+	    internal QuoteOptionsResult(QuoteOptionsDataChain[] items)
         {
             mItems = items;
         }
@@ -331,35 +328,26 @@ namespace MaasOne.Finance.YahooFinance
 
         private List<QuoteOptionsData> mItems = new List<QuoteOptionsData>();
 
-        public string ID
-        {
-            get { return mID; }
-        }
-        public System.DateTime ExpirationDate
-        {
-            get { return mExpirationDate; }
-        }
-        public void SetID(string id)
+        public string ID => mID;
+
+	    public System.DateTime ExpirationDate => mExpirationDate;
+
+	    public void SetID(string id)
         {
             mID = id;
         }
 
         public QuoteOptionsData this[int index]
         {
-            get { return mItems[index]; }
-            set { mItems[index] = value; }
+            get => mItems[index];
+	        set => mItems[index] = value;
         }
 
-        public List<QuoteOptionsData> Items
-        {
-            get { return mItems; }
-        }
-        public int Count
-        {
-            get { return mItems.Count; }
-        }
+        public List<QuoteOptionsData> Items => mItems;
 
-        public QuoteOptionsDataChain()
+	    public int Count => mItems.Count;
+
+	    public QuoteOptionsDataChain()
         {
         }
         public QuoteOptionsDataChain(string id)

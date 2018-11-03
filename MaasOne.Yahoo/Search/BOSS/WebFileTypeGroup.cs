@@ -1,4 +1,4 @@
-// ******************************************************************************
+﻿// ******************************************************************************
 // ** 
 // **  Yahoo! Managed
 // **  Written by Marius Häusler 2012
@@ -23,13 +23,8 @@
 // **  limitations under the License.
 // ** 
 // ******************************************************************************
-using System;
-using System.Collections;
+
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
-using MaasOne.Xml;
 
 
 namespace MaasOne.Search.BOSS
@@ -40,9 +35,7 @@ namespace MaasOne.Search.BOSS
 	{
 
 		private List<WebFileType> mFileTypes = new List<WebFileType>();
-		public List<WebFileType> FileTypes {
-			get { return mFileTypes; }
-		}
+		public List<WebFileType> FileTypes => mFileTypes;
 
 
 		#region "Shared"

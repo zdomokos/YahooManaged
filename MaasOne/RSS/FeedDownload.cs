@@ -1,4 +1,4 @@
-// ******************************************************************************
+﻿// ******************************************************************************
 // ** 
 // **  MaasOne WebServices
 // **  Written by Marius Häusler 2012
@@ -24,13 +24,8 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
 using MaasOne.Xml;
-using System.Xml.Linq;
 
 
 namespace MaasOne.RSS
@@ -103,16 +98,13 @@ namespace MaasOne.RSS
 
     public class FeedResult 
     {
-        private FeedDownloadSettings mSettings = null;
-        public FeedDownloadSettings Settings { get { return mSettings; } }
+        private FeedDownloadSettings mSettings;
+        public FeedDownloadSettings Settings => mSettings;
 
-        private Feed[] mFeeds = null;
-        public Feed[] Feeds
-        {
-            get { return mFeeds; }
-        }
+	    private Feed[] mFeeds;
+        public Feed[] Feeds => mFeeds;
 
-        public FeedResult(Feed[] feeds, FeedDownloadSettings settings)
+	    public FeedResult(Feed[] feeds, FeedDownloadSettings settings)
         {
             mFeeds = feeds;
             mSettings = settings;
@@ -156,7 +148,7 @@ namespace MaasOne.RSS
                     for (int i = 0; i <= arr.Length - 1; i++)
                     {
                         whereClause.Append("'");
-                        whereClause.Append(arr[i].ToString());
+                        whereClause.Append(arr[i]);
                         whereClause.Append("'");
                         if (i < arr.Length - 1)
                             whereClause.Append(",");

@@ -24,12 +24,6 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
-using MaasOne.Xml;
 
 
 namespace MaasOne.Geo.PlaceFinder
@@ -40,9 +34,7 @@ namespace MaasOne.Geo.PlaceFinder
 	{
 
 		private PlaceFinderError mErrorCode = PlaceFinderError.NoError;
-		public PlaceFinderError ErrorCode {
-			get { return mErrorCode; }
-		}
+		public PlaceFinderError ErrorCode => mErrorCode;
 
 		internal PlaceFinderException(PlaceFinderError errCode, string errMessage) : base(errMessage)
 		{

@@ -23,15 +23,7 @@
 // **  limitations under the License.
 // ** 
 // ******************************************************************************
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
-using MaasOne.Xml;
-using MaasOne.Finance.YahooScreener;
-using MaasOne.Finance.YahooScreener.Criterias;
+
 using MaasOne.Finance.YahooFinance;
 
 
@@ -46,23 +38,15 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class PriceBookRatioCriteria : StockDigitCriteriaDefinition
 	{
 
-		public override string DisplayName {
-			get { return "Price/Book Ratio Criteria"; }
-		}
+		public override string DisplayName => "Price/Book Ratio Criteria";
 
-		public override string CriteriaName {
-			get { return "Price/Book"; }
-		}
+		public override string CriteriaName => "Price/Book";
 
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.BalanceSheet; }
-		}
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization,QuoteProperty.PriceBook}; }
-		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio}; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.BalanceSheet;
+
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization,QuoteProperty.PriceBook};
+
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio};
 
 		public PriceBookRatioCriteria() : base("8f")
 		{
@@ -76,24 +60,15 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class CashPerShareCriteria : StockDigitCriteriaDefinition
 	{
 
-		public override string DisplayName {
-			get { return "Cash/Share Criteria"; }
-		}
+		public override string DisplayName => "Cash/Share Criteria";
 
-		public override string CriteriaName {
-			get { return "Cash/Share"; }
-		}
+		public override string CriteriaName => "Cash/Share";
 
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.BalanceSheet; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.BalanceSheet;
 
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization}; }
-		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.CashPerShare}; }
-		}
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization};
+
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.CashPerShare};
 
 		public CashPerShareCriteria() : base("8j")
 		{
@@ -107,23 +82,15 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class TotalCashCriteria : StockDigitCriteriaDefinition
 	{
 
-		public override string DisplayName {
-			get { return "Total Cash Criteria"; }
-		}
+		public override string DisplayName => "Total Cash Criteria";
 
-		public override string CriteriaName {
-			get { return "Total Cash"; }
-		}
+		public override string CriteriaName => "Total Cash";
 
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.BalanceSheet; }
-		}
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization}; }
-		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.TotalCash}; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.BalanceSheet;
+
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization};
+
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.TotalCash};
 
 		public TotalCashCriteria() : base("8l")
 		{
@@ -137,23 +104,15 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class BookValueCriteria : StockDigitCriteriaDefinition
 	{
 
-		public override string DisplayName {
-			get { return "Book Value Criteria"; }
-		}
+		public override string DisplayName => "Book Value Criteria";
 
-		public override string CriteriaName {
-			get { return "Book Value"; }
-		}
+		public override string CriteriaName => "Book Value";
 
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.BalanceSheet; }
-		}
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization,QuoteProperty.BookValuePerShare}; }
-		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio}; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.BalanceSheet;
+
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization,QuoteProperty.BookValuePerShare};
+
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio};
 
 		public BookValueCriteria() : base("6")
 		{
@@ -167,23 +126,15 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class TotalDebtCriteria : StockDigitCriteriaDefinition
 	{
 
-		public override string DisplayName {
-			get { return "Total Debt Criteria"; }
-		}
+		public override string DisplayName => "Total Debt Criteria";
 
-		public override string CriteriaName {
-			get { return "Total Debt"; }
-		}
+		public override string CriteriaName => "Total Debt";
 
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.BalanceSheet; }
-		}
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization}; }
-		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.TotalDebt}; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.BalanceSheet;
+
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization};
+
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.TotalDebt};
 
 		public TotalDebtCriteria() : base("9e")
 		{
@@ -197,23 +148,15 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class TotalDebtToEquityCriteria : StockDigitCriteriaDefinition
 	{
 
-		public override string DisplayName {
-			get { return "Total Debt/Equity Criteria"; }
-		}
+		public override string DisplayName => "Total Debt/Equity Criteria";
 
-		public override string CriteriaName {
-			get { return "Total Debt/Equity"; }
-		}
+		public override string CriteriaName => "Total Debt/Equity";
 
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.BalanceSheet; }
-		}
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization}; }
-		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.TotalDebtToEquityRatio}; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.BalanceSheet;
+
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization};
+
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.TotalDebtToEquityRatio};
 
 		public TotalDebtToEquityCriteria() : base("9g")
 		{
@@ -227,23 +170,15 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class CurrentRatioCriteria : StockDigitCriteriaDefinition
 	{
 
-		public override string DisplayName {
-			get { return "Current Ratio Criteria"; }
-		}
+		public override string DisplayName => "Current Ratio Criteria";
 
-		public override string CriteriaName {
-			get { return "Current Ratio"; }
-		}
+		public override string CriteriaName => "Current Ratio";
 
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.BalanceSheet; }
-		}
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization}; }
-		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.CurrentRatio}; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.BalanceSheet;
+
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization};
+
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.CurrentRatio};
 
 		public CurrentRatioCriteria() : base("9h")
 		{
@@ -257,23 +192,15 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class LongTermDebtToEquityCriteria : StockDigitCriteriaDefinition
 	{
 
-		public override string DisplayName {
-			get { return "Long Term Debt/Equity Criteria"; }
-		}
+		public override string DisplayName => "Long Term Debt/Equity Criteria";
 
-		public override string CriteriaName {
-			get { return "Long Term Debt/Equity"; }
-		}
+		public override string CriteriaName => "Long Term Debt/Equity";
 
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.BalanceSheet; }
-		}
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization}; }
-		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.LongTermDebtToEquityRatio}; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.BalanceSheet;
+
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization};
+
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.LongTermDebtToEquityRatio};
 
 		public LongTermDebtToEquityCriteria() : base("9i")
 		{
@@ -287,23 +214,15 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class QuickRatioCriteria : StockDigitCriteriaDefinition
 	{
 
-		public override string DisplayName {
-			get { return "Gross Margin (ttm) Criteria"; }
-		}
+		public override string DisplayName => "Gross Margin (ttm) Criteria";
 
-		public override string CriteriaName {
-			get { return "Gross Margin (ttm)"; }
-		}
+		public override string CriteriaName => "Gross Margin (ttm)";
 
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.BalanceSheet; }
-		}
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization}; }
-		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.QuickRatio}; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.BalanceSheet;
+
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization};
+
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.QuickRatio};
 
 		public QuickRatioCriteria() : base("9l")
 		{

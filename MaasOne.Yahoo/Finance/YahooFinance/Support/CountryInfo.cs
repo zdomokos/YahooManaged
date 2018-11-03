@@ -23,9 +23,8 @@
 // **  limitations under the License.
 // ** 
 // ******************************************************************************
-using System;
+
 using System.Collections.Generic;
-using System.Text;
 
 
 namespace MaasOne.Finance.YahooFinance.Support
@@ -38,7 +37,7 @@ namespace MaasOne.Finance.YahooFinance.Support
     {
         private Country mID;
         private string mName = string.Empty;
-        private CurrencyInfo mCurrency = null;
+        private CurrencyInfo mCurrency;
         private DaylightSavingTime[] mDaylightSavingTimes = new DaylightSavingTime[-1 + 1];
 
         private List<Support.YIndexID> mIndices = new List<Support.YIndexID>();
@@ -48,52 +47,41 @@ namespace MaasOne.Finance.YahooFinance.Support
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public Country ID
-        {
-            get { return mID; }
-        }
-        /// <summary>
+        public Country ID => mID;
+
+	    /// <summary>
         /// The currency of this country
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public CurrencyInfo Currency
-        {
-            get { return mCurrency; }
-        }
-        /// <summary>
+        public CurrencyInfo Currency => mCurrency;
+
+	    /// <summary>
         /// The name of the country
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public string Name
-        {
-            get { return mName; }
-        }
-        /// <summary>
+        public string Name => mName;
+
+	    /// <summary>
         /// The list of Daylight Saving Times of the country for each year
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public DaylightSavingTime[] DaylightSavingTimes
-        {
-            get { return mDaylightSavingTimes; }
-        }
-        /// <summary>
+        public DaylightSavingTime[] DaylightSavingTimes => mDaylightSavingTimes;
+
+	    /// <summary>
         ///The indices of the country
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public List<Support.YIndexID> Indices
-        {
-            get { return mIndices; }
-        }
+        public List<Support.YIndexID> Indices => mIndices;
 
-        public CountryInfo(Country id, string name, CurrencyInfo cur)
+	    public CountryInfo(Country id, string name, CurrencyInfo cur)
         {
             mID = id;
             mName = name;

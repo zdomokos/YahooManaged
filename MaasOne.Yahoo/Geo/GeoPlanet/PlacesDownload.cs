@@ -1,4 +1,4 @@
-// ******************************************************************************
+﻿// ******************************************************************************
 // ** 
 // **  Yahoo! Managed
 // **  Written by Marius Häusler 2012
@@ -24,13 +24,8 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
 using MaasOne.Xml;
-using System.Xml.Linq;
 
 
 namespace MaasOne.Geo.GeoPlanet
@@ -41,7 +36,9 @@ namespace MaasOne.Geo.GeoPlanet
     public partial class PlacesDownload : Base.DownloadClient<PlacesResult>
     {
 
-        public PlacesDownloadSettings Settings { get { return (PlacesDownloadSettings)base.Settings; } set { base.SetSettings(value); } }
+        public PlacesDownloadSettings Settings { get => (PlacesDownloadSettings)base.Settings;
+	        set => base.SetSettings(value);
+        }
 
 
         public PlacesDownload()
@@ -72,35 +69,35 @@ namespace MaasOne.Geo.GeoPlanet
         {
             PlacesDownloadSettings settings = (PlacesDownloadSettings)this.Settings.Clone();
             settings.Collection = "place/";
-            settings.Query = woeid.ToString() + "/parent";
+            settings.Query = woeid + "/parent";
             base.DownloadAsync(settings, userArgs);
         }
         public void DownloadChildrenAsync(long woeid, object userArgs)
         {
             PlacesDownloadSettings settings = (PlacesDownloadSettings)this.Settings.Clone();
             settings.Collection = "place/";
-            settings.Query = woeid.ToString() + "/children";
+            settings.Query = woeid + "/children";
             base.DownloadAsync(settings, userArgs);
         }
         public void DownloadChildrenAsync(long woeid, PlaceType type, object userArgs)
         {
             PlacesDownloadSettings settings = (PlacesDownloadSettings)this.Settings.Clone();
             settings.Collection = "place/";
-            settings.Query = woeid.ToString() + "/children.type(" + Convert.ToInt32(type).ToString() + ")";
+            settings.Query = woeid + "/children.type(" + Convert.ToInt32(type) + ")";
             base.DownloadAsync(settings, userArgs);
         }
         public void DownloadChildrenAsync(long woeid, int degree, object userArgs)
         {
             PlacesDownloadSettings settings = (PlacesDownloadSettings)this.Settings.Clone();
             settings.Collection = "place/";
-            settings.Query = woeid.ToString() + "/children.degree(" + degree.ToString() + ")";
+            settings.Query = woeid + "/children.degree(" + degree + ")";
             base.DownloadAsync(settings, userArgs);
         }
         public void DownloadAncestorsAsync(long woeid, object userArgs)
         {
             PlacesDownloadSettings settings = (PlacesDownloadSettings)this.Settings.Clone();
             settings.Collection = "place/";
-            settings.Query = woeid.ToString() + "/ancestors";
+            settings.Query = woeid + "/ancestors";
             base.DownloadAsync(settings, userArgs);
         }
         public void DownloadCommonAncestorAsync(int first, IEnumerable<long> woeids, object userArgs)
@@ -114,49 +111,49 @@ namespace MaasOne.Geo.GeoPlanet
         {
             PlacesDownloadSettings settings = (PlacesDownloadSettings)this.Settings.Clone();
             settings.Collection = "place/";
-            settings.Query = woeid.ToString() + "/belongtos";
+            settings.Query = woeid + "/belongtos";
             base.DownloadAsync(settings, userArgs);
         }
         public void DownloadBelongtosAsync(long woeid, PlaceType type, object userArgs)
         {
             PlacesDownloadSettings settings = (PlacesDownloadSettings)this.Settings.Clone();
             settings.Collection = "place/";
-            settings.Query = woeid.ToString() + "/belongtos.type(" + Convert.ToInt32(type).ToString() + ")";
+            settings.Query = woeid + "/belongtos.type(" + Convert.ToInt32(type) + ")";
             base.DownloadAsync(settings, userArgs);
         }
         public void DownloadDescendantsAsync(long woeid, object userArgs)
         {
             PlacesDownloadSettings settings = (PlacesDownloadSettings)this.Settings.Clone();
             settings.Collection = "place/";
-            settings.Query = woeid.ToString() + "/descendants";
+            settings.Query = woeid + "/descendants";
             base.DownloadAsync(settings, userArgs);
         }
         public void DownloadDescendantsAsync(long woeid, PlaceType type, object userArgs)
         {
             PlacesDownloadSettings settings = (PlacesDownloadSettings)this.Settings.Clone();
             settings.Collection = "place/";
-            settings.Query = woeid.ToString() + "/descendants.type(" + Convert.ToInt32(type).ToString() + ")";
+            settings.Query = woeid + "/descendants.type(" + Convert.ToInt32(type) + ")";
             base.DownloadAsync(settings, userArgs);
         }
         public void DownloadNeighborsAsync(long woeid, object userArgs)
         {
             PlacesDownloadSettings settings = (PlacesDownloadSettings)this.Settings.Clone();
             settings.Collection = "place/";
-            settings.Query = woeid.ToString() + "/neighbors";
+            settings.Query = woeid + "/neighbors";
             base.DownloadAsync(settings, userArgs);
         }
         public void DownloadNeighborsAsync(long woeid, int degree, object userArgs)
         {
             PlacesDownloadSettings settings = (PlacesDownloadSettings)this.Settings.Clone();
             settings.Collection = "place/";
-            settings.Query = woeid.ToString() + "/descendants.degree(" + degree.ToString() + ")";
+            settings.Query = woeid + "/descendants.degree(" + degree + ")";
             base.DownloadAsync(settings, userArgs);
         }
         public void DownloadSiblingsAsync(long woeid, object userArgs)
         {
             PlacesDownloadSettings settings = (PlacesDownloadSettings)this.Settings.Clone();
             settings.Collection = "place/";
-            settings.Query = woeid.ToString() + "/siblings";
+            settings.Query = woeid + "/siblings";
             base.DownloadAsync(settings, userArgs);
         }
         public void DownloadContinentsAsync(object userArgs)
@@ -233,11 +230,11 @@ namespace MaasOne.Geo.GeoPlanet
         private string KeywordQuery(string keyword, PlaceType type)
         {
             string query = string.Empty;
-            string q = string.Format(".q({0})", Uri.EscapeDataString(keyword));
+            string q = $".q({Uri.EscapeDataString(keyword)})";
             if (type != PlaceType.Undefined)
             {
-                string t = string.Format(".type({0})", Convert.ToInt32(type).ToString());
-                query = string.Format("$and({0},{1})", q, t);
+                string t = $".type({Convert.ToInt32(type)})";
+                query = $"$and({q},{t})";
             }
             else
             {
@@ -524,10 +521,10 @@ namespace MaasOne.Geo.GeoPlanet
     public class PlacesResult
     {
 
-        private PlacesData[] mItems = null;
-        public PlacesData[] Items { get { return mItems; } }
+        private PlacesData[] mItems;
+        public PlacesData[] Items => mItems;
 
-        internal PlacesResult(PlacesData[] items)
+	    internal PlacesResult(PlacesData[] items)
         {
             mItems = items;
         }
@@ -539,11 +536,9 @@ namespace MaasOne.Geo.GeoPlanet
     public class PlacesData : IPlace
     {
 
-        public string Address
-        {
-            get { return this.Name; }
-        }
-        public int Radius
+        public string Address => this.Name;
+
+	    public int Radius
         {
             get
             {
@@ -552,31 +547,28 @@ namespace MaasOne.Geo.GeoPlanet
                 double c = (Math.Sqrt(Math.Pow(a, 2) + Math.Pow(b, 2)) / 2) * 1000;
                 return Convert.ToInt32(c);
             }
-            set
-            {
-                throw new NotSupportedException("Setting a value is not supported");
-            }
-        }
+            set => throw new NotSupportedException("Setting a value is not supported");
+	    }
         public string Name { get; set; }
         public PlaceType Type { get; set; }
         PlaceType IPlace.WOEType
         {
-            get { return Type; }
-            set { Type = value; }
+            get => Type;
+	        set => Type = value;
         }
         public long WOEID { get; set; }
         public Coordinates Center { get; set; }
         Coordinates IPlace.Position
         {
-            get { return Center; }
-            set { Center = value; }
+            get => Center;
+	        set => Center = value;
         }
         public CoordinatesRectangle BoundingBox { get; set; }
         public string PostalCode { get; set; }
         string IPlace.ZipCode
         {
-            get { return PostalCode; }
-            set { PostalCode = value; }
+            get => PostalCode;
+	        set => PostalCode = value;
         }
         public Locality Locality1 { get; set; }
         public Locality Locality2 { get; set; }
@@ -604,27 +596,27 @@ namespace MaasOne.Geo.GeoPlanet
             }
             if (this.Locality1 != null)
             {
-                res += this.Locality1.ToString() + ", ";
+                res += this.Locality1 + ", ";
             }
             if (this.Locality2 != null)
             {
-                res += this.Locality2.ToString() + ", ";
+                res += this.Locality2 + ", ";
             }
             if (this.LocalAdmin != null)
             {
-                res += this.LocalAdmin.ToString() + ", ";
+                res += this.LocalAdmin + ", ";
             }
             if (this.RegionalAdmin != null)
             {
-                res += this.RegionalAdmin.ToString() + ", ";
+                res += this.RegionalAdmin + ", ";
             }
             if (this.FederalAdmin != null)
             {
-                res += this.FederalAdmin.ToString() + ", ";
+                res += this.FederalAdmin + ", ";
             }
             if (this.Country != null)
             {
-                res += this.Country.ToString() + ", ";
+                res += this.Country + ", ";
             }
 
             if (res == string.Empty)
@@ -652,13 +644,13 @@ namespace MaasOne.Geo.GeoPlanet
         private string mName = string.Empty;
         public string Code
         {
-            get { return mCode; }
-            set { mCode = value; }
+            get => mCode;
+	        set => mCode = value;
         }
         public string Name
         {
-            get { return mName; }
-            set { mName = value; }
+            get => mName;
+	        set => mName = value;
         }
         public override string ToString()
         {
@@ -672,8 +664,8 @@ namespace MaasOne.Geo.GeoPlanet
         private FederalAdminAreaType mAdminType = FederalAdminAreaType.Canton;
         public FederalAdminAreaType AdminType
         {
-            get { return mAdminType; }
-            set { mAdminType = value; }
+            get => mAdminType;
+	        set => mAdminType = value;
         }
     }
 
@@ -683,8 +675,8 @@ namespace MaasOne.Geo.GeoPlanet
         private RegionalAdminAreaType mAdminType = RegionalAdminAreaType.County;
         public RegionalAdminAreaType AdminType
         {
-            get { return mAdminType; }
-            set { mAdminType = value; }
+            get => mAdminType;
+	        set => mAdminType = value;
         }
     }
 
@@ -694,8 +686,8 @@ namespace MaasOne.Geo.GeoPlanet
         private LocalAdminAreaType mAdminType = LocalAdminAreaType.Commune;
         public LocalAdminAreaType AdminType
         {
-            get { return mAdminType; }
-            set { mAdminType = value; }
+            get => mAdminType;
+	        set => mAdminType = value;
         }
     }
 
@@ -708,13 +700,13 @@ namespace MaasOne.Geo.GeoPlanet
         private string mType = string.Empty;
         public string Name
         {
-            get { return mName; }
-            set { mName = value; }
+            get => mName;
+	        set => mName = value;
         }
         public string Type
         {
-            get { return mType; }
-            set { mType = value; }
+            get => mType;
+	        set => mType = value;
         }
 
         public override string ToString()
@@ -732,8 +724,8 @@ namespace MaasOne.Geo.GeoPlanet
         private int mType;
         public int Type
         {
-            get { return mType; }
-            set { mType = value; }
+            get => mType;
+	        set => mType = value;
         }
         public ValueRange()
         {
@@ -795,11 +787,12 @@ namespace MaasOne.Geo.GeoPlanet
             string cult = string.Empty;
             if (this.Culture != null & this.Collection.StartsWith("place"))
             {
-                cult = string.Format("&lang={0}-{1}", this.Culture.Language.ToString(), this.Culture.Country.ToString());
+                cult = $"&lang={this.Culture.Language}-{this.Culture.Country}";
             }
             if (this != null && (this.Index >= 0 & this.Count > 0))
-                startCount = ";start=" + this.Index.ToString() + ";count=" + this.Count.ToString();
-            string url = string.Format("http://where.yahooapis.com/v1/{0}{1}{2}?appid={3}&format=xml&view=long{4}", this.Collection, this.Query, startCount, this.ApplicationID, cult);
+                startCount = ";start=" + this.Index + ";count=" + this.Count;
+            string url =
+                $"http://where.yahooapis.com/v1/{this.Collection}{this.Query}{startCount}?appid={this.ApplicationID}&format=xml&view=long{cult}";
             return url;
         }
 

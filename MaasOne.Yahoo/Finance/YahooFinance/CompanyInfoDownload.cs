@@ -25,9 +25,7 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 using MaasOne.Xml;
-using System.Xml.Linq;
 
 
 namespace MaasOne.Finance.YahooFinance
@@ -40,7 +38,9 @@ namespace MaasOne.Finance.YahooFinance
     {
 
 
-        public CompanyInfoDownloadSettings Settings { get { return (CompanyInfoDownloadSettings)base.Settings; } set { base.SetSettings(value); } }
+        public CompanyInfoDownloadSettings Settings { get => (CompanyInfoDownloadSettings)base.Settings;
+	        set => base.SetSettings(value);
+        }
 
         /// <summary>
         /// Default constructor
@@ -112,7 +112,7 @@ namespace MaasOne.Finance.YahooFinance
                                 {
                                     if (dates[0].IndexOf(FinanceHelper.NameCompanyNotAvailable) > -1)
                                     {
-                                        dateStr += System.DateTime.Now.Year.ToString() + "-";
+                                        dateStr += System.DateTime.Now.Year + "-";
                                     }
                                     else
                                     {
@@ -120,7 +120,7 @@ namespace MaasOne.Finance.YahooFinance
                                     }
                                     if (dates[1].IndexOf(FinanceHelper.NameCompanyNotAvailable) > -1)
                                     {
-                                        dateStr += System.DateTime.Now.Month.ToString() + "-";
+                                        dateStr += System.DateTime.Now.Month + "-";
                                     }
                                     else
                                     {
@@ -128,7 +128,7 @@ namespace MaasOne.Finance.YahooFinance
                                     }
                                     if (dates[2].IndexOf(FinanceHelper.NameCompanyNotAvailable) > -1)
                                     {
-                                        dateStr += System.DateTime.Now.Day.ToString() + "-";
+                                        dateStr += System.DateTime.Now.Day + "-";
                                     }
                                     else
                                     {
@@ -180,12 +180,10 @@ namespace MaasOne.Finance.YahooFinance
     /// </summary>
     public class CompanyInfoResult
     {
-        private CompanyInfoData[] mItems = null;
-        public CompanyInfoData[] Items
-        {
-            get { return mItems; }
-        }
-        internal CompanyInfoResult(CompanyInfoData[] items)
+        private CompanyInfoData[] mItems;
+        public CompanyInfoData[] Items => mItems;
+
+	    internal CompanyInfoResult(CompanyInfoData[] items)
         {
             mItems = items;
         }
@@ -205,11 +203,9 @@ namespace MaasOne.Finance.YahooFinance
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public string ID
-        {
-            get { return mID; }
-        }
-        public void SetID(string id)
+        public string ID => mID;
+
+	    public void SetID(string id)
         {
             mID = id;
         }

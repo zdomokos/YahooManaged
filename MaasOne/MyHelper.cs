@@ -24,13 +24,8 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Text.RegularExpressions;
 using System.Collections.Generic;
-using System.Text;
 using MaasOne.Xml;
-using System.Globalization;
-using System.Diagnostics;
-using System.Xml.Linq;
 
 
 namespace MaasOne
@@ -138,9 +133,9 @@ namespace MaasOne
                 if (value == "-") { return string.Empty; }
                 else if (value.Contains(" - "))
                 {
-                    String[] values = value.Split(new string[] { " - " }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] values = value.Split(new string[] { " - " }, StringSplitOptions.RemoveEmptyEntries);
                     List<object> results = new List<object>();
-                    foreach (String v in values)
+                    foreach (string v in values)
                     {
                         results.Add(StringToObject(v, ci));
                     }
@@ -150,32 +145,29 @@ namespace MaasOne
                 }
                 else
                 {
-                    double dbl = 0;
-                    if (double.TryParse(value, System.Globalization.NumberStyles.Any, ci, out dbl))
-                    {
-                        return dbl;
-                    }
-                    else
-                    {
-                        long lng = 0;
-                        if (long.TryParse(value, out lng))
-                        {
-                            return lng;
-                        }
-                        else
-                        {
-                            System.DateTime dte = default(System.DateTime);
-                            if (System.DateTime.TryParse(value, ci, System.Globalization.DateTimeStyles.AdjustToUniversal, out dte))
-                            {
-                                return dte;
-                            }
-                            else
-                            {
-                                return value;
-                            }
-                        }
-                    }
-                }
+					if (double.TryParse(value, System.Globalization.NumberStyles.Any, ci, out double dbl))
+					{
+						return dbl;
+					}
+					else
+					{
+						if (long.TryParse(value, out long lng))
+						{
+							return lng;
+						}
+						else
+						{
+							if (System.DateTime.TryParse(value, ci, System.Globalization.DateTimeStyles.AdjustToUniversal, out DateTime dte))
+							{
+								return dte;
+							}
+							else
+							{
+								return value;
+							}
+						}
+					}
+				}
             }
             else
             {
@@ -286,7 +278,7 @@ namespace MaasOne
      
         public static string[][] CsvTextToStringTable(string csv, char delimiter)
         {
-            string[] rows = csv.Split(new String[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] rows = csv.Split(new string[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
             List<string[]> lst = new List<string[]>();
             foreach (string row in rows)
             {

@@ -24,11 +24,7 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
 
 
 namespace MaasOne.Finance.Indicators
@@ -41,25 +37,17 @@ namespace MaasOne.Finance.Indicators
 	public class StD : ISingleValueIndicator
 	{
 
-		public virtual string Name {
-			get { return "Standard Deviation"; }
-		}
+		public virtual string Name => "Standard Deviation";
 
-		public virtual bool IsRealative {
-			get { return true; }
-		}
+		public virtual bool IsRealative => true;
 
-		public double ScaleMaximum {
-			get { return double.PositiveInfinity; }
-		}
+		public double ScaleMaximum => double.PositiveInfinity;
 
-		public double ScaleMinimum {
-			get { return 0; }
-		}
+		public double ScaleMinimum => 0;
 
 		public int Period {
-			get { return mMA.Period; }
-			set { mMA.Period = value; }
+			get => mMA.Period;
+			set => mMA.Period = value;
 		}
 		public bool PopulationStandardDeviation { get; set; }
 

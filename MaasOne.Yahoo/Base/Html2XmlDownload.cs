@@ -23,19 +23,17 @@
 // **  limitations under the License.
 // ** 
 // ******************************************************************************
-using System;
-using System.Collections.Generic;
-using System.Text;
-using MaasOne.Base;
+
 using MaasOne.Xml;
-using System.Xml.Linq;
 
 namespace MaasOne.Base
 {
     internal partial class Html2XmlDownload : DownloadClient<XDocument>
     {
 
-        public Html2XmlDownloadSettings Settings { get { return (Html2XmlDownloadSettings)base.Settings; } set { base.SetSettings(value); } }
+        public Html2XmlDownloadSettings Settings { get => (Html2XmlDownloadSettings)base.Settings;
+	        set => base.SetSettings(value);
+        }
 
         public Html2XmlDownload()
         {
@@ -58,10 +56,10 @@ namespace MaasOne.Base
         public MaasOne.IAccountManager Account { get; set; }
         public string Url { get; set; }
         public bool DownloadStream { get; set; }
-        protected override System.Net.CookieContainer Cookies { get { return this.Account != null ? this.Account.Cookies : null; } }
-        protected override bool DownloadResponseStream { get { return this.DownloadStream; } }
+        protected override System.Net.CookieContainer Cookies => Account?.Cookies;
+	    protected override bool DownloadResponseStream => this.DownloadStream;
 
-        public Html2XmlDownloadSettings()
+	    public Html2XmlDownloadSettings()
         {
             this.DownloadStream = true;
         }

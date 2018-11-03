@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MaasOne
+﻿namespace MaasOne
 {
     internal class YahooLocalizationManager
     {
         public static bool AlreadyUpdated { get; set; }
-        private static bool addedSource = false;
+        private static bool addedSource;
 
         public static string GetValue(string id) { return LocalizationManager.GetValue(id); }
         public static string GetValue(string id, System.Globalization.CultureInfo culture) { return LocalizationManager.GetValue(id, culture); }

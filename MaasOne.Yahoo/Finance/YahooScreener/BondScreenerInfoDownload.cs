@@ -24,13 +24,7 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
 using MaasOne.Xml;
-using System.Xml.Linq;
 
 
 namespace MaasOne.Finance.YahooScreener
@@ -40,7 +34,9 @@ namespace MaasOne.Finance.YahooScreener
     {
 
 
-        public BondScreenerInfoDownloadSettings Settings { get { return (BondScreenerInfoDownloadSettings)base.Settings; } set { base.SetSettings(value); } }
+        public BondScreenerInfoDownloadSettings Settings { get => (BondScreenerInfoDownloadSettings)base.Settings;
+	        set => base.SetSettings(value);
+        }
 
         public BondScreenerInfoDownload()
         {
@@ -181,12 +177,10 @@ namespace MaasOne.Finance.YahooScreener
 
     public class BondScreenerInfoResult
     {
-        private BondScreenerInfoData mItem = null;
-        public BondScreenerInfoData Item
-        {
-            get { return mItem; }
-        }
-        internal BondScreenerInfoResult(BondScreenerInfoData item)
+        private BondScreenerInfoData mItem;
+        public BondScreenerInfoData Item => mItem;
+
+	    internal BondScreenerInfoResult(BondScreenerInfoData item)
         {
             mItem = item;
         }
@@ -229,7 +223,7 @@ namespace MaasOne.Finance.YahooScreener
         {
             System.Text.StringBuilder whereClause = new System.Text.StringBuilder();
             whereClause.Append("url=\"");
-            whereClause.Append(this.Data.Issue.Url.ToString());
+            whereClause.Append(this.Data.Issue.Url);
             whereClause.Append("\" AND xpath='/html/body/table/tr/td/table[3]/tr/td[1]'");
             return MyHelper.YqlUrl("*", "html", whereClause.ToString(), null, false);
         }

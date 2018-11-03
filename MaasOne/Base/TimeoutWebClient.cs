@@ -24,10 +24,6 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Threading;
-using System.Text;
 using System.Net;
 using System.IO;
 
@@ -42,31 +38,21 @@ namespace MaasOne.Base
 
         private delegate void AsyncCompletedDelegate(StreamDownloadCompletedEventArgs<T> e);
 
-        private object mUserArgs = null;
-        public object UserArgs
-        {
-            get { return mUserArgs; }
-        }
+        private object mUserArgs;
+        public object UserArgs => mUserArgs;
 
-        private HttpWebRequest mActualDownload = null;
-        public HttpWebRequest ActualDownload
-        {
-            get { return mActualDownload; }
-        }
+	    private HttpWebRequest mActualDownload;
+        public HttpWebRequest ActualDownload => mActualDownload;
 
-        public bool IsBusy
-        {
-            get { return this.ActualDownload != null; }
-        }
+	    public bool IsBusy => this.ActualDownload != null;
 
-        public int Timeout { get; set; }
+	    public int Timeout { get; set; }
 
         public void CancelAsync()
         {
             try
             {
-                if (this.ActualDownload != null)
-                    this.ActualDownload.Abort();
+                ActualDownload?.Abort();
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -107,10 +93,10 @@ namespace MaasOne.Base
                     if (postDataBytes != null)
                     {
                         AsyncDownloadArgs<T> asyncArgs = new AsyncDownloadArgs<T>(userArgs, startTime, wr, false, ss, postDataBytes) { Timeout = this.Timeout };
-                        IAsyncResult res = wr.BeginGetRequestStream(new AsyncCallback(this.RequestStreamDownloadCompleted), asyncArgs);
+                        IAsyncResult res = wr.BeginGetRequestStream(this.RequestStreamDownloadCompleted, asyncArgs);
                         try
                         {
-                            System.Threading.ThreadPool.RegisterWaitForSingleObject(res.AsyncWaitHandle, new System.Threading.WaitOrTimerCallback(this.ResponseDownloadTimeout), asyncArgs, (this.Timeout), true);
+                            System.Threading.ThreadPool.RegisterWaitForSingleObject(res.AsyncWaitHandle, this.ResponseDownloadTimeout, asyncArgs, (this.Timeout), true);
                         }
                         catch (NotSupportedException ex)
                         {
@@ -125,10 +111,7 @@ namespace MaasOne.Base
                 catch (Exception ex)
                 {
                     System.Net.WebException dlException = this.GetOrCreateWebException(ex, null);
-                    if (AsyncDownloadCompleted != null)
-                    {
-                        this.AsyncDownloadCompleted(this, new StreamDownloadCompletedEventArgs<T>(userArgs, new DefaultResponse<Stream>(new ConnectionInfo(dlException, this.Timeout, 0, startTime, System.DateTime.Now), null), ss));
-                    }
+                    AsyncDownloadCompleted?.Invoke(this, new StreamDownloadCompletedEventArgs<T>(userArgs, new DefaultResponse<Stream>(new ConnectionInfo(dlException, this.Timeout, 0, startTime, System.DateTime.Now), null), ss));
                 }
             }
         }
@@ -150,7 +133,7 @@ namespace MaasOne.Base
             {
                 AsyncDownloadArgs<T> asyncArgs = new AsyncDownloadArgs<T>(userArgs, System.DateTime.Now, wr, false, ss, null);
 
-                IAsyncResult res = wr.BeginGetResponse(new AsyncCallback(this.ResponseDownloadCompleted), asyncArgs);
+                IAsyncResult res = wr.BeginGetResponse(this.ResponseDownloadCompleted, asyncArgs);
                 try
                 {
                     //System.Threading.ThreadPool.RegisterWaitForSingleObject(res.AsyncWaitHandle, new System.Threading.WaitOrTimerCallback(this.ResponseDownloadTimeout), asyncArgs, (this.Timeout), true);
@@ -162,10 +145,7 @@ namespace MaasOne.Base
             catch (Exception ex)
             {
                 System.Net.WebException dlException = this.GetOrCreateWebException(ex, null);
-                if (AsyncDownloadCompleted != null)
-                {
-                    this.AsyncDownloadCompleted(this, new StreamDownloadCompletedEventArgs<T>(userArgs, new DefaultResponse<Stream>(new ConnectionInfo(dlException, this.Timeout, 0, startTime, System.DateTime.Now), null), ss));
-                }
+                AsyncDownloadCompleted?.Invoke(this, new StreamDownloadCompletedEventArgs<T>(userArgs, new DefaultResponse<Stream>(new ConnectionInfo(dlException, this.Timeout, 0, startTime, System.DateTime.Now), null), ss));
             }
         }
 
@@ -232,7 +212,7 @@ namespace MaasOne.Base
                     mUserArgs = null;
 
                     StreamDownloadCompletedEventArgs<T> e = new StreamDownloadCompletedEventArgs<T>(asyncArgs.UserArgs, new DefaultResponse<Stream>(new ConnectionInfo(dlException, asyncArgs.Timeout, size, asyncArgs.StartTime, endTime), memStream), asyncArgs.Settings);
-                    if (this.AsyncDownloadCompleted != null) AsyncDownloadCompleted(this, e);
+                    AsyncDownloadCompleted?.Invoke(this, e);
                 }
             }
         }
@@ -250,7 +230,7 @@ namespace MaasOne.Base
         }
 
         #region "IDisposable"
-        private bool mDisposedValue = false;
+        private bool mDisposedValue;
         protected virtual void Dispose(bool disposing)
         {
             if (!mDisposedValue)
@@ -273,11 +253,11 @@ namespace MaasOne.Base
         private class AsyncDownloadArgs<R> : DownloadEventArgs
         {
             public DateTime StartTime;
-            public HttpWebRequest WR = null;
-            public int Timeout = 0;
-            public bool TimedOut = false;
-            public StreamDownloadSettings<R> Settings = null;
-            public byte[] PostData = null;
+            public HttpWebRequest WR;
+            public int Timeout;
+            public bool TimedOut;
+            public StreamDownloadSettings<R> Settings;
+            public byte[] PostData;
             public AsyncDownloadArgs(object userArgs, DateTime st, HttpWebRequest wr, bool isTime, StreamDownloadSettings<R> settings, byte[] postData)
                 : base(userArgs)
             {
@@ -294,8 +274,9 @@ namespace MaasOne.Base
 
     internal class StreamDownloadCompletedEventArgs<T> : DownloadCompletedEventArgs<Stream>
     {
-        public SettingsBase UserSettings { get { return ((StreamDownloadSettings<T>)base.Settings).UserSettings; } }
-        internal StreamDownloadCompletedEventArgs(object userArgs, Response<Stream> response, StreamDownloadSettings<T> settings)
+        public SettingsBase UserSettings => ((StreamDownloadSettings<T>)base.Settings).UserSettings;
+
+	    internal StreamDownloadCompletedEventArgs(object userArgs, Response<Stream> response, StreamDownloadSettings<T> settings)
             : base(userArgs, response, settings)
         {
         }
@@ -308,9 +289,10 @@ namespace MaasOne.Base
     internal class StreamDownloadSettings<T> : SettingsBase
     {
 
-        private SettingsBase mUserSettings = null;
-        public SettingsBase UserSettings { get { return mUserSettings; } }
-        internal StreamDownloadSettings(SettingsBase settings)
+        private SettingsBase mUserSettings;
+        public SettingsBase UserSettings => mUserSettings;
+
+	    internal StreamDownloadSettings(SettingsBase settings)
         {
             mUserSettings = settings;
         }

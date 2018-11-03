@@ -25,7 +25,6 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 
 namespace MaasOne.Finance
@@ -45,45 +44,33 @@ namespace MaasOne.Finance
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public string Value
-        {
-            get { return MyHelper.CharEnumToString(mChars) + this.CheckDigit; }
-        }
+        public string Value => MyHelper.CharEnumToString(mChars) + this.CheckDigit;
 
-        /// <summary>
+	    /// <summary>
         /// The country specific part of the ISIN
         /// </summary>
         /// <value></value>
         /// <returns>The first two letters if the ISIN is valid</returns>
         /// <remarks></remarks>
-        public string CountryCode
-        {
-            get { return mChars[0].ToString() + mChars[1].ToString(); }
-        }
+        public string CountryCode => mChars[0] + mChars[1].ToString();
 
-        /// <summary>
+	    /// <summary>
         /// The core part of the ISIN
         /// </summary>
         /// <value></value>
         /// <returns>The ISIN without CountryCode and CheckDigit</returns>
         /// <remarks></remarks>
-        public string CoreCode
-        {
-            get { return mChars[2].ToString() + mChars[3].ToString() + mChars[4].ToString() + mChars[5].ToString() + mChars[6].ToString() + mChars[7].ToString() + mChars[8].ToString() + mChars[9].ToString() + mChars[10].ToString(); }
-        }
+        public string CoreCode => mChars[2] + mChars[3].ToString() + mChars[4] + mChars[5] + mChars[6] + mChars[7] + mChars[8] + mChars[9] + mChars[10];
 
-        /// <summary>
+	    /// <summary>
         /// The calculated check digit of the ISIN
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks>Every "get" call a calculation</remarks>
-        public int CheckDigit
-        {
-            get { return mCheckDigit; }
-        }
+        public int CheckDigit => mCheckDigit;
 
-        /// <summary>
+	    /// <summary>
         /// Default constructor
         /// </summary>
         /// <param name="isinWithOrWithoutCheckDigit">A valid ISIN with or without check digit</param>

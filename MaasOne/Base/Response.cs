@@ -23,10 +23,6 @@
 // **  limitations under the License.
 // ** 
 // ******************************************************************************
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 
 namespace MaasOne.Base
 {
@@ -36,7 +32,7 @@ namespace MaasOne.Base
     /// <remarks></remarks>
     public abstract class Response<T> : IResponse
     {
-        private ConnectionInfo mConnection = null;
+        private ConnectionInfo mConnection;
         private T mResult;
 
         /// <summary>
@@ -45,15 +41,17 @@ namespace MaasOne.Base
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public ConnectionInfo Connection { get { return mConnection; } }
-        /// <summary>
+        public ConnectionInfo Connection => mConnection;
+
+	    /// <summary>
         /// Gets the received managed data.
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public T Result { get { return mResult; } }
-        public object GetObjectResult() { return this.Result; }
+        public T Result => mResult;
+
+	    public object GetObjectResult() { return this.Result; }
 
         protected Response(ConnectionInfo connInfo, T result)
         {

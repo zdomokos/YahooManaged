@@ -24,8 +24,6 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 
 namespace MaasOne.Finance.YahooFinance.Support
@@ -41,20 +39,13 @@ namespace MaasOne.Finance.YahooFinance.Support
         private DateTime mStartDate;
 
         private DateTime mEndDate;
-        public int Year
-        {
-            get { return mYear; }
-        }
-        public DateTime StartDate
-        {
-            get { return mStartDate; }
-        }
-        public DateTime EndDate
-        {
-            get { return mEndDate; }
-        }
+        public int Year => mYear;
 
-        /// <summary>
+	    public DateTime StartDate => mStartDate;
+
+	    public DateTime EndDate => mEndDate;
+
+	    /// <summary>
         /// Default constructor
         /// </summary>
         /// <param name="startDate">The start date of Daylight Saving Time</param>

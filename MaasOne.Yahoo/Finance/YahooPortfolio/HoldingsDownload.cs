@@ -25,10 +25,8 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 using MaasOne.Base;
 using MaasOne.Xml;
-using System.Xml.Linq;
 
 
 namespace MaasOne.Finance.YahooPortfolio
@@ -36,7 +34,9 @@ namespace MaasOne.Finance.YahooPortfolio
 
     public partial class HoldingsDownload : DownloadClient<HoldingsResult>
     {
-        public HoldingsDownloadSettings Settings { get { return (HoldingsDownloadSettings)base.Settings; } set { base.SetSettings(value); } }
+        public HoldingsDownloadSettings Settings { get => (HoldingsDownloadSettings)base.Settings;
+	        set => base.SetSettings(value);
+        }
 
         public HoldingsDownload()
         {
@@ -137,10 +137,10 @@ namespace MaasOne.Finance.YahooPortfolio
     /// </summary>
     public class HoldingsResult
     {
-        private Holding[] mHoldings = null;
-        public Holding[] Items { get { return mHoldings; } }
+        private Holding[] mHoldings;
+        public Holding[] Items => mHoldings;
 
-        internal HoldingsResult(Holding[] holdings)
+	    internal HoldingsResult(Holding[] holdings)
         {
             mHoldings = holdings;
         }
@@ -149,9 +149,9 @@ namespace MaasOne.Finance.YahooPortfolio
     public class Holding : IID
     {
         private string mID = string.Empty;
-        public string ID { get { return mID; } }
+        public string ID => mID;
 
-        public int Order { get; set; }
+	    public int Order { get; set; }
         public int Lot { get; set; }
         public Nullable<DateTime> TradeDate { get; set; }
         public int Shares { get; set; }
@@ -181,10 +181,10 @@ namespace MaasOne.Finance.YahooPortfolio
         public YAccountManager Account { get; set; }
         public string PortfolioID { get; set; }
 
-        protected override System.Net.CookieContainer Cookies { get { return this.Account != null ? this.Account.Cookies : null; } }
+        protected override System.Net.CookieContainer Cookies => Account?.Cookies;
 
 
-        public HoldingsDownloadSettings() { }
+	    public HoldingsDownloadSettings() { }
 
         protected override string GetUrl()
         {

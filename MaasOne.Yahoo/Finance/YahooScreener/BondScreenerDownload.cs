@@ -24,14 +24,10 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
 using MaasOne.Xml;
 using MaasOne.Base;
-using System.Xml.Linq;
 
 
 namespace MaasOne.Finance.YahooScreener
@@ -40,7 +36,9 @@ namespace MaasOne.Finance.YahooScreener
 
     public partial class BondScreenerDownload : Base.DownloadClient<BondScreenerResult>
     {
-        public BondScreenerDownloadSettings Settings { get { return (BondScreenerDownloadSettings)base.Settings; } set { base.SetSettings(value); } }
+        public BondScreenerDownloadSettings Settings { get => (BondScreenerDownloadSettings)base.Settings;
+	        set => base.SetSettings(value);
+        }
 
         public BondScreenerDownload()
         {
@@ -154,12 +152,10 @@ namespace MaasOne.Finance.YahooScreener
 
     public class BondScreenerResult
     {
-        private BondScreenerData[] mItems = null;
-        public BondScreenerData[] Items
-        {
-            get { return mItems; }
-        }
-        internal BondScreenerResult(BondScreenerData[] items)
+        private BondScreenerData[] mItems;
+        public BondScreenerData[] Items => mItems;
+
+	    internal BondScreenerResult(BondScreenerData[] items)
         {
             mItems = items;
         }
@@ -270,7 +266,7 @@ namespace MaasOne.Finance.YahooScreener
             {
                 whereClause.Append("&tz=1");
                 if (this.Municipal_State != UsState.Any)
-                    whereClause.AppendFormat("&stt={0}", this.Municipal_State.ToString());
+                    whereClause.AppendFormat("&stt={0}", this.Municipal_State);
             }
             else
             {
@@ -344,7 +340,7 @@ namespace MaasOne.Finance.YahooScreener
 
             if (this.MaturityRangeInMonths.Minimum >= 0)
             {
-                whereClause.AppendFormat("&mtl={0}", this.MaturityRangeInMonths.Minimum.ToString());
+                whereClause.AppendFormat("&mtl={0}", this.MaturityRangeInMonths.Minimum);
             }
             else
             {
@@ -352,7 +348,7 @@ namespace MaasOne.Finance.YahooScreener
             }
             if (this.MaturityRangeInMonths.Maximum >= 0)
             {
-                whereClause.AppendFormat("&mtu={0}", this.MaturityRangeInMonths.Maximum.ToString());
+                whereClause.AppendFormat("&mtu={0}", this.MaturityRangeInMonths.Maximum);
             }
             else
             {
@@ -361,7 +357,7 @@ namespace MaasOne.Finance.YahooScreener
 
             if (this.RatingRange.Minimum != Rating.Any)
             {
-                whereClause.AppendFormat("&rl={0}", Convert.ToInt32(this.RatingRange.Minimum).ToString());
+                whereClause.AppendFormat("&rl={0}", Convert.ToInt32(this.RatingRange.Minimum));
             }
             else
             {
@@ -369,7 +365,7 @@ namespace MaasOne.Finance.YahooScreener
             }
             if (this.RatingRange.Maximum != Rating.Any)
             {
-                whereClause.AppendFormat("&ru={0}", Convert.ToInt32(this.RatingRange.Maximum).ToString());
+                whereClause.AppendFormat("&ru={0}", Convert.ToInt32(this.RatingRange.Maximum));
             }
             else
             {
@@ -378,7 +374,7 @@ namespace MaasOne.Finance.YahooScreener
 
             if (this.Callable.HasValue)
             {
-                whereClause.AppendFormat("&cll={0}", Convert.ToInt32((this.Callable.Value == true ? 1 : 0)).ToString());
+                whereClause.AppendFormat("&cll={0}", Convert.ToInt32((this.Callable.Value == true ? 1 : 0)));
             }
             else
             {

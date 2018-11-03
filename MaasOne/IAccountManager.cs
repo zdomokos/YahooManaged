@@ -23,10 +23,6 @@
 // **  limitations under the License.
 // ** 
 // ******************************************************************************
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 
 namespace MaasOne
 {
@@ -49,9 +45,9 @@ namespace MaasOne
 
     public class LoginStateEventArgs : Base.DownloadEventArgs
     {
-        private bool mIsLoggedIn = false;
-        public bool IsLoggedIn { get { return mIsLoggedIn; } }
-        public LoginStateEventArgs(bool isLoggedIn, object userArgs) : base(userArgs) { mIsLoggedIn = isLoggedIn; }
+        private bool mIsLoggedIn;
+        public bool IsLoggedIn => mIsLoggedIn;
+	    public LoginStateEventArgs(bool isLoggedIn, object userArgs) : base(userArgs) { mIsLoggedIn = isLoggedIn; }
     }
 
 }

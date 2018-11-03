@@ -1,4 +1,4 @@
-// ******************************************************************************
+﻿// ******************************************************************************
 // ** 
 // **  MaasOne WebServices
 // **  Written by Marius Häusler 2012
@@ -24,12 +24,7 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
-
 
 
 namespace MaasOne.Finance.Indicators
@@ -42,9 +37,7 @@ namespace MaasOne.Finance.Indicators
 	public class EMA : MA
 	{
 
-		public override string Name {
-			get { return "Exponential Moving Average"; }
-		}
+		public override string Name => "Exponential Moving Average";
 
 		/// <summary>
 		/// Calculates values of Exponential Moving Average for historic quote values.

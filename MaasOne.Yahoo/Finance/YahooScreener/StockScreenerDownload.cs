@@ -24,13 +24,7 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
-using MaasOne.Xml;
-using MaasOne.Finance.YahooScreener;
 using MaasOne.Finance.YahooScreener.Criterias;
 using MaasOne.Finance.YahooFinance;
 
@@ -42,7 +36,9 @@ namespace MaasOne.Finance.YahooScreener
     public partial class StockScreenerDownload : Base.DownloadClient<StockScreenerResult>
     {
 
-        public StockScreenerDownloadSettings Settings { get { return (StockScreenerDownloadSettings)base.Settings; } set { base.SetSettings(value); } }
+        public StockScreenerDownloadSettings Settings { get => (StockScreenerDownloadSettings)base.Settings;
+	        set => base.SetSettings(value);
+        }
         public StockScreenerDownload()
         {
             this.Settings = new StockScreenerDownloadSettings();
@@ -191,9 +187,8 @@ namespace MaasOne.Finance.YahooScreener
                     {
                         string id = values[0];
                         string name = values[1];
-                        double lastTradePriceOnly = 0;
-                        double.TryParse(values[2], System.Globalization.NumberStyles.Any, convCulture, out lastTradePriceOnly);
-                        DateTime tradeTime = new DateTime();
+						double.TryParse(values[2], System.Globalization.NumberStyles.Any, convCulture, out double lastTradePriceOnly);
+						DateTime tradeTime = new DateTime();
                         DateTime.TryParse(values[3], convCulture, System.Globalization.DateTimeStyles.None, out tradeTime);
                         tradeTime = tradeTime.AddHours(tradeTime.Hour).AddMinutes(tradeTime.Minute);
 
@@ -205,437 +200,436 @@ namespace MaasOne.Finance.YahooScreener
                             {
                                 if (values[p] != string.Empty & values[p] != "N/A")
                                 {
-                                    double dblValue = 0;
 
-                                    if (double.TryParse(values[p], System.Globalization.NumberStyles.Any, convCulture, out dblValue) || FinanceHelper.GetMillionValue(values[p]) != 0)
-                                    {
-                                        switch (propertySymbols[p])
-                                        {
-                                            case "c":
-                                                res[QuoteProperty.MarketCapitalization] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
-                                                break;
-                                            //case "c":
-                                            //res.AdditionalValues[(int)StockScreenerProperty.RevenueEstimate_ThisYear] = dblValue;
-                                            //break;
-                                            case "8o":
-                                                res.AdditionalValues[(int)StockScreenerProperty.ReturnOnEquity] = dblValue;
-                                                break;
-                                            case "9c":
-                                                res.AdditionalValues[(int)StockScreenerProperty.ReturnOnAssets] = dblValue;
-                                                break;
-                                            case "9t":
-                                                res.AdditionalValues[(int)StockScreenerProperty.ForwardPriceToEarningsRatio] = dblValue;
-                                                break;
-                                            case "9o":
-                                                res.AdditionalValues[(int)StockScreenerProperty.NumberOfEmployees] = dblValue;
-                                                break;
-                                            case "f":
-                                                double absoluteChange = dblValue;
-                                                double absolutePreviousValue = res.LastTradePriceOnly - absoluteChange;
-                                                double changeInPercent = absoluteChange / absolutePreviousValue;
+									if (double.TryParse(values[p], System.Globalization.NumberStyles.Any, convCulture, out double dblValue) || FinanceHelper.GetMillionValue(values[p]) != 0)
+									{
+										switch (propertySymbols[p])
+										{
+											case "c":
+												res[QuoteProperty.MarketCapitalization] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
+												break;
+											//case "c":
+											//res.AdditionalValues[(int)StockScreenerProperty.RevenueEstimate_ThisYear] = dblValue;
+											//break;
+											case "8o":
+												res.AdditionalValues[(int)StockScreenerProperty.ReturnOnEquity] = dblValue;
+												break;
+											case "9c":
+												res.AdditionalValues[(int)StockScreenerProperty.ReturnOnAssets] = dblValue;
+												break;
+											case "9t":
+												res.AdditionalValues[(int)StockScreenerProperty.ForwardPriceToEarningsRatio] = dblValue;
+												break;
+											case "9o":
+												res.AdditionalValues[(int)StockScreenerProperty.NumberOfEmployees] = dblValue;
+												break;
+											case "f":
+												double absoluteChange = dblValue;
+												double absolutePreviousValue = res.LastTradePriceOnly - absoluteChange;
+												double changeInPercent = absoluteChange / absolutePreviousValue;
 
-                                                res[QuoteProperty.ChangeInPercent] = changeInPercent * 100;
-                                                res[QuoteProperty.Change] = absoluteChange;
+												res[QuoteProperty.ChangeInPercent] = changeInPercent * 100;
+												res[QuoteProperty.Change] = absoluteChange;
 
-                                                if (propertyNames[p].EndsWith("(open)"))
-                                                {
-                                                    res[QuoteProperty.Open] = absolutePreviousValue;
-                                                }
-                                                else
-                                                {
-                                                    res[QuoteProperty.PreviousClose] = absolutePreviousValue;
-                                                }
+												if (propertyNames[p].EndsWith("(open)"))
+												{
+													res[QuoteProperty.Open] = absolutePreviousValue;
+												}
+												else
+												{
+													res[QuoteProperty.PreviousClose] = absolutePreviousValue;
+												}
 
-                                                break;
-                                            case "g":
-                                                changeInPercent = dblValue;
-                                                absolutePreviousValue = (res.LastTradePriceOnly / (100 + changeInPercent)) * 100;
-                                                absoluteChange = res.LastTradePriceOnly - absolutePreviousValue;
+												break;
+											case "g":
+												changeInPercent = dblValue;
+												absolutePreviousValue = (res.LastTradePriceOnly / (100 + changeInPercent)) * 100;
+												absoluteChange = res.LastTradePriceOnly - absolutePreviousValue;
 
-                                                res[QuoteProperty.ChangeInPercent] = changeInPercent;
-                                                res[QuoteProperty.Change] = absoluteChange;
+												res[QuoteProperty.ChangeInPercent] = changeInPercent;
+												res[QuoteProperty.Change] = absoluteChange;
 
-                                                if (propertyNames[p].EndsWith("(open)"))
-                                                {
-                                                    res[QuoteProperty.Open] = absolutePreviousValue;
-                                                }
-                                                else
-                                                {
-                                                    res[QuoteProperty.PreviousClose] = absolutePreviousValue;
-                                                }
+												if (propertyNames[p].EndsWith("(open)"))
+												{
+													res[QuoteProperty.Open] = absolutePreviousValue;
+												}
+												else
+												{
+													res[QuoteProperty.PreviousClose] = absolutePreviousValue;
+												}
 
-                                                break;
-                                            case "h":
-                                                if (set.Criterias != null)
-                                                {
-                                                    PriceMomentumCriteria context = null;
+												break;
+											case "h":
+												if (set.Criterias != null)
+												{
+													PriceMomentumCriteria context = null;
 
-                                                    foreach (StockCriteriaDefinition crit in set.Criterias)
-                                                    {
-                                                        if (crit != null && crit is PriceMomentumCriteria && ((PriceMomentumCriteria)crit).PercentValues == false)
-                                                        {
-                                                            context = (PriceMomentumCriteria)crit;
-                                                            break; // TODO: might not be correct. Was : Exit For
-                                                        }
-                                                    }
-                                                    if (context != null)
-                                                    {
-                                                        if (propertyNames[p].EndsWith("(" + context.RelativeTimeSpanInMinutes.ToString().Replace("_", "") + "m)"))
-                                                        {
-                                                            TemporaryPriceChangeInfo info = new TemporaryPriceChangeInfo();
-                                                            info.ChangeRelativeTimePoint = context.TimeSpanRelativeTo;
-                                                            info.ChangeTimeSpan = context.RelativeTimeSpanInMinutes;
-                                                            info.Change = dblValue * Convert.ToInt32((context.GainOrLoss == StockPriceChangeDirection.Gain ? 1 : -1));
-                                                            info.ChangeInPercent = info.Change / (res.LastTradePriceOnly - info.Change);
-                                                            res.TemporaryLimitedChange = info;
-                                                        }
-                                                    }
-                                                }
+													foreach (StockCriteriaDefinition crit in set.Criterias)
+													{
+														if (crit != null && crit is PriceMomentumCriteria && ((PriceMomentumCriteria)crit).PercentValues == false)
+														{
+															context = (PriceMomentumCriteria)crit;
+															break; // TODO: might not be correct. Was : Exit For
+														}
+													}
+													if (context != null)
+													{
+														if (propertyNames[p].EndsWith("(" + context.RelativeTimeSpanInMinutes.ToString().Replace("_", "") + "m)"))
+														{
+															TemporaryPriceChangeInfo info = new TemporaryPriceChangeInfo();
+															info.ChangeRelativeTimePoint = context.TimeSpanRelativeTo;
+															info.ChangeTimeSpan = context.RelativeTimeSpanInMinutes;
+															info.Change = dblValue * Convert.ToInt32((context.GainOrLoss == StockPriceChangeDirection.Gain ? 1 : -1));
+															info.ChangeInPercent = info.Change / (res.LastTradePriceOnly - info.Change);
+															res.TemporaryLimitedChange = info;
+														}
+													}
+												}
 
-                                                break;
-                                            case "i":
-                                                if (set.Criterias != null)
-                                                {
-                                                    PriceMomentumCriteria context = null;
-                                                    foreach (StockCriteriaDefinition crit in set.Criterias)
-                                                    {
-                                                        if (crit != null && crit is PriceMomentumCriteria && ((PriceMomentumCriteria)crit).PercentValues == true)
-                                                        {
-                                                            context = (PriceMomentumCriteria)crit;
-                                                            break; // TODO: might not be correct. Was : Exit For
-                                                        }
-                                                    }
-                                                    if (context != null)
-                                                    {
-                                                        if (propertyNames[p].EndsWith("(" + context.RelativeTimeSpanInMinutes.ToString().Replace("_", "") + "m)"))
-                                                        {
-                                                            TemporaryPriceChangeInfo info = new TemporaryPriceChangeInfo();
-                                                            info.ChangeRelativeTimePoint = context.TimeSpanRelativeTo;
-                                                            info.ChangeTimeSpan = context.RelativeTimeSpanInMinutes;
-                                                            info.ChangeInPercent = dblValue * Convert.ToInt32((context.GainOrLoss == StockPriceChangeDirection.Gain ? 1 : -1));
-                                                            info.Change = res.LastTradePriceOnly - ((res.LastTradePriceOnly / (100 + info.ChangeInPercent)) * 100);
-                                                            res.TemporaryLimitedChange = info;
-                                                        }
-                                                    }
-                                                }
+												break;
+											case "i":
+												if (set.Criterias != null)
+												{
+													PriceMomentumCriteria context = null;
+													foreach (StockCriteriaDefinition crit in set.Criterias)
+													{
+														if (crit != null && crit is PriceMomentumCriteria && ((PriceMomentumCriteria)crit).PercentValues == true)
+														{
+															context = (PriceMomentumCriteria)crit;
+															break; // TODO: might not be correct. Was : Exit For
+														}
+													}
+													if (context != null)
+													{
+														if (propertyNames[p].EndsWith("(" + context.RelativeTimeSpanInMinutes.ToString().Replace("_", "") + "m)"))
+														{
+															TemporaryPriceChangeInfo info = new TemporaryPriceChangeInfo();
+															info.ChangeRelativeTimePoint = context.TimeSpanRelativeTo;
+															info.ChangeTimeSpan = context.RelativeTimeSpanInMinutes;
+															info.ChangeInPercent = dblValue * Convert.ToInt32((context.GainOrLoss == StockPriceChangeDirection.Gain ? 1 : -1));
+															info.Change = res.LastTradePriceOnly - ((res.LastTradePriceOnly / (100 + info.ChangeInPercent)) * 100);
+															res.TemporaryLimitedChange = info;
+														}
+													}
+												}
 
-                                                break;
-                                            case "j":
-                                                if (set.Criterias != null)
-                                                {
-                                                    ExtremePriceCriteria context = null;
-                                                    foreach (StockCriteriaDefinition crit in set.Criterias)
-                                                    {
-                                                        if (crit != null && crit is ExtremePriceCriteria && ((ExtremePriceCriteria)crit).PercentValues == false)
-                                                        {
-                                                            context = (ExtremePriceCriteria)crit;
-                                                            break; // TODO: might not be correct. Was : Exit For
-                                                        }
-                                                    }
-                                                    if (context != null)
-                                                    {
-                                                        absoluteChange = dblValue * Convert.ToInt32((context.LessGreater == LessGreater.Greater ? 1 : -1));
-                                                        absolutePreviousValue = res.LastTradePriceOnly - absoluteChange;
-                                                        changeInPercent = absoluteChange / absolutePreviousValue;
-                                                        switch (context.ExtremeParameter)
-                                                        {
-                                                            case StockExtremeParameter.TodaysHigh:
-                                                                res[QuoteProperty.DaysHigh] = absolutePreviousValue;
-                                                                break;
-                                                            case StockExtremeParameter.TodaysLow:
-                                                                res[QuoteProperty.DaysLow] = absolutePreviousValue;
-                                                                break;
-                                                            case StockExtremeParameter.YearsHigh:
-                                                                res[QuoteProperty.YearHigh] = absolutePreviousValue;
-                                                                res[QuoteProperty.ChangeInPercentFromYearHigh] = changeInPercent;
-                                                                res[QuoteProperty.ChangeFromYearHigh] = absoluteChange;
-                                                                break;
-                                                            case StockExtremeParameter.YearsLow:
-                                                                res[QuoteProperty.YearLow] = absolutePreviousValue;
-                                                                res[QuoteProperty.PercentChangeFromYearLow] = changeInPercent;
-                                                                res[QuoteProperty.ChangeFromYearLow] = absoluteChange;
-                                                                break;
-                                                        }
-                                                    }
-                                                }
+												break;
+											case "j":
+												if (set.Criterias != null)
+												{
+													ExtremePriceCriteria context = null;
+													foreach (StockCriteriaDefinition crit in set.Criterias)
+													{
+														if (crit != null && crit is ExtremePriceCriteria && ((ExtremePriceCriteria)crit).PercentValues == false)
+														{
+															context = (ExtremePriceCriteria)crit;
+															break; // TODO: might not be correct. Was : Exit For
+														}
+													}
+													if (context != null)
+													{
+														absoluteChange = dblValue * Convert.ToInt32((context.LessGreater == LessGreater.Greater ? 1 : -1));
+														absolutePreviousValue = res.LastTradePriceOnly - absoluteChange;
+														changeInPercent = absoluteChange / absolutePreviousValue;
+														switch (context.ExtremeParameter)
+														{
+															case StockExtremeParameter.TodaysHigh:
+																res[QuoteProperty.DaysHigh] = absolutePreviousValue;
+																break;
+															case StockExtremeParameter.TodaysLow:
+																res[QuoteProperty.DaysLow] = absolutePreviousValue;
+																break;
+															case StockExtremeParameter.YearsHigh:
+																res[QuoteProperty.YearHigh] = absolutePreviousValue;
+																res[QuoteProperty.ChangeInPercentFromYearHigh] = changeInPercent;
+																res[QuoteProperty.ChangeFromYearHigh] = absoluteChange;
+																break;
+															case StockExtremeParameter.YearsLow:
+																res[QuoteProperty.YearLow] = absolutePreviousValue;
+																res[QuoteProperty.PercentChangeFromYearLow] = changeInPercent;
+																res[QuoteProperty.ChangeFromYearLow] = absoluteChange;
+																break;
+														}
+													}
+												}
 
-                                                break;
-                                            case "k":
-                                                if (set.Criterias != null)
-                                                {
-                                                    ExtremePriceCriteria context = null;
-                                                    foreach (StockCriteriaDefinition crit in set.Criterias)
-                                                    {
-                                                        if (crit != null && crit is ExtremePriceCriteria && ((ExtremePriceCriteria)crit).PercentValues == true)
-                                                        {
-                                                            context = (ExtremePriceCriteria)crit;
-                                                            break; // TODO: might not be correct. Was : Exit For
-                                                        }
-                                                    }
-                                                    if (context != null)
-                                                    {
-                                                        changeInPercent = dblValue * Convert.ToInt32((context.LessGreater == LessGreater.Greater ? 1 : -1));
-                                                        absolutePreviousValue = (res.LastTradePriceOnly / (100 + changeInPercent)) * 100;
-                                                        absoluteChange = res.LastTradePriceOnly - absolutePreviousValue;
-                                                        switch (context.ExtremeParameter)
-                                                        {
-                                                            case StockExtremeParameter.TodaysHigh:
-                                                                res[QuoteProperty.DaysHigh] = absolutePreviousValue;
-                                                                break;
-                                                            case StockExtremeParameter.TodaysLow:
-                                                                res[QuoteProperty.DaysLow] = absolutePreviousValue;
-                                                                break;
-                                                            case StockExtremeParameter.YearsHigh:
-                                                                res[QuoteProperty.YearHigh] = absolutePreviousValue;
-                                                                res[QuoteProperty.ChangeInPercentFromYearHigh] = changeInPercent;
-                                                                res[QuoteProperty.ChangeFromYearHigh] = absoluteChange;
-                                                                break;
-                                                            case StockExtremeParameter.YearsLow:
-                                                                res[QuoteProperty.YearLow] = absolutePreviousValue;
-                                                                res[QuoteProperty.PercentChangeFromYearLow] = changeInPercent;
-                                                                res[QuoteProperty.ChangeFromYearLow] = absoluteChange;
-                                                                break;
-                                                        }
-                                                    }
-                                                }
+												break;
+											case "k":
+												if (set.Criterias != null)
+												{
+													ExtremePriceCriteria context = null;
+													foreach (StockCriteriaDefinition crit in set.Criterias)
+													{
+														if (crit != null && crit is ExtremePriceCriteria && ((ExtremePriceCriteria)crit).PercentValues == true)
+														{
+															context = (ExtremePriceCriteria)crit;
+															break; // TODO: might not be correct. Was : Exit For
+														}
+													}
+													if (context != null)
+													{
+														changeInPercent = dblValue * Convert.ToInt32((context.LessGreater == LessGreater.Greater ? 1 : -1));
+														absolutePreviousValue = (res.LastTradePriceOnly / (100 + changeInPercent)) * 100;
+														absoluteChange = res.LastTradePriceOnly - absolutePreviousValue;
+														switch (context.ExtremeParameter)
+														{
+															case StockExtremeParameter.TodaysHigh:
+																res[QuoteProperty.DaysHigh] = absolutePreviousValue;
+																break;
+															case StockExtremeParameter.TodaysLow:
+																res[QuoteProperty.DaysLow] = absolutePreviousValue;
+																break;
+															case StockExtremeParameter.YearsHigh:
+																res[QuoteProperty.YearHigh] = absolutePreviousValue;
+																res[QuoteProperty.ChangeInPercentFromYearHigh] = changeInPercent;
+																res[QuoteProperty.ChangeFromYearHigh] = absoluteChange;
+																break;
+															case StockExtremeParameter.YearsLow:
+																res[QuoteProperty.YearLow] = absolutePreviousValue;
+																res[QuoteProperty.PercentChangeFromYearLow] = changeInPercent;
+																res[QuoteProperty.ChangeFromYearLow] = absoluteChange;
+																break;
+														}
+													}
+												}
 
-                                                break;
-                                            case "l":
-                                                if (set.Criterias != null)
-                                                {
-                                                    GapVsPreviousClose context = null;
-                                                    foreach (StockCriteriaDefinition crit in set.Criterias)
-                                                    {
-                                                        if (crit != null && crit is GapVsPreviousClose && ((GapVsPreviousClose)crit).PercentValues == false)
-                                                        {
-                                                            context = (GapVsPreviousClose)crit;
-                                                            break; // TODO: might not be correct. Was : Exit For
-                                                        }
-                                                    }
-                                                    if (context != null)
-                                                    {
-                                                        res.AdditionalValues[(int)StockScreenerProperty.Gap] = dblValue;
-                                                    }
-                                                }
+												break;
+											case "l":
+												if (set.Criterias != null)
+												{
+													GapVsPreviousClose context = null;
+													foreach (StockCriteriaDefinition crit in set.Criterias)
+													{
+														if (crit != null && crit is GapVsPreviousClose && ((GapVsPreviousClose)crit).PercentValues == false)
+														{
+															context = (GapVsPreviousClose)crit;
+															break; // TODO: might not be correct. Was : Exit For
+														}
+													}
+													if (context != null)
+													{
+														res.AdditionalValues[(int)StockScreenerProperty.Gap] = dblValue;
+													}
+												}
 
-                                                break;
-                                            case "m":
-                                                if (set.Criterias != null)
-                                                {
-                                                    GapVsPreviousClose context = null;
-                                                    foreach (StockCriteriaDefinition crit in set.Criterias)
-                                                    {
-                                                        if (crit != null && crit is GapVsPreviousClose && ((GapVsPreviousClose)crit).PercentValues == true)
-                                                        {
-                                                            context = (GapVsPreviousClose)crit;
-                                                            break; // TODO: might not be correct. Was : Exit For
-                                                        }
-                                                    }
-                                                    if (context != null)
-                                                    {
-                                                        res.AdditionalValues[(int)StockScreenerProperty.GapInPercent] = dblValue;
-                                                    }
-                                                }
+												break;
+											case "m":
+												if (set.Criterias != null)
+												{
+													GapVsPreviousClose context = null;
+													foreach (StockCriteriaDefinition crit in set.Criterias)
+													{
+														if (crit != null && crit is GapVsPreviousClose && ((GapVsPreviousClose)crit).PercentValues == true)
+														{
+															context = (GapVsPreviousClose)crit;
+															break; // TODO: might not be correct. Was : Exit For
+														}
+													}
+													if (context != null)
+													{
+														res.AdditionalValues[(int)StockScreenerProperty.GapInPercent] = dblValue;
+													}
+												}
 
-                                                break;
-                                            case "o":
-                                                if (set.Criterias != null)
-                                                {
-                                                    PriceToMovingAverageRatioCriteria context = null;
-                                                    foreach (StockCriteriaDefinition crit in set.Criterias)
-                                                    {
-                                                        if (crit != null && crit is PriceToMovingAverageRatioCriteria)
-                                                        {
-                                                            context = (PriceToMovingAverageRatioCriteria)crit;
-                                                            break; // TODO: might not be correct. Was : Exit For
-                                                        }
-                                                    }
-                                                    if (context != null)
-                                                    {
-                                                        changeInPercent = dblValue;
-                                                        double maValue = (dblValue / (100 + changeInPercent)) * 100;
-                                                        absoluteChange = res.LastTradePriceOnly - maValue;
+												break;
+											case "o":
+												if (set.Criterias != null)
+												{
+													PriceToMovingAverageRatioCriteria context = null;
+													foreach (StockCriteriaDefinition crit in set.Criterias)
+													{
+														if (crit != null && crit is PriceToMovingAverageRatioCriteria)
+														{
+															context = (PriceToMovingAverageRatioCriteria)crit;
+															break; // TODO: might not be correct. Was : Exit For
+														}
+													}
+													if (context != null)
+													{
+														changeInPercent = dblValue;
+														double maValue = (dblValue / (100 + changeInPercent)) * 100;
+														absoluteChange = res.LastTradePriceOnly - maValue;
 
-                                                        if (context.MovingAverage == MovingAverageType.FiftyDays)
-                                                        {
-                                                            res[QuoteProperty.FiftydayMovingAverage] = maValue;
-                                                            res[QuoteProperty.ChangeFromFiftydayMovingAverage] = absoluteChange;
-                                                            res[QuoteProperty.PercentChangeFromFiftydayMovingAverage] = changeInPercent;
-                                                        }
-                                                        else
-                                                        {
-                                                            res[QuoteProperty.TwoHundreddayMovingAverage] = maValue;
-                                                            res[QuoteProperty.ChangeFromTwoHundreddayMovingAverage] = absoluteChange;
-                                                            res[QuoteProperty.PercentChangeFromTwoHundreddayMovingAverage] = changeInPercent;
-                                                        }
-                                                    }
-                                                }
+														if (context.MovingAverage == MovingAverageType.FiftyDays)
+														{
+															res[QuoteProperty.FiftydayMovingAverage] = maValue;
+															res[QuoteProperty.ChangeFromFiftydayMovingAverage] = absoluteChange;
+															res[QuoteProperty.PercentChangeFromFiftydayMovingAverage] = changeInPercent;
+														}
+														else
+														{
+															res[QuoteProperty.TwoHundreddayMovingAverage] = maValue;
+															res[QuoteProperty.ChangeFromTwoHundreddayMovingAverage] = absoluteChange;
+															res[QuoteProperty.PercentChangeFromTwoHundreddayMovingAverage] = changeInPercent;
+														}
+													}
+												}
 
-                                                break;
-                                            case "7":
-                                                res.AdditionalValues[(int)StockScreenerProperty.Beta] = dblValue;
-                                                break;
-                                            case "v":
-                                                res[QuoteProperty.PriceSales] = dblValue;
-                                                break;
-                                            case "e":
-                                                res.AdditionalValues[(int)StockScreenerProperty.PriceEarningsRatio] = dblValue;
-                                                break;
-                                            case "u":
-                                                res[QuoteProperty.PEGRatio] = dblValue;
-                                                break;
-                                            case "9p":
-                                                res.AdditionalValues[(int)StockScreenerProperty.EntityValue] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
-                                                break;
-                                            case "9q":
-                                                res.AdditionalValues[(int)StockScreenerProperty.EntityValueToRevenueRatio] = dblValue;
-                                                break;
-                                            case "9r":
-                                                res.AdditionalValues[(int)StockScreenerProperty.EntityValueToOperatingCashFlowRatio] = dblValue;
-                                                break;
-                                            case "9s":
-                                                res.AdditionalValues[(int)StockScreenerProperty.EntityValueToFreeCashFlowRatio] = dblValue;
-                                                break;
-                                            case "x":
-                                                res[QuoteProperty.EPSEstimateNextQuarter] = dblValue;
-                                                break;
-                                            case "y":
-                                                res[QuoteProperty.EPSEstimateCurrentYear] = dblValue;
-                                                break;
-                                            case "z":
-                                                res[QuoteProperty.EPSEstimateNextYear] = dblValue;
-                                                break;
-                                            case "8e":
-                                                res.AdditionalValues[(int)StockScreenerProperty.EPS_NYCE] = dblValue;
-                                                break;
-                                            case "9v":
-                                                res.AdditionalValues[(int)StockScreenerProperty.SalesGrowthEstimate_ThisQuarter] = dblValue;
-                                                break;
-                                            case "8h":
-                                                res.AdditionalValues[(int)StockScreenerProperty.EarningsGrowthEstimate_ThisYear] = dblValue;
-                                                break;
-                                            case "9b":
-                                                res.AdditionalValues[(int)StockScreenerProperty.EarningsGrowthEstimate_NextYear] = dblValue;
-                                                break;
-                                            case "9u":
-                                                res.AdditionalValues[(int)StockScreenerProperty.EarningsGrowthEstimate_Next5Years] = dblValue;
-                                                break;
-                                            case "1":
-                                                res.AdditionalValues[(int)StockScreenerProperty.SharesOutstanding] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
-                                                break;
-                                            case "2":
-                                                res[QuoteProperty.SharesFloat] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
-                                                break;
-                                            case "3":
-                                                res[QuoteProperty.ShortRatio] = dblValue;
-                                                break;
-                                            case "8g":
-                                                res.AdditionalValues[(int)StockScreenerProperty.SharesShortPriorMonth] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
-                                                break;
-                                            case "8m":
-                                                res.AdditionalValues[(int)StockScreenerProperty.SharesShort] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
-                                                break;
-                                            case "9d":
-                                                res.AdditionalValues[(int)StockScreenerProperty.HeldByInsiders] = dblValue;
-                                                break;
-                                            case "9n":
-                                                res.AdditionalValues[(int)StockScreenerProperty.HeldByInstitutions] = dblValue;
-                                                break;
-                                            case "4":
-                                                res[QuoteProperty.TrailingAnnualDividendYield] = dblValue;
-                                                break;
-                                            case "5":
-                                                res[QuoteProperty.TrailingAnnualDividendYieldInPercent] = dblValue;
-                                                break;
-                                            case "8a":
-                                                res.AdditionalValues[(int)StockScreenerProperty.OperatingMargin] = dblValue;
-                                                break;
-                                            case "8r":
-                                                res.AdditionalValues[(int)StockScreenerProperty.ProfitMargin_ttm] = dblValue;
-                                                break;
-                                            case "9f":
-                                                res.AdditionalValues[(int)StockScreenerProperty.EBITDAMargin_ttm] = dblValue;
-                                                break;
-                                            case "9k":
-                                                res.AdditionalValues[(int)StockScreenerProperty.GrossMargin_ttm] = dblValue;
-                                                break;
-                                            case "8f":
-                                                res[QuoteProperty.PriceBook] = dblValue;
-                                                break;
-                                            //case "8f":
-                                            //res.AdditionalValues[(int)StockScreenerProperty.CashPerShare] = dblValue;
-                                            //break;
-                                            case "8l":
-                                                res.AdditionalValues[(int)StockScreenerProperty.TotalCash] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
-                                                break;
-                                            case "6":
-                                                res[QuoteProperty.BookValuePerShare] = dblValue;
-                                                break;
-                                            case "9e":
-                                                res.AdditionalValues[(int)StockScreenerProperty.TotalDebt] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
-                                                break;
-                                            case "9g":
-                                                res.AdditionalValues[(int)StockScreenerProperty.TotalDebtToEquityRatio] = dblValue;
-                                                break;
-                                            case "9h":
-                                                res.AdditionalValues[(int)StockScreenerProperty.CurrentRatio] = dblValue;
-                                                break;
-                                            case "9i":
-                                                res.AdditionalValues[(int)StockScreenerProperty.LongTermDebtToEquityRatio] = dblValue;
-                                                break;
-                                            case "9l":
-                                                res.AdditionalValues[(int)StockScreenerProperty.QuickRatio] = dblValue;
-                                                break;
-                                            case "w":
-                                                res[QuoteProperty.DilutedEPS] = dblValue;
-                                                break;
-                                            case "8i":
-                                                res.AdditionalValues[(int)StockScreenerProperty.EPS_mrq] = dblValue;
-                                                break;
-                                            case "0":
-                                                res.AdditionalValues[(int)StockScreenerProperty.Sales_ttm] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
-                                                break;
-                                            case "t":
-                                                res[QuoteProperty.EBITDA] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
-                                                break;
-                                            case "8n":
-                                                res.AdditionalValues[(int)StockScreenerProperty.GrossProfit] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
-                                                break;
-                                            case "8p":
-                                                res.AdditionalValues[(int)StockScreenerProperty.NetIncome] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
-                                                break;
-                                            case "9j":
-                                                res.AdditionalValues[(int)StockScreenerProperty.OperatingIncome] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
-                                                break;
-                                            case "8v":
-                                                res.AdditionalValues[(int)StockScreenerProperty.EarningsGrowth_Past5Years] = dblValue;
-                                                break;
-                                            case "9a":
-                                                res.AdditionalValues[(int)StockScreenerProperty.RevenueEstimate_ThisQuarter] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
-                                                break;
-                                            case "8q":
-                                                res.AdditionalValues[(int)StockScreenerProperty.RevenueEstimate_NextQuarter] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
-                                                break;
-                                            case "8s":
-                                                res.AdditionalValues[(int)StockScreenerProperty.SalesGrowthEstimate_NextQuarter] = dblValue;
-                                                break;
-                                            case "8t":
-                                                res.AdditionalValues[(int)StockScreenerProperty.SalesGrowthEstimate_ThisYear] = dblValue;
-                                                break;
-                                            case "8k":
-                                                res.AdditionalValues[(int)StockScreenerProperty.SalesGrowthEstimate_NextYear] = dblValue;
-                                                break;
-                                            case "8y":
-                                                res.AdditionalValues[(int)StockScreenerProperty.FreeCashFlow] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
-                                                break;
-                                            case "8z":
-                                                res.AdditionalValues[(int)StockScreenerProperty.OperatingCashFlow] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
+												break;
+											case "7":
+												res.AdditionalValues[(int)StockScreenerProperty.Beta] = dblValue;
+												break;
+											case "v":
+												res[QuoteProperty.PriceSales] = dblValue;
+												break;
+											case "e":
+												res.AdditionalValues[(int)StockScreenerProperty.PriceEarningsRatio] = dblValue;
+												break;
+											case "u":
+												res[QuoteProperty.PEGRatio] = dblValue;
+												break;
+											case "9p":
+												res.AdditionalValues[(int)StockScreenerProperty.EntityValue] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
+												break;
+											case "9q":
+												res.AdditionalValues[(int)StockScreenerProperty.EntityValueToRevenueRatio] = dblValue;
+												break;
+											case "9r":
+												res.AdditionalValues[(int)StockScreenerProperty.EntityValueToOperatingCashFlowRatio] = dblValue;
+												break;
+											case "9s":
+												res.AdditionalValues[(int)StockScreenerProperty.EntityValueToFreeCashFlowRatio] = dblValue;
+												break;
+											case "x":
+												res[QuoteProperty.EPSEstimateNextQuarter] = dblValue;
+												break;
+											case "y":
+												res[QuoteProperty.EPSEstimateCurrentYear] = dblValue;
+												break;
+											case "z":
+												res[QuoteProperty.EPSEstimateNextYear] = dblValue;
+												break;
+											case "8e":
+												res.AdditionalValues[(int)StockScreenerProperty.EPS_NYCE] = dblValue;
+												break;
+											case "9v":
+												res.AdditionalValues[(int)StockScreenerProperty.SalesGrowthEstimate_ThisQuarter] = dblValue;
+												break;
+											case "8h":
+												res.AdditionalValues[(int)StockScreenerProperty.EarningsGrowthEstimate_ThisYear] = dblValue;
+												break;
+											case "9b":
+												res.AdditionalValues[(int)StockScreenerProperty.EarningsGrowthEstimate_NextYear] = dblValue;
+												break;
+											case "9u":
+												res.AdditionalValues[(int)StockScreenerProperty.EarningsGrowthEstimate_Next5Years] = dblValue;
+												break;
+											case "1":
+												res.AdditionalValues[(int)StockScreenerProperty.SharesOutstanding] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
+												break;
+											case "2":
+												res[QuoteProperty.SharesFloat] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
+												break;
+											case "3":
+												res[QuoteProperty.ShortRatio] = dblValue;
+												break;
+											case "8g":
+												res.AdditionalValues[(int)StockScreenerProperty.SharesShortPriorMonth] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
+												break;
+											case "8m":
+												res.AdditionalValues[(int)StockScreenerProperty.SharesShort] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
+												break;
+											case "9d":
+												res.AdditionalValues[(int)StockScreenerProperty.HeldByInsiders] = dblValue;
+												break;
+											case "9n":
+												res.AdditionalValues[(int)StockScreenerProperty.HeldByInstitutions] = dblValue;
+												break;
+											case "4":
+												res[QuoteProperty.TrailingAnnualDividendYield] = dblValue;
+												break;
+											case "5":
+												res[QuoteProperty.TrailingAnnualDividendYieldInPercent] = dblValue;
+												break;
+											case "8a":
+												res.AdditionalValues[(int)StockScreenerProperty.OperatingMargin] = dblValue;
+												break;
+											case "8r":
+												res.AdditionalValues[(int)StockScreenerProperty.ProfitMargin_ttm] = dblValue;
+												break;
+											case "9f":
+												res.AdditionalValues[(int)StockScreenerProperty.EBITDAMargin_ttm] = dblValue;
+												break;
+											case "9k":
+												res.AdditionalValues[(int)StockScreenerProperty.GrossMargin_ttm] = dblValue;
+												break;
+											case "8f":
+												res[QuoteProperty.PriceBook] = dblValue;
+												break;
+											//case "8f":
+											//res.AdditionalValues[(int)StockScreenerProperty.CashPerShare] = dblValue;
+											//break;
+											case "8l":
+												res.AdditionalValues[(int)StockScreenerProperty.TotalCash] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
+												break;
+											case "6":
+												res[QuoteProperty.BookValuePerShare] = dblValue;
+												break;
+											case "9e":
+												res.AdditionalValues[(int)StockScreenerProperty.TotalDebt] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
+												break;
+											case "9g":
+												res.AdditionalValues[(int)StockScreenerProperty.TotalDebtToEquityRatio] = dblValue;
+												break;
+											case "9h":
+												res.AdditionalValues[(int)StockScreenerProperty.CurrentRatio] = dblValue;
+												break;
+											case "9i":
+												res.AdditionalValues[(int)StockScreenerProperty.LongTermDebtToEquityRatio] = dblValue;
+												break;
+											case "9l":
+												res.AdditionalValues[(int)StockScreenerProperty.QuickRatio] = dblValue;
+												break;
+											case "w":
+												res[QuoteProperty.DilutedEPS] = dblValue;
+												break;
+											case "8i":
+												res.AdditionalValues[(int)StockScreenerProperty.EPS_mrq] = dblValue;
+												break;
+											case "0":
+												res.AdditionalValues[(int)StockScreenerProperty.Sales_ttm] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
+												break;
+											case "t":
+												res[QuoteProperty.EBITDA] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
+												break;
+											case "8n":
+												res.AdditionalValues[(int)StockScreenerProperty.GrossProfit] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
+												break;
+											case "8p":
+												res.AdditionalValues[(int)StockScreenerProperty.NetIncome] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
+												break;
+											case "9j":
+												res.AdditionalValues[(int)StockScreenerProperty.OperatingIncome] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
+												break;
+											case "8v":
+												res.AdditionalValues[(int)StockScreenerProperty.EarningsGrowth_Past5Years] = dblValue;
+												break;
+											case "9a":
+												res.AdditionalValues[(int)StockScreenerProperty.RevenueEstimate_ThisQuarter] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
+												break;
+											case "8q":
+												res.AdditionalValues[(int)StockScreenerProperty.RevenueEstimate_NextQuarter] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
+												break;
+											case "8s":
+												res.AdditionalValues[(int)StockScreenerProperty.SalesGrowthEstimate_NextQuarter] = dblValue;
+												break;
+											case "8t":
+												res.AdditionalValues[(int)StockScreenerProperty.SalesGrowthEstimate_ThisYear] = dblValue;
+												break;
+											case "8k":
+												res.AdditionalValues[(int)StockScreenerProperty.SalesGrowthEstimate_NextYear] = dblValue;
+												break;
+											case "8y":
+												res.AdditionalValues[(int)StockScreenerProperty.FreeCashFlow] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
+												break;
+											case "8z":
+												res.AdditionalValues[(int)StockScreenerProperty.OperatingCashFlow] = Convert.ToInt64(FinanceHelper.GetMillionValue(values[p]) * (Math.Pow(10, 6)));
 
-                                                break;
-                                        }
+												break;
+										}
 
-                                    }
-                                }
+									}
+								}
                             }
                         }
 
@@ -654,12 +648,10 @@ namespace MaasOne.Finance.YahooScreener
 
     public class StockScreenerResult
     {
-        private StockScreenerData[] mItems = null;
-        public StockScreenerData[] Items
-        {
-            get { return mItems; }
-        }
-        internal StockScreenerResult(StockScreenerData[] items)
+        private StockScreenerData[] mItems;
+        public StockScreenerData[] Items => mItems;
+
+	    internal StockScreenerResult(StockScreenerData[] items)
         {
             mItems = items;
         }
@@ -669,30 +661,23 @@ namespace MaasOne.Finance.YahooScreener
 
     public class StockScreenerData : QuotesData
     {
-        private QuoteProperty[] mProvidedQuoteProperties = null;
+        private QuoteProperty[] mProvidedQuoteProperties;
 
-        private StockScreenerProperty[] mProvidedScreenerProperties = null;
+        private StockScreenerProperty[] mProvidedScreenerProperties;
         public TemporaryPriceChangeInfo TemporaryLimitedChange { get; set; }
-        public QuoteProperty[] ProvidedQuoteProperties
-        {
-            get { return mProvidedQuoteProperties; }
-        }
-        public StockScreenerProperty[] ProvidedScreenerProperties
-        {
-            get { return mProvidedScreenerProperties; }
-        }
-        private Nullable<double>[] mAdditionalValues = new Nullable<double>[48];
+        public QuoteProperty[] ProvidedQuoteProperties => mProvidedQuoteProperties;
+
+	    public StockScreenerProperty[] ProvidedScreenerProperties => mProvidedScreenerProperties;
+	    private Nullable<double>[] mAdditionalValues = new Nullable<double>[48];
         /// <summary>
         /// All additional values for StockScreenerData
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public Nullable<double>[] AdditionalValues
-        {
-            get { return mAdditionalValues; }
-        }
-        /// <summary>
+        public Nullable<double>[] AdditionalValues => mAdditionalValues;
+
+	    /// <summary>
         /// A specific additional value for StockScreenerData
         /// </summary>
         /// <param name="prp"></param>
@@ -748,7 +733,7 @@ namespace MaasOne.Finance.YahooScreener
 
         public StockCriteriaDefinition[] Criterias { get; set; }
         public string[] IDs { get; set; }
-        internal bool Comparing = false;
+        internal bool Comparing;
 
         public StockScreenerDownloadSettings()
         {

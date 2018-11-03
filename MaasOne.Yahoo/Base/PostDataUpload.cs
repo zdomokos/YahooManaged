@@ -23,20 +23,15 @@
 // **  limitations under the License.
 // ** 
 // ******************************************************************************
-using System;
-using System.Collections.Generic;
-using System.Text;
-using MaasOne.Base;
-using MaasOne.Xml;
-using System.Diagnostics;
-
 
 namespace MaasOne.Base
 {
 
     internal class PostDataUpload : DownloadClient<System.IO.Stream>
     {
-        public PostDataUploadSettings Settings { get { return (PostDataUploadSettings)base.Settings; } set { base.SetSettings(value); } }
+        public PostDataUploadSettings Settings { get => (PostDataUploadSettings)base.Settings;
+	        set => base.SetSettings(value);
+        }
 
         public PostDataUpload()
         {
@@ -57,13 +52,13 @@ namespace MaasOne.Base
         public string PostStringData { get; set; }
         public string UrlString { get; set; }
         public bool DownloadResponse { get; set; }
-        protected override System.Net.CookieContainer Cookies { get { return this.Account != null ? this.Account.Cookies : null; } }
-        protected override RequestMethod Method { get { return RequestMethod.POST; } }
-        protected override string PostData { get { return this.PostStringData; } }
-        protected override string ContentType { get { return "application/x-www-form-urlencoded"; } }
-        protected override bool DownloadResponseStream { get { return this.DownloadResponse; } }
+        protected override System.Net.CookieContainer Cookies => Account?.Cookies;
+	    protected override RequestMethod Method => RequestMethod.POST;
+	    protected override string PostData => this.PostStringData;
+	    protected override string ContentType => "application/x-www-form-urlencoded";
+	    protected override bool DownloadResponseStream => this.DownloadResponse;
 
-        public PostDataUploadSettings()
+	    public PostDataUploadSettings()
         {
             this.PostStringData = string.Empty;
             this.UrlString = string.Empty;

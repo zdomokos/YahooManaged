@@ -26,9 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using MaasOne.Base;
 using MaasOne.Xml;
-using System.Xml.Linq;
 
 
 namespace MaasOne.Base
@@ -91,7 +89,7 @@ namespace MaasOne.Base
             {
                 doc = MyHelper.ParseXmlDocument(e.Response.Result);
             }
-            if (this.AsyncUploadCompleted != null) this.AsyncUploadCompleted(this, ((DefaultDownloadCompletedEventArgs<System.IO.Stream>)e).CreateNew(doc));
+            this.AsyncUploadCompleted?.Invoke(this, ((DefaultDownloadCompletedEventArgs<System.IO.Stream>)e).CreateNew(doc));
         }
 
         private void ConvertHtml(XDocument doc, AsyncArgs args)

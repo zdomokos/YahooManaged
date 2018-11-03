@@ -25,7 +25,6 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 
 
@@ -39,7 +38,9 @@ namespace MaasOne.Finance.YahooFinance
     public partial class HistQuotesDownload : Base.DownloadClient<HistQuotesResult>
     {
 
-        public HistQuotesDownloadSettings Settings { get { return (HistQuotesDownloadSettings)base.Settings; } set { base.SetSettings(value); } }
+        public HistQuotesDownloadSettings Settings { get => (HistQuotesDownloadSettings)base.Settings;
+	        set => base.SetSettings(value);
+        }
 
 
         public HistQuotesDownload()
@@ -206,32 +207,25 @@ namespace MaasOne.Finance.YahooFinance
                         if (table[i].Length == 7)
                         {
                             HistQuotesData qd = new HistQuotesData();
-                            DateTime t1;
-                            double t2;
-                            double t3;
-                            double t4;
-                            double t5;
-                            double t6;
-                            long t7;
-                            if (System.DateTime.TryParse(table[i][0], ci, System.Globalization.DateTimeStyles.None, out t1) &&
-                                double.TryParse(table[i][1], System.Globalization.NumberStyles.Currency, ci, out t2) &&
-                                double.TryParse(table[i][2], System.Globalization.NumberStyles.Currency, ci, out t3) &&
-                                double.TryParse(table[i][3], System.Globalization.NumberStyles.Currency, ci, out t4) &&
-                                double.TryParse(table[i][4], System.Globalization.NumberStyles.Currency, ci, out t5) &&
-                                double.TryParse(table[i][6], System.Globalization.NumberStyles.Currency, ci, out t6) &&
-                                long.TryParse(table[i][5], System.Globalization.NumberStyles.Integer, ci, out t7))
-                            {
-                                qd.TradingDate = t1;
-                                qd.Open = t2;
-                                qd.High = t3;
-                                qd.Low = t4;
-                                qd.Close = t5;
-                                qd.CloseAdjusted = t6;
-                                qd.Volume = t7;
+							if (System.DateTime.TryParse(table[i][0], ci, System.Globalization.DateTimeStyles.None, out DateTime t1) &&
+								double.TryParse(table[i][1], System.Globalization.NumberStyles.Currency, ci, out double t2) &&
+								double.TryParse(table[i][2], System.Globalization.NumberStyles.Currency, ci, out double t3) &&
+								double.TryParse(table[i][3], System.Globalization.NumberStyles.Currency, ci, out double t4) &&
+								double.TryParse(table[i][4], System.Globalization.NumberStyles.Currency, ci, out double t5) &&
+								double.TryParse(table[i][6], System.Globalization.NumberStyles.Currency, ci, out double t6) &&
+								long.TryParse(table[i][5], System.Globalization.NumberStyles.Integer, ci, out long t7))
+							{
+								qd.TradingDate = t1;
+								qd.Open = t2;
+								qd.High = t3;
+								qd.Low = t4;
+								qd.Close = t5;
+								qd.CloseAdjusted = t6;
+								qd.Volume = t7;
 
-                                lst.Add(qd);
-                            }
-                        }
+								lst.Add(qd);
+							}
+						}
                     }
                 }
             }
@@ -251,12 +245,12 @@ namespace MaasOne.Finance.YahooFinance
     /// </summary>
     public class HistQuotesResult : HistQuotesBaseResult
     {
-        private HistQuotesDownloadSettings mSettings = null;
-        public HistQuotesDownloadSettings Settings { get { return mSettings; } }
-        private HistQuotesDataChain[] mChains = null;
-        public HistQuotesDataChain[] Chains { get { return mChains; } }
+        private HistQuotesDownloadSettings mSettings;
+        public HistQuotesDownloadSettings Settings => mSettings;
+	    private HistQuotesDataChain[] mChains;
+        public HistQuotesDataChain[] Chains => mChains;
 
-        internal HistQuotesResult(HistQuotesDataChain[] chains, HistQuotesDownloadSettings settings)
+	    internal HistQuotesResult(HistQuotesDataChain[] chains, HistQuotesDownloadSettings settings)
             : base((chains != null && chains.Length > 0) ? chains[0] : new HistQuotesDataChain())
         {
             mSettings = settings;
@@ -278,11 +272,8 @@ namespace MaasOne.Finance.YahooFinance
 
         public override string ID
         {
-            get
-            {
-                return base.ID;
-            }
-            set
+            get => base.ID;
+	        set
             {
                 base.ID = value;
                 if (value != string.Empty) { this.IDs = new string[] { value }; }
@@ -293,9 +284,9 @@ namespace MaasOne.Finance.YahooFinance
         public System.DateTime FromDate { get; set; }
         public System.DateTime ToDate { get; set; }
         public HistQuotesInterval Interval { get; set; }
-        internal bool JSON { get { return this.IDs != null && this.IDs.Length > 1; } }
+        internal bool JSON => this.IDs != null && this.IDs.Length > 1;
 
-        public HistQuotesDownloadSettings()
+	    public HistQuotesDownloadSettings()
         {
             this.ID = string.Empty;
             this.FromDate = new DateTime(2010, 1, 1);

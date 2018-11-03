@@ -24,11 +24,7 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
 
 
 namespace MaasOne.Finance.Indicators
@@ -39,26 +35,14 @@ namespace MaasOne.Finance.Indicators
     public class WPR : IHistQuoteIndicator
     {
 
-        public string Name
-        {
-            get { return "Williams Percent Range"; }
-        }
+        public string Name => "Williams Percent Range";
 
-        public bool IsRealative
-        {
-            get { return true; }
-        }
+	    public bool IsRealative => true;
 
-        public double ScaleMaximum
-        {
-            get { return 100; }
-        }
+	    public double ScaleMaximum => 100;
 
-        public double ScaleMinimum
-        {
-            get { return 0; }
-        }
-        public bool CloseAdjusted { get; set; }
+	    public double ScaleMinimum => 0;
+	    public bool CloseAdjusted { get; set; }
 
         public int Period { get; set; }
 

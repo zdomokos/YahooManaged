@@ -25,7 +25,6 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Net;
 
 
@@ -38,8 +37,8 @@ namespace MaasOne.Base
         private IWebProxy mProxy = WebRequest.DefaultWebProxy;
         public IWebProxy Proxy
         {
-            get { return mProxy; }
-            set { mProxy = value; }
+            get => mProxy;
+	        set => mProxy = value;
         }
 
 
@@ -49,7 +48,7 @@ namespace MaasOne.Base
         }
         private void AddHeaders(HttpWebRequest wr, List<KeyValuePair<HttpRequestHeader, string>> headers)
         {
-            foreach (KeyValuePair<HttpRequestHeader, String> header in headers)
+            foreach (KeyValuePair<HttpRequestHeader, string> header in headers)
             {
                 wr.Headers.Add(header.Key, header.Value);
             }

@@ -25,7 +25,6 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 
 namespace MaasOne.Geo.GeoPlanet
@@ -48,23 +47,23 @@ namespace MaasOne.Geo.GeoPlanet
         }
         public Base.Response<PlacesResult> DownloadParent(long woeid)
         {
-            return this.DownloadPlaces(this.Settings.NewQuery("place/", woeid.ToString() + "/parent"));
+            return this.DownloadPlaces(this.Settings.NewQuery("place/", woeid + "/parent"));
         }
         public Base.Response<PlacesResult> DownloadChildren(long woeid)
         {
-            return this.DownloadPlaces(this.Settings.NewQuery("place/", woeid.ToString() + "/children"));
+            return this.DownloadPlaces(this.Settings.NewQuery("place/", woeid + "/children"));
         }
         public Base.Response<PlacesResult> DownloadChildren(long woeid, PlaceType type)
         {
-            return this.DownloadPlaces(this.Settings.NewQuery("place/", woeid.ToString() + "/children.type(" + Convert.ToInt32(type).ToString() + ")"));
+            return this.DownloadPlaces(this.Settings.NewQuery("place/", woeid + "/children.type(" + Convert.ToInt32(type) + ")"));
         }
         public Base.Response<PlacesResult> DownloadChildren(long woeid, int degree)
         {
-            return this.DownloadPlaces(this.Settings.NewQuery("place/", woeid.ToString() + "/children.degree(" + degree.ToString() + ")"));
+            return this.DownloadPlaces(this.Settings.NewQuery("place/", woeid + "/children.degree(" + degree + ")"));
         }
         public Base.Response<PlacesResult> DownloadAncestors(long woeid)
         {
-            return this.DownloadPlaces(this.Settings.NewQuery("place/", woeid.ToString() + "/ancestors"));
+            return this.DownloadPlaces(this.Settings.NewQuery("place/", woeid + "/ancestors"));
         }
         public Base.Response<PlacesResult> DownloadCommonAncestor(int first, IEnumerable<long> woeids)
         {
@@ -72,31 +71,31 @@ namespace MaasOne.Geo.GeoPlanet
         }
         public Base.Response<PlacesResult> DownloadBelongtos(long woeid)
         {
-            return this.DownloadPlaces(this.Settings.NewQuery("place/", woeid.ToString() + "/belongtos"));
+            return this.DownloadPlaces(this.Settings.NewQuery("place/", woeid + "/belongtos"));
         }
         public Base.Response<PlacesResult> DownloadBelongtos(long woeid, PlaceType type)
         {
-            return this.DownloadPlaces(this.Settings.NewQuery("place/", woeid.ToString() + "/belongtos.type(" + Convert.ToInt32(type).ToString() + ")"));
+            return this.DownloadPlaces(this.Settings.NewQuery("place/", woeid + "/belongtos.type(" + Convert.ToInt32(type) + ")"));
         }
         public Base.Response<PlacesResult> DownloadDescendants(long woeid)
         {
-            return this.DownloadPlaces(this.Settings.NewQuery("place/", woeid.ToString() + "/descendants"));
+            return this.DownloadPlaces(this.Settings.NewQuery("place/", woeid + "/descendants"));
         }
         public Base.Response<PlacesResult> DownloadDescendants(long woeid, PlaceType type)
         {
-            return this.DownloadPlaces(this.Settings.NewQuery("place/", woeid.ToString() + "/descendants.type(" + Convert.ToInt32(type).ToString() + ")"));
+            return this.DownloadPlaces(this.Settings.NewQuery("place/", woeid + "/descendants.type(" + Convert.ToInt32(type) + ")"));
         }
         public Base.Response<PlacesResult> DownloadNeighbors(long woeid)
         {
-            return this.DownloadPlaces(this.Settings.NewQuery("place/", woeid.ToString() + "/neighbors"));
+            return this.DownloadPlaces(this.Settings.NewQuery("place/", woeid + "/neighbors"));
         }
         public Base.Response<PlacesResult> DownloadNeighbors(long woeid, int degree)
         {
-            return this.DownloadPlaces(this.Settings.NewQuery("place/", woeid.ToString() + "/descendants.degree(" + degree.ToString() + ")"));
+            return this.DownloadPlaces(this.Settings.NewQuery("place/", woeid + "/descendants.degree(" + degree + ")"));
         }
         public Base.Response<PlacesResult> DownloadSiblings(long woeid)
         {
-            return this.DownloadPlaces(this.Settings.NewQuery("place/", woeid.ToString() + "/siblings"));
+            return this.DownloadPlaces(this.Settings.NewQuery("place/", woeid + "/siblings"));
         }
         public Base.Response<PlacesResult> DownloadContinents()
         {

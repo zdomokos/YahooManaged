@@ -24,8 +24,6 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 
 namespace MaasOne
@@ -37,7 +35,7 @@ namespace MaasOne
         {
             if (cult == null)
                 throw new ArgumentNullException("cult", "Culture must have a value");
-            return string.Format("&region={0}&lang={1}-{2}", cult.Country.ToString(), cult.Language.ToString(), cult.Country.ToString());
+            return $"&region={cult.Country}&lang={cult.Language}-{cult.Country}";
         }
 
         public static string ServerString(YahooServer server)

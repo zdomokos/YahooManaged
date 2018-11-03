@@ -24,11 +24,7 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
 
 
 namespace MaasOne.Finance.Indicators
@@ -41,13 +37,9 @@ namespace MaasOne.Finance.Indicators
 	public class BB : StD
 	{
 
-		public override string Name {
-			get { return "Bollinger Bands"; }
-		}
+		public override string Name => "Bollinger Bands";
 
-		public override bool IsRealative {
-			get { return false; }
-		}
+		public override bool IsRealative => false;
 
 		public override Dictionary<System.DateTime, double>[] Calculate(IEnumerable<KeyValuePair<System.DateTime, double>> values)
 		{

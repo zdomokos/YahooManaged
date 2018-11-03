@@ -25,9 +25,7 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 using MaasOne.Xml;
-using System.Xml.Linq;
 
 
 namespace MaasOne.Finance.YahooFinance
@@ -35,7 +33,9 @@ namespace MaasOne.Finance.YahooFinance
     public partial class CompanyProfileDownload : Base.DownloadClient<CompanyProfileResult>
     {
 
-        public CompanyProfileDownloadSettings Settings { get { return (CompanyProfileDownloadSettings)base.Settings; } set { base.SetSettings(value); } }
+        public CompanyProfileDownloadSettings Settings { get => (CompanyProfileDownloadSettings)base.Settings;
+	        set => base.SetSettings(value);
+        }
 
 
         /// <summary>
@@ -167,24 +167,22 @@ namespace MaasOne.Finance.YahooFinance
                         {
                             if (industryLink.Name.LocalName == "a")
                             {
-                                int indIndex = 0;
-                                if (int.TryParse(MyHelper.GetXmlAttributeValue(industryLink, "href").Replace("http://biz.yahoo.com/ic/", "").Replace(".html", ""), out indIndex))
-                                {
-                                    res.Details.Industry = (Industry)indIndex;
-                                }
-                            }
+								if (int.TryParse(MyHelper.GetXmlAttributeValue(industryLink, "href").Replace("http://biz.yahoo.com/ic/", "").Replace(".html", ""), out int indIndex))
+								{
+									res.Details.Industry = (Industry)indIndex;
+								}
+							}
                         }
                     }
 
                     XElement employeesNode = XPath.GetElement("td[1]/table[2]/tr/td/table/tr[4]/td[2]", resultNode);
                     if (employeesNode != null)
                     {
-                        int fte;
-                        if (int.TryParse(employeesNode.Value.Trim(), System.Globalization.NumberStyles.Any, convCulture, out fte))
-                        {
-                            res.Details.FullTimeEmployees = fte;
-                        }
-                    }
+						if (int.TryParse(employeesNode.Value.Trim(), System.Globalization.NumberStyles.Any, convCulture, out int fte))
+						{
+							res.Details.FullTimeEmployees = fte;
+						}
+					}
 
                     XElement summaryNode = XPath.GetElement("td[1]/p[1]", resultNode);
                     if (summaryNode != null)
@@ -321,13 +319,10 @@ namespace MaasOne.Finance.YahooFinance
     /// </summary>
     public class CompanyProfileResult
     {
-        private CompanyProfileData mItem = null;
-        public CompanyProfileData Item
-        {
-            get { return mItem; }
-        }
+        private CompanyProfileData mItem;
+        public CompanyProfileData Item => mItem;
 
-        internal CompanyProfileResult(CompanyProfileData item)
+	    internal CompanyProfileResult(CompanyProfileData item)
         {
             mItem = item;
         }
@@ -336,11 +331,9 @@ namespace MaasOne.Finance.YahooFinance
     public class CompanyProfileData : ISettableID
     {
         private string mID = string.Empty;
-        public string ID
-        {
-            get { return mID; }
-        }
-        public void SetID(string id)
+        public string ID => mID;
+
+	    public void SetID(string id)
         {
             mID = id;
         }
@@ -400,7 +393,7 @@ namespace MaasOne.Finance.YahooFinance
         protected override string GetUrl()
         {
             if (this.ID == string.Empty) { throw new ArgumentException("ID is empty.", "ID"); }
-            return string.Format("http://finance.yahoo.com/q/pr?s={0}", this.ID);
+            return $"http://finance.yahoo.com/q/pr?s={this.ID}";
         }
 
         public override object Clone()

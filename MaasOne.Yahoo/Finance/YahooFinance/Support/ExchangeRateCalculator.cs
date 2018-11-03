@@ -25,7 +25,6 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 
 namespace MaasOne.Finance.YahooFinance.Support
@@ -47,7 +46,7 @@ namespace MaasOne.Finance.YahooFinance.Support
         private ExchangeRateData[] mExchangeItems = new ExchangeRateData[-1 + 1];
         private ExchangeRateDownload mDownloader = new ExchangeRateDownload();
 
-        private long mDonwloadCounter = 0;
+        private long mDonwloadCounter;
         /// <summary>
         /// The downloaded or setted exchange rate informations
         /// </summary>
@@ -56,8 +55,8 @@ namespace MaasOne.Finance.YahooFinance.Support
         /// <remarks>By setting the items the base currency of each ExchangeRateData must be the same</remarks>
         public ExchangeRateData[] ExchangeItems
         {
-            get { return mExchangeItems; }
-            set
+            get => mExchangeItems;
+	        set
             {
                 if (value != null && value.Length > 0)
                 {
@@ -123,10 +122,7 @@ namespace MaasOne.Finance.YahooFinance.Support
             AsyncDownloadArgs dlArgs = (AsyncDownloadArgs)e.UserArgs;
             if (e.Response.Connection.State == Base.ConnectionState.Success & dlArgs.Counter == mDonwloadCounter)
                 mExchangeItems = e.Response.Result.Items;
-            if (AsyncUpdateCompleted != null)
-            {
-                AsyncUpdateCompleted(this, new ExchangeRateCalculatorCompletedEventArgs(dlArgs.UserArgs, e.Response.Connection.State == Base.ConnectionState.Success));
-            }
+            AsyncUpdateCompleted?.Invoke(this, new ExchangeRateCalculatorCompletedEventArgs(dlArgs.UserArgs, e.Response.Connection.State == Base.ConnectionState.Success));
         }
 
 
@@ -209,7 +205,7 @@ namespace MaasOne.Finance.YahooFinance.Support
 
         private class AsyncDownloadArgs : Base.DownloadEventArgs
         {
-            public long Counter = 0;
+            public long Counter;
             public AsyncDownloadArgs(object userArgs, long cnt)
                 : base(userArgs)
             {
@@ -225,11 +221,9 @@ namespace MaasOne.Finance.YahooFinance.Support
     public class ExchangeRateCalculatorCompletedEventArgs : Base.DownloadEventArgs
     {
         private bool mSuccess;
-        public bool Success
-        {
-            get { return mSuccess; }
-        }
-        internal ExchangeRateCalculatorCompletedEventArgs(object userArgs, bool success)
+        public bool Success => mSuccess;
+
+	    internal ExchangeRateCalculatorCompletedEventArgs(object userArgs, bool success)
             : base(userArgs)
         {
             mSuccess = success;

@@ -1,4 +1,4 @@
-// ******************************************************************************
+﻿// ******************************************************************************
 // ** 
 // **  Yahoo! Managed
 // **  Written by Marius Häusler 2012
@@ -24,12 +24,9 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Net;
-using MaasOne.Xml;
 
 
 namespace MaasOne.Search.BOSS
@@ -42,21 +39,21 @@ namespace MaasOne.Search.BOSS
         public event PropertyChangedEventHandler PropertyChanged;
 
         private string mConsumerKey, mConsumerSecret;
-        private bool mHttpsUsed = false;
+        private bool mHttpsUsed;
         public string ConsumerKey
         {
-            get { return mConsumerKey; }
-            set { mConsumerKey = value; this.OnPropertyChanged("ConsumerKey"); }
+            get => mConsumerKey;
+	        set { mConsumerKey = value; this.OnPropertyChanged("ConsumerKey"); }
         }
         public string ConsumerSecret
         {
-            get { return mConsumerSecret; }
-            set { mConsumerSecret = value; this.OnPropertyChanged("ConsumerSecret"); }
+            get => mConsumerSecret;
+	        set { mConsumerSecret = value; this.OnPropertyChanged("ConsumerSecret"); }
         }
         public bool HttpsUsed
         {
-            get { return mHttpsUsed; }
-            set { mHttpsUsed = value; this.OnPropertyChanged("HttpsUsed"); }
+            get => mHttpsUsed;
+	        set { mHttpsUsed = value; this.OnPropertyChanged("HttpsUsed"); }
         }
         public System.ComponentModel.BindingList<SearchService> Services { get; set; }
 
@@ -131,7 +128,7 @@ namespace MaasOne.Search.BOSS
 
         protected virtual void OnPropertyChanged(string prpName)
         {
-            if (this.PropertyChanged != null) this.PropertyChanged(this, new PropertyChangedEventArgs(prpName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prpName));
         }
 
         public override object Clone()
@@ -172,7 +169,8 @@ namespace MaasOne.Search.BOSS
             string nonce = oa.GenerateNonce();
             string timestamp = oa.GenerateTimeStamp();
             string signature = oa.GenerateSignature(new Uri(Uri.EscapeUriString(url)), this.ConsumerKey, this.ConsumerSecret, "", "", "GET", timestamp, nonce, MaasOne.Search.BOSS.OAuthBase.SignatureTypes.HMACSHA1, out nUrl, out nParam);
-            string headerValue = string.Format("OAuth oauth_version=\"1.0\", oauth_nonce=\"{0}\", oauth_timestamp=\"{1}\", oauth_consumer_key=\"{2}\", oauth_signature_method=\"HMAC-SHA1\", oauth_signature=\"{3}\"", nonce, timestamp, this.ConsumerKey, signature);
+            string headerValue =
+                $"OAuth oauth_version=\"1.0\", oauth_nonce=\"{nonce}\", oauth_timestamp=\"{timestamp}\", oauth_consumer_key=\"{this.ConsumerKey}\", oauth_signature_method=\"HMAC-SHA1\", oauth_signature=\"{signature}\"";
             return new KeyValuePair<HttpRequestHeader, string>(HttpRequestHeader.Authorization, headerValue);
         }
 
@@ -182,17 +180,21 @@ namespace MaasOne.Search.BOSS
     public abstract class SearchService : IResultIndexSettings, IQuerySettings, ICloneable, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        private int mIndex = 0, mCount = 10;
-        public int Index { get { return mIndex; } set { mIndex = value; this.OnPropertyChanged("Index"); } }
-        public int Count { get { return mCount; } set { mCount = value; this.OnPropertyChanged("Count"); } }
+        private int mIndex, mCount = 10;
+        public int Index { get => mIndex;
+	        set { mIndex = value; this.OnPropertyChanged("Index"); } }
+        public int Count { get => mCount;
+	        set { mCount = value; this.OnPropertyChanged("Count"); } }
 
         internal abstract string ServiceName { get; }
 
         private string mQuery = string.Empty;
-        public string Query { get { return mQuery; } set { mQuery = value; this.OnPropertyChanged("Query"); } }
+        public string Query { get => mQuery;
+	        set { mQuery = value; this.OnPropertyChanged("Query"); } }
 
         private Culture mCulture = new Culture(Language.en, Country.US);
-        public Culture Culture { get { return mCulture; } set { mCulture = value; this.OnPropertyChanged("Culture"); } }
+        public Culture Culture { get => mCulture;
+	        set { mCulture = value; this.OnPropertyChanged("Culture"); } }
 
         public System.ComponentModel.BindingList<Uri> RestrictedSites { get; set; }
 
@@ -228,7 +230,7 @@ namespace MaasOne.Search.BOSS
 
         protected virtual void OnPropertyChanged(string prpName)
         {
-            if (this.PropertyChanged != null) this.PropertyChanged(this, new PropertyChangedEventArgs(prpName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prpName));
         }
 
         protected string GetTimeSpanString(System.DateTime d)
@@ -292,7 +294,7 @@ namespace MaasOne.Search.BOSS
             if (this.Culture != null && !(this.Culture.Language == Language.en & this.Culture.Country == Country.US))
             {
                 res.Append("&" + this.ServiceName + ".");
-                res.Append(string.Format("market={0}-{1}", this.Culture.Language.ToString(), this.Culture.Country.ToString().ToLower()));
+                res.Append($"market={this.Culture.Language}-{this.Culture.Country.ToString().ToLower()}");
             }
 
             if (this.RestrictedSites != null && this.RestrictedSites.Count > 0)
@@ -318,14 +320,14 @@ namespace MaasOne.Search.BOSS
         private bool mAllowAdultContent = true;
         private WebFileType[] mAllowedFileTypes = new WebFileType[-1 + 1];
         private FileTypeGroup[] mAllowedFileGroups = new FileTypeGroup[-1 + 1];
-        private bool mLongAbstract = false;
-        private bool mLimitedWeb = false;
+        private bool mLongAbstract;
+        private bool mLimitedWeb;
         private bool mHtmlTaggedText = true;
         private string mRestrictedTitle = string.Empty;
         private string mRestrictedUrl = string.Empty;
-        private bool mSearchMonkey = false;
+        private bool mSearchMonkey;
 
-        private bool mLanguageInfo = false;
+        private bool mLanguageInfo;
         internal override string ServiceName
         {
             get
@@ -349,8 +351,8 @@ namespace MaasOne.Search.BOSS
         /// <remarks></remarks>
         public bool LimitedWeb
         {
-            get { return mLimitedWeb; }
-            set { mLimitedWeb = value; this.OnPropertyChanged("LimitedWeb"); }
+            get => mLimitedWeb;
+	        set { mLimitedWeb = value; this.OnPropertyChanged("LimitedWeb"); }
         }
         /// <summary>
         /// Filters out hate and porn content.
@@ -360,8 +362,8 @@ namespace MaasOne.Search.BOSS
         /// <remarks></remarks>
         public bool AllowAdultContent
         {
-            get { return mAllowAdultContent; }
-            set { mAllowAdultContent = value; this.OnPropertyChanged("AllowAdultContent"); }
+            get => mAllowAdultContent;
+	        set { mAllowAdultContent = value; this.OnPropertyChanged("AllowAdultContent"); }
         }
         /// <summary>
         /// Restrict search results to setted file types.
@@ -371,8 +373,8 @@ namespace MaasOne.Search.BOSS
         /// <remarks></remarks>
         public WebFileType[] AllowedFileTypes
         {
-            get { return mAllowedFileTypes; }
-            set
+            get => mAllowedFileTypes;
+	        set
             {
                 if (value != null)
                 {
@@ -393,8 +395,8 @@ namespace MaasOne.Search.BOSS
         /// <remarks></remarks>
         public bool LongAbstract
         {
-            get { return mLongAbstract; }
-            set { mLongAbstract = value; this.OnPropertyChanged("LongAbstract"); }
+            get => mLongAbstract;
+	        set { mLongAbstract = value; this.OnPropertyChanged("LongAbstract"); }
         }
         /// <summary>
         /// Will return search results with the title containing the value.
@@ -404,8 +406,8 @@ namespace MaasOne.Search.BOSS
         /// <remarks></remarks>
         public string RestrictedTitle
         {
-            get { return mRestrictedTitle; }
-            set { mRestrictedTitle = value; this.OnPropertyChanged("RestrictedTitle"); }
+            get => mRestrictedTitle;
+	        set { mRestrictedTitle = value; this.OnPropertyChanged("RestrictedTitle"); }
         }
         /// <summary>
         /// Will return search results with the URL containing the value.
@@ -415,8 +417,8 @@ namespace MaasOne.Search.BOSS
         /// <remarks></remarks>
         public string RestrictedUrl
         {
-            get { return mRestrictedUrl; }
-            set { mRestrictedUrl = value; this.OnPropertyChanged("RestrictedUrl"); }
+            get => mRestrictedUrl;
+	        set { mRestrictedUrl = value; this.OnPropertyChanged("RestrictedUrl"); }
         }
         /// <summary>
         /// Same effect like AllowedFileTypes property.
@@ -426,8 +428,8 @@ namespace MaasOne.Search.BOSS
         /// <remarks></remarks>
         public FileTypeGroup[] AllowedFileGroups
         {
-            get { return mAllowedFileGroups; }
-            set
+            get => mAllowedFileGroups;
+	        set
             {
                 if (value != null)
                 {
@@ -448,8 +450,8 @@ namespace MaasOne.Search.BOSS
         /// <remarks></remarks>
         public bool HtmlTaggedText
         {
-            get { return mHtmlTaggedText; }
-            set { mHtmlTaggedText = value; this.OnPropertyChanged("HtmlTaggedText"); }
+            get => mHtmlTaggedText;
+	        set { mHtmlTaggedText = value; this.OnPropertyChanged("HtmlTaggedText"); }
         }
         /// <summary>
         /// Provides additional data in Microformat.
@@ -459,8 +461,8 @@ namespace MaasOne.Search.BOSS
         /// <remarks></remarks>
         public bool SearchMonkey
         {
-            get { return mSearchMonkey; }
-            set { mSearchMonkey = value; this.OnPropertyChanged("SearchMonkey"); }
+            get => mSearchMonkey;
+	        set { mSearchMonkey = value; this.OnPropertyChanged("SearchMonkey"); }
         }
         /// <summary>
         /// Identifies the language of the result/document.
@@ -470,8 +472,8 @@ namespace MaasOne.Search.BOSS
         /// <remarks></remarks>
         public bool LanguageInfo
         {
-            get { return mLanguageInfo; }
-            set { mLanguageInfo = value; this.OnPropertyChanged("LanguageInfo"); }
+            get => mLanguageInfo;
+	        set { mLanguageInfo = value; this.OnPropertyChanged("LanguageInfo"); }
         }
 
         public WebSearchService()
@@ -565,12 +567,9 @@ namespace MaasOne.Search.BOSS
         private string mRestrictedTitle = string.Empty;
 
         private string mRestrictedUrl = string.Empty;
-        internal override string ServiceName
-        {
-            get { return "news"; }
-        }
+        internal override string ServiceName => "news";
 
-        /// <summary>
+	    /// <summary>
         /// Indicates if the [LatestDate] Property will return actual DateTime.
         /// </summary>
         /// <value></value>
@@ -578,8 +577,8 @@ namespace MaasOne.Search.BOSS
         /// <remarks></remarks>
         public bool AlwaysLatestDateNow
         {
-            get { return mAlwaysLatestDateNow; }
-            set { mAlwaysLatestDateNow = value; this.OnPropertyChanged("AlwaysLatestDateNow"); }
+            get => mAlwaysLatestDateNow;
+		    set { mAlwaysLatestDateNow = value; this.OnPropertyChanged("AlwaysLatestDateNow"); }
         }
         /// <summary>
         /// The maximum date of crawling date/time. Setting a date will deactivate [AlwaysLatestDateNow].
@@ -615,8 +614,8 @@ namespace MaasOne.Search.BOSS
         /// <remarks></remarks>
         public TimeSpan TimeSpan
         {
-            get { return mTimeSpan; }
-            set
+            get => mTimeSpan;
+	        set
             {
                 if (value.TotalSeconds > 0)
                 {
@@ -645,11 +644,9 @@ namespace MaasOne.Search.BOSS
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public System.DateTime EarliestDate
-        {
-            get { return mLatestDate.Subtract(mTimeSpan); }
-        }
-        /// <summary>
+        public System.DateTime EarliestDate => mLatestDate.Subtract(mTimeSpan);
+
+	    /// <summary>
         /// The kind of sorting of results. Influences priority of result index.
         /// </summary>
         /// <value></value>
@@ -657,8 +654,8 @@ namespace MaasOne.Search.BOSS
         /// <remarks></remarks>
         public NewsSortRanking Sorting
         {
-            get { return mSorting; }
-            set { mSorting = value; this.OnPropertyChanged("Sorting"); }
+            get => mSorting;
+		    set { mSorting = value; this.OnPropertyChanged("Sorting"); }
         }
         /// <summary>
         /// Will return search results with the title containing the value.
@@ -668,8 +665,8 @@ namespace MaasOne.Search.BOSS
         /// <remarks></remarks>
         public string RestrictedTitle
         {
-            get { return mRestrictedTitle; }
-            set { mRestrictedTitle = value; this.OnPropertyChanged("RestrictedTitle"); }
+            get => mRestrictedTitle;
+	        set { mRestrictedTitle = value; this.OnPropertyChanged("RestrictedTitle"); }
         }
         /// <summary>
         /// Will return search results with the URL containing the value.
@@ -679,8 +676,8 @@ namespace MaasOne.Search.BOSS
         /// <remarks></remarks>
         public string RestrictedUrl
         {
-            get { return mRestrictedUrl; }
-            set { mRestrictedUrl = value; this.OnPropertyChanged("RestrictedUrl"); }
+            get => mRestrictedUrl;
+	        set { mRestrictedUrl = value; this.OnPropertyChanged("RestrictedUrl"); }
         }
 
         public NewsSearchService()
@@ -755,17 +752,14 @@ namespace MaasOne.Search.BOSS
     public class ImageSearchService : SearchService
     {
 
-        private bool mAllowAdultContent = false;
+        private bool mAllowAdultContent;
         private ImageSearchDimensions mDimensions = ImageSearchDimensions.All;
-        private Uri mUrl = null;
+        private Uri mUrl;
 
-        private Uri mRefererUrl = null;
-        internal override string ServiceName
-        {
-            get { return "images"; }
-        }
+        private Uri mRefererUrl;
+        internal override string ServiceName => "images";
 
-        /// <summary>
+	    /// <summary>
         /// Activate/Deactivates the Offensive Content Reduction filter.
         /// </summary>
         /// <value></value>
@@ -773,8 +767,8 @@ namespace MaasOne.Search.BOSS
         /// <remarks></remarks>
         public bool AllowAdultContent
         {
-            get { return mAllowAdultContent; }
-            set { mAllowAdultContent = value; this.OnPropertyChanged("AllowAdultContent"); }
+            get => mAllowAdultContent;
+		    set { mAllowAdultContent = value; this.OnPropertyChanged("AllowAdultContent"); }
         }
         /// <summary>
         /// The image size.
@@ -784,8 +778,8 @@ namespace MaasOne.Search.BOSS
         /// <remarks></remarks>
         public ImageSearchDimensions Dimensions
         {
-            get { return mDimensions; }
-            set { mDimensions = value; this.OnPropertyChanged("Dimensions"); }
+            get => mDimensions;
+	        set { mDimensions = value; this.OnPropertyChanged("Dimensions"); }
         }
         /// <summary>
         /// Search for this URL. Returns this exact image result.
@@ -795,8 +789,8 @@ namespace MaasOne.Search.BOSS
         /// <remarks></remarks>
         public Uri Url
         {
-            get { return mUrl; }
-            set { mUrl = value; this.OnPropertyChanged("Url"); }
+            get => mUrl;
+	        set { mUrl = value; this.OnPropertyChanged("Url"); }
         }
         /// <summary>
         /// Search for this URL. Depending on other query restrictions, returns all image objects with this referring URL.
@@ -806,8 +800,8 @@ namespace MaasOne.Search.BOSS
         /// <remarks></remarks>
         public Uri RefererUrl
         {
-            get { return mRefererUrl; }
-            set { mRefererUrl = value; this.OnPropertyChanged("RefererUrl"); }
+            get => mRefererUrl;
+	        set { mRefererUrl = value; this.OnPropertyChanged("RefererUrl"); }
         }
 
         public ImageSearchService()
@@ -824,9 +818,9 @@ namespace MaasOne.Search.BOSS
             if (this.Dimensions != MaasOne.Search.BOSS.ImageSearchDimensions.All)
                 pars.Append("&dimensions=" + this.Dimensions.ToString().ToLower());
             if (this.RefererUrl != null)
-                pars.Append("&refererurl=" + this.RefererUrl.ToString());
+                pars.Append("&refererurl=" + this.RefererUrl);
             if (this.Url != null)
-                pars.Append("&url=" + this.Url.ToString());
+                pars.Append("&url=" + this.Url);
             return pars.ToString();
         }
 
@@ -852,12 +846,9 @@ namespace MaasOne.Search.BOSS
     {
 
 
-        internal override string ServiceName
-        {
-            get { return "spelling"; }
-        }
+        internal override string ServiceName => "spelling";
 
-        public SpellingSearchService()
+	    public SpellingSearchService()
         {
             this.Count = 1;
         }

@@ -25,9 +25,7 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 using MaasOne.Xml;
-using System.Xml.Linq;
 
 
 namespace MaasOne.Finance.YahooFinance.Support
@@ -48,33 +46,25 @@ namespace MaasOne.Finance.YahooFinance.Support
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public static CurrencyInfo[] DefaultCurrencies
-        {
-            get { return mCurrencies; }
-        }
-        /// <summary>
+        public static CurrencyInfo[] DefaultCurrencies => mCurrencies;
+
+	    /// <summary>
         /// All default countries.
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public static CountryInfo[] DefaultCountries
-        {
-            get { return mCountries; }
-        }
+        public static CountryInfo[] DefaultCountries => mCountries;
 
-        /// <summary>
+	    /// <summary>
         /// The default stock exchanges. Is a reference for getting informations by setting the id of StockExchange or YahooID.
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public static List<StockExchange> DefaultStockExchanges
-        {
-            get { return mStockExchanges; }
-        }
+        public static List<StockExchange> DefaultStockExchanges => mStockExchanges;
 
-        /// <summary>
+	    /// <summary>
         /// A list of all available indices
         /// </summary>
         /// <value></value>
@@ -142,7 +132,7 @@ namespace MaasOne.Finance.YahooFinance.Support
                         string curID = MyHelper.GetXmlAttributeValue(cntNode, "Currency");
                         foreach (CurrencyInfo cur in DefaultCurrencies)
                         {
-                            if (cur.ID.ToString() == curID)
+                            if (cur.ID == curID)
                             {
                                 cntCur = cur;
                                 break;

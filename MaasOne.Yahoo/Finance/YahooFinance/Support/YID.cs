@@ -24,8 +24,6 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
 
 
@@ -42,8 +40,8 @@ namespace MaasOne.Finance.YahooFinance.Support
         private string mID = string.Empty;
         private string mName = string.Empty;
         private string mIndustry = string.Empty;
-        private StockExchange mStockExchange = null;
-        private ISIN mISIN = null;
+        private StockExchange mStockExchange;
+        private ISIN mISIN;
 
         private SecurityType mType = SecurityType.Any;
         /// <summary>
@@ -52,11 +50,9 @@ namespace MaasOne.Finance.YahooFinance.Support
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public virtual string ID
-        {
-            get { return mID; }
-        }
-        /// <summary>
+        public virtual string ID => mID;
+
+	    /// <summary>
         /// The base ID without suffix
         /// </summary>
         /// <value></value>
@@ -106,8 +102,8 @@ namespace MaasOne.Finance.YahooFinance.Support
         /// <remarks></remarks>
         public string Name
         {
-            get { return mName; }
-            set { mName = value; this.OnPropertyChanged("Name"); }
+            get => mName;
+	        set { mName = value; this.OnPropertyChanged("Name"); }
         }
         /// <summary>
         /// The name of the industry
@@ -117,8 +113,8 @@ namespace MaasOne.Finance.YahooFinance.Support
         /// <remarks></remarks>
         public string Industry
         {
-            get { return mIndustry; }
-            set { mIndustry = value; this.OnPropertyChanged("Industry"); }
+            get => mIndustry;
+	        set { mIndustry = value; this.OnPropertyChanged("Industry"); }
         }
         /// <summary>
         /// Informations about the stock exchange where the stock is traded
@@ -128,8 +124,8 @@ namespace MaasOne.Finance.YahooFinance.Support
         /// <remarks>Don't accept Null/Nothing.</remarks>
         public StockExchange StockExchange
         {
-            get { return mStockExchange; }
-            set { mStockExchange = value; this.OnPropertyChanged("StockExchange"); }
+            get => mStockExchange;
+	        set { mStockExchange = value; this.OnPropertyChanged("StockExchange"); }
         }
         /// <summary>
         /// The International Securities Identification Number
@@ -139,8 +135,8 @@ namespace MaasOne.Finance.YahooFinance.Support
         /// <remarks></remarks>
         public ISIN ISIN
         {
-            get { return mISIN; }
-            set { mISIN = value; this.OnPropertyChanged("ISIN"); }
+            get => mISIN;
+	        set { mISIN = value; this.OnPropertyChanged("ISIN"); }
         }
         /// <summary>
         /// The type of the security
@@ -150,8 +146,8 @@ namespace MaasOne.Finance.YahooFinance.Support
         /// <remarks></remarks>
         public virtual SecurityType Type
         {
-            get { return mType; }
-            set { mType = value; this.OnPropertyChanged("Type"); }
+            get => mType;
+	        set { mType = value; this.OnPropertyChanged("Type"); }
         }
 
         protected virtual void SetID(string id, bool setStockExchangeBySuffix = true)
@@ -248,7 +244,7 @@ namespace MaasOne.Finance.YahooFinance.Support
 
         protected void OnPropertyChanged(string propertyName)
         {
-            if (this.PropertyChanged != null) this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>

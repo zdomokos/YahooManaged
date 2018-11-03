@@ -25,7 +25,6 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 
 namespace MaasOne.Finance.YahooFinance
@@ -37,7 +36,9 @@ namespace MaasOne.Finance.YahooFinance
     public partial class QuotesDownload : Base.DownloadClient<QuotesResult>
     {
 
-        public QuotesDownloadSettings Settings { get { return (QuotesDownloadSettings)base.Settings; } set { base.SetSettings(value); } }
+        public QuotesDownloadSettings Settings { get => (QuotesDownloadSettings)base.Settings;
+	        set => base.SetSettings(value);
+        }
 
 
         /// <summary>
@@ -130,12 +131,12 @@ namespace MaasOne.Finance.YahooFinance
     public class QuotesResult : QuotesBaseResult
     {
 
-        private QuotesDownloadSettings mSettings = null;
-        public QuotesDownloadSettings Settings { get { return mSettings; } }
+        private QuotesDownloadSettings mSettings;
+        public QuotesDownloadSettings Settings => mSettings;
 
-        public QuotesData[] Items { get { return (QuotesData[])base.Items; } }
+	    public QuotesData[] Items => (QuotesData[])base.Items;
 
-        internal QuotesResult(QuotesData[] items, QuotesDownloadSettings settings)
+	    internal QuotesResult(QuotesData[] items, QuotesDownloadSettings settings)
             : base(items)
         {
             mSettings = settings;
@@ -163,8 +164,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public object this[QuoteProperty prp]
         {
-            get { return mValues[(int)prp]; }
-            set
+            get => mValues[(int)prp];
+	        set
             {
                 if (value != null)
                 {
@@ -214,8 +215,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks>Represents the value of QuoteProperty.Name</remarks>
         public override string Name
         {
-            get { return base.Name; }
-            set { base.Name = value; mValues[(int)QuoteProperty.Name] = value; }
+            get => base.Name;
+	        set { base.Name = value; mValues[(int)QuoteProperty.Name] = value; }
         }
         /// <summary>
         /// Sets a new ID value. Implementation from ISettableID.
@@ -235,8 +236,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks>Represents the value of QuoteProperty.LastTradePriceOnly</remarks>
         public override double LastTradePriceOnly
         {
-            get { return base.LastTradePriceOnly; }
-            set { base.LastTradePriceOnly = value; mValues[(int)QuoteProperty.LastTradePriceOnly] = value; }
+            get => base.LastTradePriceOnly;
+	        set { base.LastTradePriceOnly = value; mValues[(int)QuoteProperty.LastTradePriceOnly] = value; }
         }
         /// <summary>
         /// Gets or sets the date value of the last trade.
@@ -246,8 +247,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public override System.DateTime LastTradeDate
         {
-            get { return base.LastTradeDate; }
-            set
+            get => base.LastTradeDate;
+	        set
             { base.LastTradeDate = value; mValues[(int)QuoteProperty.LastTradeDate] = value; }
         }
         /// <summary>
@@ -258,8 +259,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public override DateTime LastTradeTime
         {
-            get { return base.LastTradeTime; }
-            set { base.LastTradeTime = value; mValues[(int)QuoteProperty.LastTradeTime] = value; }
+            get => base.LastTradeTime;
+	        set { base.LastTradeTime = value; mValues[(int)QuoteProperty.LastTradeTime] = value; }
         }
         /// <summary>
         /// Gets or sets the change in percent.
@@ -269,8 +270,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public override double Change
         {
-            get { return base.Change; }
-            set { base.Change = value; mValues[(int)QuoteProperty.Change] = value; }
+            get => base.Change;
+	        set { base.Change = value; mValues[(int)QuoteProperty.Change] = value; }
         }
         /// <summary>
         /// Gets or sets the trade volume of the day.
@@ -280,8 +281,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public override long Volume
         {
-            get { return base.Volume; }
-            set { base.Volume = value; mValues[(int)QuoteProperty.Volume] = value; }
+            get => base.Volume;
+	        set { base.Volume = value; mValues[(int)QuoteProperty.Volume] = value; }
         }
         /// <summary>
         /// Gets or sets the opening price value of the day.
@@ -292,7 +293,7 @@ namespace MaasOne.Finance.YahooFinance
         public double Open
         {
             get { if (mValues[(int)QuoteProperty.Open] != null) { return (double)mValues[(int)QuoteProperty.Open]; } else { return 0; } }
-            set { mValues[(int)QuoteProperty.Open] = value; }
+            set => mValues[(int)QuoteProperty.Open] = value;
         }
         /// <summary>
         /// Gets or sets the highest value of the day.
@@ -303,7 +304,7 @@ namespace MaasOne.Finance.YahooFinance
         public double DaysHigh
         {
             get { if (mValues[(int)QuoteProperty.DaysHigh] != null) { return (double)mValues[(int)QuoteProperty.DaysHigh]; } else { return 0; } }
-            set { mValues[(int)QuoteProperty.DaysHigh] = value; }
+            set => mValues[(int)QuoteProperty.DaysHigh] = value;
         }
         /// <summary>
         /// Gets or sets the lowest price value of the day.
@@ -314,12 +315,12 @@ namespace MaasOne.Finance.YahooFinance
         public double DaysLow
         {
             get { if (mValues[(int)QuoteProperty.DaysLow] != null) { return (double)mValues[(int)QuoteProperty.DaysLow]; } else { return 0; } }
-            set { mValues[(int)QuoteProperty.DaysLow] = value; }
+            set => mValues[(int)QuoteProperty.DaysLow] = value;
         }
         public string Currency
         {
-            get { return this[QuoteProperty.Currency] != null ? this[QuoteProperty.Currency].ToString() : string.Empty; }
-            set { this[QuoteProperty.Currency] = value; }
+            get => this[QuoteProperty.Currency] != null ? this[QuoteProperty.Currency].ToString() : string.Empty;
+	        set => this[QuoteProperty.Currency] = value;
         }
 
         public override double PreviewClose
@@ -431,7 +432,7 @@ namespace MaasOne.Finance.YahooFinance
                     ids.Append(MyHelper.CleanYqlParam(s));
                     ids.Append('+');
                 }
-                String url = "http://download.finance.yahoo.com/d/quotes.csv?s=" + Uri.EscapeDataString(ids.ToString()) + "&f=" + FinanceHelper.CsvQuotePropertyTags(this.Properties) + "&e=.csv";
+                string url = "http://download.finance.yahoo.com/d/quotes.csv?s=" + Uri.EscapeDataString(ids.ToString()) + "&f=" + FinanceHelper.CsvQuotePropertyTags(this.Properties) + "&e=.csv";
                 return url;
             }
         }

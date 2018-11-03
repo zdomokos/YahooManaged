@@ -23,10 +23,6 @@
 // **  limitations under the License.
 // ** 
 // ******************************************************************************
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 
 namespace MaasOne.Finance.YahooFinance.Support
 {
@@ -46,8 +42,8 @@ namespace MaasOne.Finance.YahooFinance.Support
         /// <remarks></remarks>
         public string ID
         {
-            get { return mID; }
-            set { mID = value.ToUpper(); }
+            get => mID;
+	        set => mID = value.ToUpper();
         }
         /// <summary>
         /// The currency name/description.
@@ -76,11 +72,11 @@ namespace MaasOne.Finance.YahooFinance.Support
         {
             if (this.Description != string.Empty)
             {
-                return this.Description + " (" + this.ID.ToString() + ")";
+                return this.Description + " (" + this.ID + ")";
             }
             else
             {
-                return this.ID.ToString();
+                return this.ID;
             }
         }
 

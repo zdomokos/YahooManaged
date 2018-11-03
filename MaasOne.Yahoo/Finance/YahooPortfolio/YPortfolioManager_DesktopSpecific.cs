@@ -25,12 +25,8 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Net;
 using MaasOne.Base;
 using MaasOne.Xml;
-using MaasOne.Finance;
-using MaasOne.Finance.YahooFinance;
 using MaasOne.Finance.YahooFinance.Support;
 
 
@@ -116,7 +112,8 @@ namespace MaasOne.Finance.YahooPortfolio
         {
             Html2XmlDownload html = new Html2XmlDownload();
             html.Settings.Account = this;
-            html.Settings.Url = string.Format("http://finance.yahoo.com/portfolio/add_symbols?portfolio_id={0}&portfolio_view_id=v1&quotes={1}", portfolioID, itemID);
+            html.Settings.Url =
+                $"http://finance.yahoo.com/portfolio/add_symbols?portfolio_id={portfolioID}&portfolio_view_id=v1&quotes={itemID}";
             Response<XDocument> resp = html.Download();
             return ((DefaultResponse<XDocument>)resp).CreateNew(new PortfolioDownload().ConvertHtmlDoc(resp.Result));
         }

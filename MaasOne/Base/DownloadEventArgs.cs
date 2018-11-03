@@ -24,8 +24,6 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 
 namespace MaasOne.Base
@@ -36,18 +34,16 @@ namespace MaasOne.Base
     /// <remarks></remarks>
     public class DownloadEventArgs : EventArgs
     {
-        private object mUserArgs = null;
+        private object mUserArgs;
         /// <summary>
         /// Gets the user argument that were passed when the download was started.
         /// </summary>
         /// <value></value>
         /// <returns>An object defined by the user</returns>
         /// <remarks></remarks>
-        public object UserArgs
-        {
-            get { return mUserArgs; }
-        }
-        public DownloadEventArgs(object userArgs)
+        public object UserArgs => mUserArgs;
+
+	    public DownloadEventArgs(object userArgs)
         {
             mUserArgs = userArgs;
         }
@@ -61,18 +57,19 @@ namespace MaasOne.Base
     /// <remarks></remarks>
     public abstract class DownloadCompletedEventArgs<T> : DownloadEventArgs, IDownloadCompletedEventArgs
     {
-        private SettingsBase mSettings = null;
-        public SettingsBase Settings { get { return mSettings; } }
+        private SettingsBase mSettings;
+        public SettingsBase Settings => mSettings;
 
-        private Response<T> mResponse = null;
+	    private Response<T> mResponse;
         /// <summary>
         /// Gets the response of the download process.
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public Response<T> Response { get { return mResponse; } }
-        public IResponse GetResponse() { return this.Response; }
+        public Response<T> Response => mResponse;
+
+	    public IResponse GetResponse() { return this.Response; }
 
         protected DownloadCompletedEventArgs(object userArgs, Response<T> resp, SettingsBase settings)
             : base(userArgs)

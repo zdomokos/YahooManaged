@@ -1,4 +1,4 @@
-// ******************************************************************************
+﻿// ******************************************************************************
 // ** 
 // **  MaasOne WebServices
 // **  Written by Marius Häusler 2012
@@ -24,12 +24,7 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
-using System.Xml.Linq;
 using MaasOne.Xml;
 
 
@@ -154,10 +149,9 @@ namespace MaasOne.RSS.ImportExport
                                 {
                                     if (nodeChild.Name.LocalName.ToLower() == "hour")
                                     {
-                                        int @int = 0;
-                                        if (int.TryParse(nodeChild.Value, out @int))
-                                            lst1.Add(@int);
-                                    }
+										if (int.TryParse(nodeChild.Value, out int @int))
+											lst1.Add(@int);
+									}
                                 }
 
                                 feed.Skiphours = lst1.ToArray();
@@ -468,7 +462,7 @@ namespace MaasOne.RSS.ImportExport
             writer.WriteStartElement("channel");
 
             writer.WriteElementString("title", feed.Title);
-            writer.WriteElementString("link", (feed.Link != null ? feed.Link.AbsoluteUri : "").ToString());
+            writer.WriteElementString("link", (feed.Link != null ? feed.Link.AbsoluteUri : ""));
             writer.WriteElementString("description", feed.Description);
 
             if (feed.Language != null)

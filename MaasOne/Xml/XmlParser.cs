@@ -24,9 +24,6 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Linq;
 
 
 namespace MaasOne.Xml
@@ -257,7 +254,7 @@ namespace MaasOne.Xml
                                 //Comment
                                 if ((breakOff == 2 && sc.Value[i] == '-' && sc.Value[i + 1] == '-' && sc.Value[i + 2] == '>') || (breakOff == 0 && sc.Value[i] == '>') || (breakOff == 1 && sc.Value[i] == '-' && sc.Value[i + 1] == '>'))
                                 {
-                                    if (parent != null) parent.Add(new XComment(comment));
+                                    parent?.Add(new XComment(comment));
                                     sc.Index = i + breakOff + 1;
                                     break;
                                 }
@@ -523,11 +520,12 @@ namespace MaasOne.Xml
 
         private class StringCounter
         {
-            public int Index = 0;
+            public int Index;
             public string Value = string.Empty;
-            public bool IsAtEnd { get { return this.Index >= this.Value.Length - 1; } }
-            public char StartValue { get { return this.Value[this.Index]; } }
-            public StringCounter(string value)
+            public bool IsAtEnd => this.Index >= this.Value.Length - 1;
+	        public char StartValue => this.Value[this.Index];
+
+	        public StringCounter(string value)
             {
                 this.Value = value;
             }

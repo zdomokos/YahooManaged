@@ -25,9 +25,7 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Xml.Linq;
 
 
 namespace MaasOne.Xml
@@ -35,18 +33,18 @@ namespace MaasOne.Xml
 
     public class XPath
     {
-        public bool IsRootPath { get { return mCheckChildren && mValue == String.Empty; } }
-        public XPath Child { get { return mChild; } }
-        public bool RegexAttributeValue { get; set; }
+        public bool IsRootPath => mCheckChildren && mValue == string.Empty;
+	    public XPath Child => mChild;
+	    public bool RegexAttributeValue { get; set; }
 
         private string mValue = string.Empty;
         private string mName = string.Empty;
         private TokenExtensionType mExtensionType = TokenExtensionType.None;
-        private bool mCheckChildren = false;
+        private bool mCheckChildren;
         private int mIndex = -1;
         private string mAttributeTag = string.Empty;
         private string mAttributeValue = string.Empty;
-        private XPath mChild = null;
+        private XPath mChild;
 
         public XPath(string value, bool regex) : this(value) { this.RegexAttributeValue = regex; }
         public XPath(string value) { this.SetToken(this.GetTokenArray(value)); }
@@ -294,7 +292,7 @@ namespace MaasOne.Xml
             }
         }
 
-        public override string ToString() { return (mCheckChildren ? "/" : "") + mValue + (mChild != null ? mChild.ToString() : ""); }
+        public override string ToString() { return (mCheckChildren ? "/" : "") + mValue + (mChild?.ToString() ?? ""); }
 
         
 

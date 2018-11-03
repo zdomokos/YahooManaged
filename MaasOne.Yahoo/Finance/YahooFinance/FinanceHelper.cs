@@ -25,7 +25,6 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
 
 
@@ -75,12 +74,9 @@ namespace MaasOne.Finance.YahooFinance
         public const string NameCompanyNotAvailable = "NaN";
 
         private static System.Globalization.CultureInfo mDefaultCulture = new System.Globalization.CultureInfo("en-US");
-        public static System.Globalization.CultureInfo DefaultYqlCulture
-        {
-            get { return mDefaultCulture; }
-        }
+        public static System.Globalization.CultureInfo DefaultYqlCulture => mDefaultCulture;
 
-        public static IEnumerable<string> IIDsToStrings(IEnumerable<IID> idList)
+	    public static IEnumerable<string> IIDsToStrings(IEnumerable<IID> idList)
         {
             List<string> lst = new List<string>();
             if (idList != null)
@@ -187,9 +183,8 @@ namespace MaasOne.Finance.YahooFinance
         }
         public static double GetMillionValue(string s)
         {
-            double v = 0;
-            double.TryParse(s.Substring(0, s.Length - 1), System.Globalization.NumberStyles.Any, mDefaultCulture, out v);
-            return v * GetStringMillionFactor(s);
+			double.TryParse(s.Substring(0, s.Length - 1), System.Globalization.NumberStyles.Any, mDefaultCulture, out double v);
+			return v * GetStringMillionFactor(s);
         }
         public static string CleanTd(string value)
         {
@@ -216,9 +211,8 @@ namespace MaasOne.Finance.YahooFinance
         }
         public static double ParseToDouble(string s)
         {
-            double v = 0;
-            double.TryParse(s.Replace("%", ""), System.Globalization.NumberStyles.Any, mDefaultCulture, out v);
-            return v;
+			double.TryParse(s.Replace("%", ""), System.Globalization.NumberStyles.Any, mDefaultCulture, out double v);
+			return v;
         }
 
         public static DateTime ParseToDateTime(string s)

@@ -25,7 +25,6 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Net;
 
 
@@ -33,10 +32,10 @@ namespace MaasOne.Base
 {
     public partial class ConnectionInfo
     {
-        private KeyValuePair<HttpResponseHeader, string>[] mResponseHeaders = null;
-        public KeyValuePair<HttpResponseHeader, string>[] ResponseHeaders { get { return mResponseHeaders; } }
+        private KeyValuePair<HttpResponseHeader, string>[] mResponseHeaders;
+        public KeyValuePair<HttpResponseHeader, string>[] ResponseHeaders => mResponseHeaders;
 
-        public ConnectionInfo(Exception exception, int timeout, int size, DateTime startTime, DateTime endTime, KeyValuePair<HttpResponseHeader, string>[] respHeaders)
+	    public ConnectionInfo(Exception exception, int timeout, int size, DateTime startTime, DateTime endTime, KeyValuePair<HttpResponseHeader, string>[] respHeaders)
         {
             mException = exception;
             mResponseHeaders = respHeaders;

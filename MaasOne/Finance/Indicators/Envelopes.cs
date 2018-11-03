@@ -24,11 +24,7 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
 
 
 namespace MaasOne.Finance.Indicators
@@ -41,24 +37,22 @@ namespace MaasOne.Finance.Indicators
 	public class Env : MA
 	{
 
-		public override string Name {
-			get { return "Envelopes"; }
-		}
+		public override string Name => "Envelopes";
 
-		private bool mIsBufferFixed = false;
+		private bool mIsBufferFixed;
 		public bool IsBufferFixed {
-			get { return mIsBufferFixed; }
-			set { mIsBufferFixed = value; }
+			get => mIsBufferFixed;
+			set => mIsBufferFixed = value;
 		}
 		private double mPercentBuffer = 0.05;
 		public double PercentBuffer {
-			get { return mPercentBuffer; }
-			set { mPercentBuffer = value; }
+			get => mPercentBuffer;
+			set => mPercentBuffer = value;
 		}
 		private double mFixedBuffer = 1;
 		public double FixedBuffer {
-			get { return mFixedBuffer; }
-			set { mFixedBuffer = value; }
+			get => mFixedBuffer;
+			set => mFixedBuffer = value;
 		}
 
 

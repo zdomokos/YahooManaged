@@ -25,7 +25,6 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Collections;
 
 
@@ -137,9 +136,10 @@ namespace MaasOne.Xml
 
     public class XObject
     {
-        private XElement mParent = null;
-        public XElement Parent { get { return mParent; } }
-        internal void SetParent(XElement value)
+        private XElement mParent;
+        public XElement Parent => mParent;
+
+	    internal void SetParent(XElement value)
         {
             mParent = value;
         }
@@ -153,9 +153,9 @@ namespace MaasOne.Xml
 
     public class XAttribute : XObject
     {
-        private XName mName = null;
-        public XName Name { get { return mName; } }
-        public string Value { get; set; }
+        private XName mName;
+        public XName Name => mName;
+	    public string Value { get; set; }
 
         public XAttribute(XName name, string value)
         {
@@ -165,7 +165,7 @@ namespace MaasOne.Xml
 
         internal void GetXml(System.Text.StringBuilder sb)
         {
-            sb.Append(" " + this.Name.ToString() + "=\"" + XmlParser.EncodeXml(this.Value) + "\"");
+            sb.Append(" " + this.Name + "=\"" + XmlParser.EncodeXml(this.Value) + "\"");
         }
 
     }
@@ -176,10 +176,10 @@ namespace MaasOne.Xml
     {
         protected System.ComponentModel.BindingList<object> mElements = new System.ComponentModel.BindingList<object>();
 
-        public bool HasElements { get { return mElements.Count > 0; } }
+        public bool HasElements => mElements.Count > 0;
 
 
-        internal XContainer()
+	    internal XContainer()
         {
             this.mElements.ListChanged += this.mElements_Changed;
         }
@@ -263,9 +263,10 @@ namespace MaasOne.Xml
 
     public class XElement : XContainer
     {
-        private XName mName = null;
-        public XName Name { get { return mName; } }
-        public string Value
+        private XName mName;
+        public XName Name => mName;
+
+	    public string Value
         {
             get
             {
@@ -348,7 +349,7 @@ namespace MaasOne.Xml
 
         internal void GetXml(System.Text.StringBuilder sb, int intendation)
         {
-            sb.Append(new string(' ', intendation) + "<" + this.Name.ToString());
+            sb.Append(new string(' ', intendation) + "<" + this.Name);
             XAttribute[] atts = (XAttribute[])this.Attributes();
             foreach (XAttribute att in atts)
             {
@@ -359,7 +360,7 @@ namespace MaasOne.Xml
                 sb.Append(">");
                 this.GetInnerXml(sb, intendation + 4);
                 sb.AppendLine();
-                sb.Append(new string(' ', intendation) + "</" + this.Name.ToString() + ">");
+                sb.Append(new string(' ', intendation) + "</" + this.Name + ">");
             }
             else
             {
@@ -381,8 +382,8 @@ namespace MaasOne.Xml
     public class IEnumOfXElement : IEnumerable<XElement>
     {
         private XElement[] mElementsList = new XElement[] { };
-        internal System.ComponentModel.BindingList<object> ReferenceList = null;
-        internal XName Name = null;
+        internal System.ComponentModel.BindingList<object> ReferenceList;
+        internal XName Name;
 
 
         public virtual XElement this[int index]

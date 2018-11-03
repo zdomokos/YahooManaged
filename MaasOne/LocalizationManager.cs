@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace MaasOne
 {
@@ -14,7 +13,7 @@ namespace MaasOne
         public static string GetValue(string id) { return GetValue(id, string.Empty); }
         public static string GetValue(string id, System.Globalization.CultureInfo culture)
         {
-            string cult = culture != null ? culture.Name.ToString() : string.Empty;
+            string cult = culture?.Name ?? string.Empty;
             return GetValue(id, cult);
         }
         public static string GetValue(string id, string culture)
@@ -43,7 +42,7 @@ namespace MaasOne
         }
         static LocalizationManager()
         {
-            if (OnInit != null) OnInit(null,new EventArgs());
+            OnInit?.Invoke(null, new EventArgs());
             Init();
         }
         public static void Init()

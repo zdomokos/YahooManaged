@@ -1,4 +1,4 @@
-// ******************************************************************************
+﻿// ******************************************************************************
 // ** 
 // **  Yahoo! Managed
 // **  Written by Marius Häusler 2012
@@ -24,13 +24,8 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
 using MaasOne.Xml;
-using System.Xml.Linq;
 
 
 namespace MaasOne.Weather.YahooWeather
@@ -41,7 +36,9 @@ namespace MaasOne.Weather.YahooWeather
     {
 
 
-        public WeatherFeedDownloadSettings Settings { get { return (WeatherFeedDownloadSettings)base.Settings; } set { base.SetSettings(value); } }
+        public WeatherFeedDownloadSettings Settings { get => (WeatherFeedDownloadSettings)base.Settings;
+	        set => base.SetSettings(value);
+        }
 
         /// <summary>
         /// Default constructor
@@ -315,12 +312,11 @@ namespace MaasOne.Weather.YahooWeather
                                                             int index = Math.Max(dateStr.LastIndexOf("am"), dateStr.LastIndexOf("pm"));
                                                             if (index > 0)
                                                             {
-                                                                System.DateTime d = default(System.DateTime);
-                                                                if (System.DateTime.TryParseExact(att.Value.Substring(0, index + 2), "ddd, dd MMM yyyy hh:mm tt", convCulture, System.Globalization.DateTimeStyles.None, out d))
-                                                                {
-                                                                    newItem.ActualCondition.ForecastDate = d;
-                                                                }
-                                                            }
+																if (System.DateTime.TryParseExact(att.Value.Substring(0, index + 2), "ddd, dd MMM yyyy hh:mm tt", convCulture, System.Globalization.DateTimeStyles.None, out DateTime d))
+																{
+																	newItem.ActualCondition.ForecastDate = d;
+																}
+															}
                                                             break;
                                                     }
                                                 }
@@ -441,12 +437,10 @@ namespace MaasOne.Weather.YahooWeather
 
     public class WeatherFeedResult
     {
-        private WeatherFeed[] mItems = null;
-        public WeatherFeed[] Items
-        {
-            get { return mItems; }
-        }
-        internal WeatherFeedResult(WeatherFeed[] items)
+        private WeatherFeed[] mItems;
+        public WeatherFeed[] Items => mItems;
+
+	    internal WeatherFeedResult(WeatherFeed[] items)
         {
             mItems = items;
         }

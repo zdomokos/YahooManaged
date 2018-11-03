@@ -1,4 +1,4 @@
-// ******************************************************************************
+﻿// ******************************************************************************
 // ** 
 // **  MaasOne WebServices
 // **  Written by Marius Häusler 2012
@@ -23,12 +23,8 @@
 // **  limitations under the License.
 // ** 
 // ******************************************************************************
-using System;
-using System.Collections;
+
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
 
 
 namespace MaasOne.Finance.Indicators
@@ -41,21 +37,13 @@ namespace MaasOne.Finance.Indicators
 	public class MA : ISingleValueIndicator
 	{
 
-		public virtual string Name {
-			get { return "Moving Average"; }
-		}
+		public virtual string Name => "Moving Average";
 
-		public virtual bool IsRealative {
-			get { return false; }
-		}
+		public virtual bool IsRealative => false;
 
-		public double ScaleMaximum {
-			get { return double.PositiveInfinity; }
-		}
+		public double ScaleMaximum => double.PositiveInfinity;
 
-		public double ScaleMinimum {
-			get { return double.NegativeInfinity; }
-		}
+		public double ScaleMinimum => double.NegativeInfinity;
 
 
 		public int Period { get; set; }

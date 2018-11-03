@@ -24,14 +24,9 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Net;
 using MaasOne.Base;
 using MaasOne.Xml;
-using MaasOne.Finance;
-using MaasOne.Finance.YahooFinance;
-using MaasOne.Finance.YahooFinance.Support;
 
 namespace MaasOne
 {
@@ -68,7 +63,7 @@ namespace MaasOne
                 {
                     mCookies = null;
                     this.SetCrumb(string.Empty);
-                    if (this.PropertyChanged != null) this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs("IsLoggedIn"));
+                    this.PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs("IsLoggedIn"));
                 }               
             }
             return this.IsLoggedIn;

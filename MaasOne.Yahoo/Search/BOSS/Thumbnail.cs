@@ -1,4 +1,4 @@
-// ******************************************************************************
+﻿// ******************************************************************************
 // ** 
 // **  Yahoo! Managed
 // **  Written by Marius Häusler 2012
@@ -24,12 +24,6 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
-using MaasOne.Xml;
 
 
 namespace MaasOne.Search.BOSS
@@ -41,15 +35,11 @@ namespace MaasOne.Search.BOSS
 		private int mHeight;
 
 		private int mWidth;
-		public Uri Url {
-			get { return mUrl; }
-		}
-		public int Height {
-			get { return mHeight; }
-		}
-		public int Width {
-			get { return mWidth; }
-		}
+		public Uri Url => mUrl;
+
+		public int Height => mHeight;
+
+		public int Width => mWidth;
 
 		internal Thumbnail(Uri url, int height, int width)
 		{

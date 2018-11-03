@@ -25,7 +25,6 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 
 namespace MaasOne.Finance
@@ -43,10 +42,10 @@ namespace MaasOne.Finance
 
     public abstract class HistQuotesBaseResult
     {
-        private HistQuotesDataChain mItems = null;
-        public HistQuotesDataChain Items { get { return mItems; } }
+        private HistQuotesDataChain mItems;
+        public HistQuotesDataChain Items => mItems;
 
-        public HistQuotesBaseResult(HistQuotesDataChain items)
+	    public HistQuotesBaseResult(HistQuotesDataChain items)
         {
             mItems = items;
         }
@@ -63,11 +62,9 @@ namespace MaasOne.Finance
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public string ID
-        {
-            get { return mID; }
-        }
-        public void SetID(string id)
+        public string ID => mID;
+
+	    public void SetID(string id)
         {
             mID = id;
         }

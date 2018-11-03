@@ -25,7 +25,6 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
 
 
@@ -38,7 +37,9 @@ namespace MaasOne.Finance.YahooFinance
     public partial class MarketQuotesDownload : Base.DownloadClient<MarketQuotesResult>
     {
 
-        public MarketQuotesDownloadSettings Settings { get { return (MarketQuotesDownloadSettings)base.Settings; } set { base.SetSettings(value); } }
+        public MarketQuotesDownloadSettings Settings { get => (MarketQuotesDownloadSettings)base.Settings;
+	        set => base.SetSettings(value);
+        }
 
         /// <summary>
         /// Default constructor
@@ -108,29 +109,20 @@ namespace MaasOne.Finance.YahooFinance
                     {
                         MarketQuotesData quote = new MarketQuotesData();
                         quote.Name = table[i][0];
-                        double t1;
-                        if (double.TryParse(table[i][1], System.Globalization.NumberStyles.Any, ci, out t1)) quote.OneDayPriceChangePercent = t1;
-                        string mktcap = table[i][2];
+						if (double.TryParse(table[i][1], System.Globalization.NumberStyles.Any, ci, out double t1)) quote.OneDayPriceChangePercent = t1;
+						string mktcap = table[i][2];
                         if (mktcap != "NA" & mktcap != string.Empty & mktcap.Length > 1)
                         {
-                            double value = 0;
-                            double.TryParse(mktcap.Substring(0, mktcap.Length - 1), System.Globalization.NumberStyles.Any, ci, out value);
-                            quote.MarketCapitalizationInMillion = value * FinanceHelper.GetStringMillionFactor(mktcap);
+							double.TryParse(mktcap.Substring(0, mktcap.Length - 1), System.Globalization.NumberStyles.Any, ci, out double value);
+							quote.MarketCapitalizationInMillion = value * FinanceHelper.GetStringMillionFactor(mktcap);
                         }
-                        double t2;
-                        double t3;
-                        double t4;
-                        double t5;
-                        double t6;
-                        double t7;
-                        double t8;
-                        if (double.TryParse(table[i][3], System.Globalization.NumberStyles.Any, ci, out t2)) quote.PriceEarningsRatio = t2;
-                        if (double.TryParse(table[i][4], System.Globalization.NumberStyles.Any, ci, out t3)) quote.ReturnOnEquityPercent = t3;
-                        if (double.TryParse(table[i][5], System.Globalization.NumberStyles.Any, ci, out t4)) quote.DividendYieldPercent = t4;
-                        if (double.TryParse(table[i][6], System.Globalization.NumberStyles.Any, ci, out t5)) quote.LongTermDeptToEquity = t5;
-                        if (double.TryParse(table[i][7], System.Globalization.NumberStyles.Any, ci, out t6)) quote.PriceToBookValue = t6;
-                        if (double.TryParse(table[i][8], System.Globalization.NumberStyles.Any, ci, out t7)) quote.NetProfitMarginPercent = t7;
-                        if (double.TryParse(table[i][9], System.Globalization.NumberStyles.Any, ci, out t8)) quote.PriceToFreeCashFlow = t8;
+						if (double.TryParse(table[i][3], System.Globalization.NumberStyles.Any, ci, out double t2)) quote.PriceEarningsRatio = t2;
+						if (double.TryParse(table[i][4], System.Globalization.NumberStyles.Any, ci, out double t3)) quote.ReturnOnEquityPercent = t3;
+                        if (double.TryParse(table[i][5], System.Globalization.NumberStyles.Any, ci, out double t4)) quote.DividendYieldPercent = t4;
+                        if (double.TryParse(table[i][6], System.Globalization.NumberStyles.Any, ci, out double t5)) quote.LongTermDeptToEquity = t5;
+                        if (double.TryParse(table[i][7], System.Globalization.NumberStyles.Any, ci, out double t6)) quote.PriceToBookValue = t6;
+                        if (double.TryParse(table[i][8], System.Globalization.NumberStyles.Any, ci, out double t7)) quote.NetProfitMarginPercent = t7;
+                        if (double.TryParse(table[i][9], System.Globalization.NumberStyles.Any, ci, out double t8)) quote.PriceToFreeCashFlow = t8;
                         lst.Add(quote);
                     }
                 }
@@ -149,12 +141,10 @@ namespace MaasOne.Finance.YahooFinance
     /// </summary>
     public class MarketQuotesResult
     {
-        private MarketQuotesData[] mItems = null;
-        public MarketQuotesData[] Items
-        {
-            get { return mItems; }
-        }
-        internal MarketQuotesResult(MarketQuotesData[] items)
+        private MarketQuotesData[] mItems;
+        public MarketQuotesData[] Items => mItems;
+
+	    internal MarketQuotesResult(MarketQuotesData[] items)
         {
             mItems = items;
         }
@@ -292,7 +282,7 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public System.Text.Encoding TextEncoding { get; set; }
 
-        private Nullable<Sector> mSector = null;
+        private Nullable<Sector> mSector;
         /// <summary>
         /// Gets the downloaded sectors.
         /// </summary>
@@ -301,14 +291,14 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public Nullable<Sector> Sector
         {
-            get { return mSector; }
-            set
+            get => mSector;
+	        set
             {
                 mSector = value;
                 mIndustry = null;
             }
         }
-        private Nullable<Industry> mIndustry = null;
+        private Nullable<Industry> mIndustry;
         /// <summary>
         /// Gets the IDs of the downloaded industries.
         /// </summary>
@@ -317,8 +307,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public Nullable<Industry> Industry
         {
-            get { return mIndustry; }
-            set
+            get => mIndustry;
+	        set
             {
                 mIndustry = value;
                 mSector = null;
@@ -337,11 +327,11 @@ namespace MaasOne.Finance.YahooFinance
         {
             if (mSector.HasValue)
             {
-                return "http://biz.yahoo.com/p/csv/" + ((int)mSector.Value).ToString() + FinanceHelper.MarketQuotesRankingTypeString(this.RankedBy) + FinanceHelper.MarketQuotesRankingDirectionString(this.RankDirection) + ".csv";
+                return "http://biz.yahoo.com/p/csv/" + ((int)mSector.Value) + FinanceHelper.MarketQuotesRankingTypeString(this.RankedBy) + FinanceHelper.MarketQuotesRankingDirectionString(this.RankDirection) + ".csv";
             }
             else if (mIndustry.HasValue)
             {
-                return "http://biz.yahoo.com/p/csv/" + ((int)mIndustry.Value).ToString() + FinanceHelper.MarketQuotesRankingTypeString(this.RankedBy) + FinanceHelper.MarketQuotesRankingDirectionString(this.RankDirection) + ".csv";
+                return "http://biz.yahoo.com/p/csv/" + ((int)mIndustry.Value) + FinanceHelper.MarketQuotesRankingTypeString(this.RankedBy) + FinanceHelper.MarketQuotesRankingDirectionString(this.RankDirection) + ".csv";
             }
             else
             {

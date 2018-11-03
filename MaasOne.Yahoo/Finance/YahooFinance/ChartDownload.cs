@@ -25,7 +25,6 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 
 namespace MaasOne.Finance.YahooFinance
@@ -43,7 +42,9 @@ namespace MaasOne.Finance.YahooFinance
         /// <value></value>
         /// <returns></returns>
         /// <remarks>By setting null/Nothing, a default instance will be setted and used for downloading.</remarks>
-        public ChartDownloadSettings Settings { get { return (ChartDownloadSettings)base.Settings; } set { base.SetSettings(value); } }
+        public ChartDownloadSettings Settings { get => (ChartDownloadSettings)base.Settings;
+	        set => base.SetSettings(value);
+        }
 
 
         /// <summary>
@@ -96,12 +97,10 @@ namespace MaasOne.Finance.YahooFinance
     {
 
 
-        private System.IO.MemoryStream mItem = null;
-        public System.IO.MemoryStream Item
-        {
-            get { return mItem; }
-        }
-        internal ChartResult(System.IO.MemoryStream item)
+        private System.IO.MemoryStream mItem;
+        public System.IO.MemoryStream Item => mItem;
+
+	    internal ChartResult(System.IO.MemoryStream item)
         {
             mItem = item;
         }
@@ -117,10 +116,10 @@ namespace MaasOne.Finance.YahooFinance
     {
 
         private string mID = string.Empty;
-        private Culture mCulture = null;
+        private Culture mCulture;
         private int mImageWidth = 300;
         private int mImageHeight = 180;
-        private bool mSimplifiedImage = false;
+        private bool mSimplifiedImage;
         private ChartImageSize mImageSize = ChartImageSize.Middle;
         private ChartTimeSpan mTimeSpan = ChartTimeSpan.c1D;
         private ChartType mType = ChartType.Line;
@@ -132,14 +131,8 @@ namespace MaasOne.Finance.YahooFinance
 
         public string ID
         {
-            get
-            {
-                return mID;
-            }
-            set
-            {
-                mID = value;
-            }
+            get => mID;
+	        set => mID = value;
         }
         /// <summary>
         /// Gets or sets the used culture for scale descriptions. Can only be used with Server [USA].
@@ -149,8 +142,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public Culture Culture
         {
-            get { return mCulture; }
-            set { mCulture = value; }
+            get => mCulture;
+	        set => mCulture = value;
         }
         /// <summary>
         /// Gets the width of the image.
@@ -160,8 +153,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public int ImageWidth
         {
-            get { return mImageWidth; }
-            set { mImageWidth = value; }
+            get => mImageWidth;
+	        set => mImageWidth = value;
         }
         /// <summary>
         /// Gets the height of the image
@@ -171,8 +164,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public int ImageHeight
         {
-            get { return mImageHeight; }
-            set { mImageHeight = value; }
+            get => mImageHeight;
+	        set => mImageHeight = value;
         }
         /// <summary>
         /// Gets a bool value if the image is simplified (1 day period; only ImageWidth, ImageHeight and Culture options available; Other options will be ignored)
@@ -182,8 +175,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public bool SimplifiedImage
         {
-            get { return mSimplifiedImage; }
-            set { mSimplifiedImage = value; }
+            get => mSimplifiedImage;
+	        set => mSimplifiedImage = value;
         }
         /// <summary>
         /// Gets the size of the image (only available if SimplifiedImage = FALSE)
@@ -193,8 +186,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public ChartImageSize ImageSize
         {
-            get { return mImageSize; }
-            set { mImageSize = value; }
+            get => mImageSize;
+	        set => mImageSize = value;
         }
         /// <summary>
         /// Gets the span of the reviewed period.
@@ -204,8 +197,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public ChartTimeSpan TimeSpan
         {
-            get { return mTimeSpan; }
-            set { mTimeSpan = value; }
+            get => mTimeSpan;
+	        set => mTimeSpan = value;
         }
         /// <summary>
         /// Gets the chart type of the image.
@@ -215,8 +208,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public ChartType Type
         {
-            get { return mType; }
-            set { mType = value; }
+            get => mType;
+	        set => mType = value;
         }
         /// <summary>
         /// Gets the scaling of the image.
@@ -226,8 +219,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public ChartScale Scale
         {
-            get { return mScale; }
-            set { mScale = value; }
+            get => mScale;
+	        set => mScale = value;
         }
         /// <summary>
         /// Gets the list of moving average indicators.
@@ -237,8 +230,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public List<MovingAverageInterval> MovingAverages
         {
-            get { return mMovingAverages; }
-            set { mMovingAverages = value; }
+            get => mMovingAverages;
+	        set => mMovingAverages = value;
         }
         /// <summary>
         /// Gets the list of exponential moving average indicators.
@@ -248,8 +241,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public List<MovingAverageInterval> ExponentialMovingAverages
         {
-            get { return mEMovingAverages; }
-            set { mEMovingAverages = value; }
+            get => mEMovingAverages;
+	        set => mEMovingAverages = value;
         }
         /// <summary>
         /// Gets the list of technical indicators.
@@ -259,8 +252,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public List<TechnicalIndicator> TechnicalIndicators
         {
-            get { return mTechnicalIndicators; }
-            set { mTechnicalIndicators = value; }
+            get => mTechnicalIndicators;
+	        set => mTechnicalIndicators = value;
         }
         /// <summary>
         /// Gets the ID list of all compared stocks/indices.
@@ -270,8 +263,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public List<string> ComparingIDs
         {
-            get { return mComparingIDs; }
-            set { mComparingIDs = value; }
+            get => mComparingIDs;
+	        set => mComparingIDs = value;
         }
 
         /// <summary>
@@ -303,8 +296,8 @@ namespace MaasOne.Finance.YahooFinance
 
             if (this.SimplifiedImage)
             {
-                url.Append("&width=" + this.ImageWidth.ToString());
-                url.Append("&height=" + this.ImageHeight.ToString());
+                url.Append("&width=" + this.ImageWidth);
+                url.Append("&height=" + this.ImageHeight);
             }
             else if (this.ImageSize != ChartImageSize.Small)
             {

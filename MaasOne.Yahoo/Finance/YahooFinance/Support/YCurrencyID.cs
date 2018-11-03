@@ -24,8 +24,6 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
 
 
@@ -54,7 +52,7 @@ namespace MaasOne.Finance.YahooFinance.Support
             {
                 if (mBaseCurrency != null && mDepCurrency != null)
                 {
-                    return string.Format("{0}{1}=X", mBaseCurrency.ID, mDepCurrency.ID);
+                    return $"{mBaseCurrency.ID}{mDepCurrency.ID}=X";
                 }
                 else
                 {
@@ -70,8 +68,8 @@ namespace MaasOne.Finance.YahooFinance.Support
         /// <remarks></remarks>
         public CurrencyInfo BaseCurrency
         {
-            get { return mBaseCurrency; }
-            set { mBaseCurrency = value; this.OnPropertyChanged("BaseCurrency"); }
+            get => mBaseCurrency;
+	        set { mBaseCurrency = value; this.OnPropertyChanged("BaseCurrency"); }
         }
         /// <summary>
         /// The currency of the dependent value
@@ -81,8 +79,8 @@ namespace MaasOne.Finance.YahooFinance.Support
         /// <remarks></remarks>
         public CurrencyInfo DepCurrency
         {
-            get { return mDepCurrency; }
-            set { mDepCurrency = value; this.OnPropertyChanged("DepCurrency"); }
+            get => mDepCurrency;
+	        set { mDepCurrency = value; this.OnPropertyChanged("DepCurrency"); }
         }
         /// <summary>
         /// The display name of the relation
@@ -96,7 +94,7 @@ namespace MaasOne.Finance.YahooFinance.Support
             {
                 if (mBaseCurrency != null && mDepCurrency != null)
                 {
-                    return string.Format("{0} to {1}", mBaseCurrency.Description, mDepCurrency.Description);
+                    return $"{mBaseCurrency.Description} to {mDepCurrency.Description}";
                 }
                 else
                 {
@@ -146,7 +144,7 @@ namespace MaasOne.Finance.YahooFinance.Support
 
         protected void OnPropertyChanged(string propertyName)
         {
-            if (this.PropertyChanged != null) this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>

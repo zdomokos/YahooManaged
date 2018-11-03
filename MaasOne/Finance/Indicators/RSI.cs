@@ -24,11 +24,7 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
 
 
 namespace MaasOne.Finance.Indicators
@@ -38,11 +34,11 @@ namespace MaasOne.Finance.Indicators
     public class RSI : ISingleValueIndicator
     {
 
-        public string Name { get { return "Relative Strength Index"; } }
-        public bool IsRealative { get { return true; } }
-        public double ScaleMaximum { get { return 100; } }
-        public double ScaleMinimum { get { return 0; } }
-        public int Period { get; set; }
+        public string Name => "Relative Strength Index";
+	    public bool IsRealative => true;
+	    public double ScaleMaximum => 100;
+	    public double ScaleMinimum => 0;
+	    public int Period { get; set; }
 
         public RSI()
         {

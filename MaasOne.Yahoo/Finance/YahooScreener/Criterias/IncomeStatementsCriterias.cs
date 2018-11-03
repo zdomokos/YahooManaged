@@ -23,13 +23,7 @@
 // **  limitations under the License.
 // ** 
 // ******************************************************************************
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
-using MaasOne.Xml;
+
 using MaasOne.Finance.YahooFinance;
 
 
@@ -44,23 +38,15 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class EPS_ttmCriteria : StockDigitCriteriaDefinition
 	{
 
-		public override string DisplayName {
-			get { return "EPS (ttm) Criteria"; }
-		}
+		public override string DisplayName => "EPS (ttm) Criteria";
 
-		public override string CriteriaName {
-			get { return "EPS (ttm)"; }
-		}
+		public override string CriteriaName => "EPS (ttm)";
 
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.IncomeStatements; }
-		}
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization,QuoteProperty.DilutedEPS}; }
-		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio}; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.IncomeStatements;
+
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization,QuoteProperty.DilutedEPS};
+
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio};
 
 		public EPS_ttmCriteria() : base("w")
 		{
@@ -74,23 +60,15 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class EPS_mrqCriteria : StockDigitCriteriaDefinition
 	{
 
-		public override string DisplayName {
-			get { return "EPS (mrq) Criteria"; }
-		}
+		public override string DisplayName => "EPS (mrq) Criteria";
 
-		public override string CriteriaName {
-			get { return "EPS (mrq)"; }
-		}
+		public override string CriteriaName => "EPS (mrq)";
 
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.IncomeStatements; }
-		}
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization}; }
-		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.EPS_mrq}; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.IncomeStatements;
+
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization};
+
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.EPS_mrq};
 
 		public EPS_mrqCriteria() : base("8i")
 		{
@@ -104,23 +82,15 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class Sales_ttmCriteria : StockDigitCriteriaDefinition
 	{
 
-		public override string DisplayName {
-			get { return "Sales (ttm) Criteria"; }
-		}
+		public override string DisplayName => "Sales (ttm) Criteria";
 
-		public override string CriteriaName {
-			get { return "Sales (ttm)"; }
-		}
+		public override string CriteriaName => "Sales (ttm)";
 
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.IncomeStatements; }
-		}
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization}; }
-		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.Sales_ttm}; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.IncomeStatements;
+
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization};
+
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.Sales_ttm};
 
 		public Sales_ttmCriteria() : base("0")
 		{
@@ -134,23 +104,15 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class EBITDACriteria : StockDigitCriteriaDefinition
 	{
 
-		public override string DisplayName {
-			get { return "EBITDA Criteria"; }
-		}
+		public override string DisplayName => "EBITDA Criteria";
 
-		public override string CriteriaName {
-			get { return "EBITDA"; }
-		}
+		public override string CriteriaName => "EBITDA";
 
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.IncomeStatements; }
-		}
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization,QuoteProperty.EBITDA}; }
-		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio}; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.IncomeStatements;
+
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization,QuoteProperty.EBITDA};
+
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio};
 
 		public EBITDACriteria() : base("t")
 		{
@@ -164,23 +126,15 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class GrossProfitCriteria : StockDigitCriteriaDefinition
 	{
 
-		public override string DisplayName {
-			get { return "Gross Profit Criteria"; }
-		}
+		public override string DisplayName => "Gross Profit Criteria";
 
-		public override string CriteriaName {
-			get { return "Gross Profit"; }
-		}
+		public override string CriteriaName => "Gross Profit";
 
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.IncomeStatements; }
-		}
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization}; }
-		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.GrossProfit}; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.IncomeStatements;
+
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization};
+
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.GrossProfit};
 
 		public GrossProfitCriteria() : base("8n")
 		{
@@ -194,23 +148,15 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class NetIncomeCriteria : StockDigitCriteriaDefinition
 	{
 
-		public override string DisplayName {
-			get { return "Net Income Criteria"; }
-		}
+		public override string DisplayName => "Net Income Criteria";
 
-		public override string CriteriaName {
-			get { return "Net Income"; }
-		}
+		public override string CriteriaName => "Net Income";
 
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.IncomeStatements; }
-		}
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization}; }
-		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.NetIncome}; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.IncomeStatements;
+
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization};
+
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.NetIncome};
 
 		public NetIncomeCriteria() : base("8p")
 		{
@@ -224,23 +170,15 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	public class OperatingIncomeCriteria : StockDigitCriteriaDefinition
 	{
 
-		public override string DisplayName {
-			get { return "Operating Income Criteria"; }
-		}
+		public override string DisplayName => "Operating Income Criteria";
 
-		public override string CriteriaName {
-			get { return "Operating Income"; }
-		}
+		public override string CriteriaName => "Operating Income";
 
-		public override StockScreenerCriteriaGroup CriteriaGroup {
-			get { return StockScreenerCriteriaGroup.IncomeStatements; }
-		}
-		public override QuoteProperty[] ProvidedQuoteProperties {
-			get { return new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization}; }
-		}
-		public override StockScreenerProperty[] ProvidedScreenerProperties {
-			get { return new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.OperatingIncome}; }
-		}
+		public override StockScreenerCriteriaGroup CriteriaGroup => StockScreenerCriteriaGroup.IncomeStatements;
+
+		public override QuoteProperty[] ProvidedQuoteProperties => new  QuoteProperty[] {QuoteProperty.Symbol,QuoteProperty.Name,QuoteProperty.LastTradePriceOnly,QuoteProperty.LastTradeTime,QuoteProperty.MarketCapitalization};
+
+		public override StockScreenerProperty[] ProvidedScreenerProperties => new  StockScreenerProperty[] {StockScreenerProperty.ReturnOnEquity,StockScreenerProperty.ReturnOnAssets,StockScreenerProperty.ForwardPriceToEarningsRatio,StockScreenerProperty.OperatingIncome};
 
 		public OperatingIncomeCriteria() : base("9j")
 		{

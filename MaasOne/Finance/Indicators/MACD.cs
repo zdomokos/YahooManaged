@@ -24,11 +24,7 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
 
 
 namespace MaasOne.Finance.Indicators
@@ -38,13 +34,9 @@ namespace MaasOne.Finance.Indicators
 	public class MACD : EMA
 	{
 
-		public override string Name {
-			get { return "Moving Average Convergence/Divergence"; }
-		}
+		public override string Name => "Moving Average Convergence/Divergence";
 
-		public override bool IsRealative {
-			get { return true; }
-		}
+		public override bool IsRealative => true;
 
 		public int PeriodFast { get; set; }
 		public int PeriodSlow { get; set; }

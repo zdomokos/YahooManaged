@@ -25,11 +25,9 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 using MaasOne.Xml;
 using System.Threading;
 using System.ComponentModel;
-using System.Xml.Linq;
 
 
 namespace MaasOne.Finance.YahooFinance
@@ -59,7 +57,9 @@ namespace MaasOne.Finance.YahooFinance
         public event AsyncIndustriesDownloadCompletedEventHandler AsyncIndustriesDownloadCompleted;
         public delegate void AsyncIndustriesDownloadCompletedEventHandler(Base.DownloadClient<MarketResult> sender, IndustryDownloadCompletedEventArgs ea);
 
-        public MarketDownloadSettings Settings { get { return (MarketDownloadSettings)base.Settings; } set { base.SetSettings(value); } }
+        public MarketDownloadSettings Settings { get => (MarketDownloadSettings)base.Settings;
+	        set => base.SetSettings(value);
+        }
 
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace MaasOne.Finance.YahooFinance
                 if (AsyncSectorsDownloadCompleted != null)
                 {
                     AsyncOperation asyncOp = AsyncOperationManager.CreateOperation(this);
-                    asyncOp.Post(new SendOrPostCallback(delegate(object obj) { AsyncSectorsDownloadCompleted(this, (SectorsDownloadCompletedEventArgs)obj); }), args);
+                    asyncOp.Post(delegate(object obj) { AsyncSectorsDownloadCompleted(this, (SectorsDownloadCompletedEventArgs)obj); }, args);
                 }
                 return args;
 
@@ -144,7 +144,7 @@ namespace MaasOne.Finance.YahooFinance
                 if (AsyncIndustriesDownloadCompleted != null)
                 {
                     AsyncOperation asyncOp = AsyncOperationManager.CreateOperation(this);
-                    asyncOp.Post(new SendOrPostCallback(delegate(object obj) { AsyncIndustriesDownloadCompleted(this, (IndustryDownloadCompletedEventArgs)obj); }), args);                   
+                    asyncOp.Post(delegate(object obj) { AsyncIndustriesDownloadCompleted(this, (IndustryDownloadCompletedEventArgs)obj); }, args);                   
                 }
                 return args;
             }
@@ -205,9 +205,8 @@ namespace MaasOne.Finance.YahooFinance
                             {
                                 if (att.Name.LocalName == FinanceHelper.NameIndustryID)
                                 {
-                                    int i = 0;
-                                    int.TryParse(att.Value, out i);
-                                    if (i != 0)
+									int.TryParse(att.Value, out int i);
+									if (i != 0)
                                     {
                                         ind.ID = (Industry)i;
                                     }
@@ -238,9 +237,8 @@ namespace MaasOne.Finance.YahooFinance
                     {
                         if (att.Name.LocalName == FinanceHelper.NameIndustryID)
                         {
-                            int i = 0;
-                            int.TryParse(att.Value, out i);
-                            if (i != 0)
+							int.TryParse(att.Value, out int i);
+							if (i != 0)
                             {
                                 ind.ID = (Industry)i;
                             }
@@ -306,13 +304,11 @@ namespace MaasOne.Finance.YahooFinance
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public SectorResponse Response
-        {
-            get { return (SectorResponse)base.Response; }
-        }
-        public MarketDownloadSettings Settings { get { return (MarketDownloadSettings)base.Settings; } }
+        public SectorResponse Response => (SectorResponse)base.Response;
 
-        internal SectorsDownloadCompletedEventArgs(object userArgs, SectorResponse resp, MarketDownloadSettings settings)
+	    public MarketDownloadSettings Settings => (MarketDownloadSettings)base.Settings;
+
+	    internal SectorsDownloadCompletedEventArgs(object userArgs, SectorResponse resp, MarketDownloadSettings settings)
             : base(userArgs, resp, settings)
         {
         }
@@ -330,11 +326,9 @@ namespace MaasOne.Finance.YahooFinance
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public SectorResult Result
-        {
-            get { return (SectorResult)base.Result; }
-        }
-        internal SectorResponse(Base.ConnectionInfo info, SectorResult result)
+        public SectorResult Result => (SectorResult)base.Result;
+
+	    internal SectorResponse(Base.ConnectionInfo info, SectorResult result)
             : base(info, result)
         {
         }
@@ -349,12 +343,10 @@ namespace MaasOne.Finance.YahooFinance
     public class SectorResult : MarketResult
     {
 
-        private SectorData[] mItems = null;
-        public SectorData[] Items
-        {
-            get { return mItems; }
-        }
-        internal SectorResult(SectorData[] items)
+        private SectorData[] mItems;
+        public SectorData[] Items => mItems;
+
+	    internal SectorResult(SectorData[] items)
         {
             mItems = items;
         }
@@ -380,8 +372,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public Sector ID
         {
-            get { return mID; }
-            set
+            get => mID;
+	        set
             {
                 mID = value;
                 mName = mID.ToString().Replace("_", " ");
@@ -393,11 +385,9 @@ namespace MaasOne.Finance.YahooFinance
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public string Name
-        {
-            get { return mName; }
-        }
-        /// <summary>
+        public string Name => mName;
+
+	    /// <summary>
         /// The industries of the sector
         /// </summary>
         /// <value></value>
@@ -405,14 +395,14 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public List<IndustryData> Industries
         {
-            get { return mIndustries; }
-            set { mIndustries = value; }
-        }
+            get => mIndustries;
+		    set => mIndustries = value;
+	    }
 
 
         public static string GetSectorName(Sector sect)
         {
-            return YahooLocalizationManager.GetValue("fin_yf_sector_" + sect.ToString());
+            return YahooLocalizationManager.GetValue("fin_yf_sector_" + sect);
         }
 
     }
@@ -433,13 +423,11 @@ namespace MaasOne.Finance.YahooFinance
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public IndustryResponse Response
-        {
-            get { return (IndustryResponse)base.Response; }
-        }
-        public MarketDownloadSettings Settings { get { return (MarketDownloadSettings)base.Settings; } }
+        public IndustryResponse Response => (IndustryResponse)base.Response;
 
-        internal IndustryDownloadCompletedEventArgs(object userArgs, IndustryResponse resp, MarketDownloadSettings settings)
+	    public MarketDownloadSettings Settings => (MarketDownloadSettings)base.Settings;
+
+	    internal IndustryDownloadCompletedEventArgs(object userArgs, IndustryResponse resp, MarketDownloadSettings settings)
             : base(userArgs, resp, settings)
         {
         }
@@ -457,8 +445,9 @@ namespace MaasOne.Finance.YahooFinance
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public IndustryResult Result { get { return (IndustryResult)base.Result; } }
-        internal IndustryResponse(Base.ConnectionInfo info, IndustryResult result)
+        public IndustryResult Result => (IndustryResult)base.Result;
+
+	    internal IndustryResponse(Base.ConnectionInfo info, IndustryResult result)
             : base(info, result)
         {
         }
@@ -469,12 +458,10 @@ namespace MaasOne.Finance.YahooFinance
     /// </summary>
     public class IndustryResult : MarketResult
     {
-        private IndustryData[] mItems = null;
-        public IndustryData[] Items
-        {
-            get { return mItems; }
-        }
-        internal IndustryResult(IndustryData[] items)
+        private IndustryData[] mItems;
+        public IndustryData[] Items => mItems;
+
+	    internal IndustryResult(IndustryData[] items)
         {
             mItems = items;
         }
@@ -517,7 +504,7 @@ namespace MaasOne.Finance.YahooFinance
 
         public static string GetIndustryName(Industry ind)
         {
-            return YahooLocalizationManager.GetValue("fin_yf_industry_" + ind.ToString());
+            return YahooLocalizationManager.GetValue("fin_yf_industry_" + ind);
         }
 
 
@@ -537,8 +524,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public Sector[] Sectors
         {
-            get { return mSectors; }
-            set
+            get => mSectors;
+	        set
             {
                 mSectors = value;
                 mIndustries = null;
@@ -553,8 +540,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public Industry[] Industries
         {
-            get { return mIndustries; }
-            set
+            get => mIndustries;
+	        set
             {
                 mIndustries = value;
                 mSectors = null;

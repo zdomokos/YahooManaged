@@ -1,4 +1,4 @@
-// ******************************************************************************
+﻿// ******************************************************************************
 // ** 
 // **  Yahoo! Managed
 // **  Written by Marius Häusler 2012
@@ -23,15 +23,9 @@
 // **  limitations under the License.
 // ** 
 // ******************************************************************************
-using System;
-using System.Collections;
+
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
 using MaasOne.Xml;
-using MaasOne;
-using System.Xml.Linq;
 
 
 namespace MaasOne.Weather.YahooWeather
@@ -40,7 +34,9 @@ namespace MaasOne.Weather.YahooWeather
     public partial class LocationIDSearchDownload : Base.DownloadClient<LocationIDSearchResult>
     {
 
-        public LocationIDSearchDownloadSettings Settings { get { return (LocationIDSearchDownloadSettings)base.Settings; } set { base.SetSettings(value); } }
+        public LocationIDSearchDownloadSettings Settings { get => (LocationIDSearchDownloadSettings)base.Settings;
+	        set => base.SetSettings(value);
+        }
 
         public LocationIDSearchDownload()
         {
@@ -80,12 +76,10 @@ namespace MaasOne.Weather.YahooWeather
 
     public class LocationIDSearchResult
     {
-        private LocationIDData[] mItems = null;
-        public LocationIDData[] Items
-        {
-            get { return mItems; }
-        }
-        internal LocationIDSearchResult(LocationIDData[] items)
+        private LocationIDData[] mItems;
+        public LocationIDData[] Items => mItems;
+
+	    internal LocationIDSearchResult(LocationIDData[] items)
         {
             mItems = items;
         }
@@ -120,7 +114,7 @@ namespace MaasOne.Weather.YahooWeather
                 for (int i = 0; i <= lst.Count - 1; i++)
                 {
                     whereClause.Append('"');
-                    whereClause.Append(lst[i].ToString());
+                    whereClause.Append(lst[i]);
                     whereClause.Append('"');
                     if (i != lst.Count - 1)
                         whereClause.Append(',');

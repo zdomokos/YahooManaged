@@ -25,7 +25,6 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 
 namespace MaasOne.Finance.YahooFinance.Support
@@ -111,18 +110,12 @@ namespace MaasOne.Finance.YahooFinance.Support
         private void DownloadQuotesAsync_Completed(Base.DownloadClient<QuotesResult> sender, Base.DownloadCompletedEventArgs<QuotesResult> e)
         {
             AsyncDownloadArgs dlArgs = (AsyncDownloadArgs)e.UserArgs;
-            if (AsyncRateDownloadCompleted != null)
-            {
-                AsyncRateDownloadCompleted(this, new ExchangeRateDownloadCompletedEventArgs(dlArgs.UserArgs, this.ToResponse(e.Response, dlArgs.Currencies)));
-            }
+            AsyncRateDownloadCompleted?.Invoke(this, new ExchangeRateDownloadCompletedEventArgs(dlArgs.UserArgs, this.ToResponse(e.Response, dlArgs.Currencies)));
         }
         private void DownloadHistQuotesAsync_Completed(Base.DownloadClient<HistQuotesResult> sender, Base.DownloadCompletedEventArgs<HistQuotesResult> e)
         {
             AsyncDownloadArgs dlArgs = (AsyncDownloadArgs)e.UserArgs;
-            if (AsyncRateDownloadCompleted != null)
-            {
-                AsyncRateDownloadCompleted(this, new ExchangeRateDownloadCompletedEventArgs(dlArgs.UserArgs, this.ToResponse(e.Response, dlArgs.Currencies)));
-            }
+            AsyncRateDownloadCompleted?.Invoke(this, new ExchangeRateDownloadCompletedEventArgs(dlArgs.UserArgs, this.ToResponse(e.Response, dlArgs.Currencies)));
         }
 
         private ExchangeRateResponse ToResponse(Base.Response<QuotesResult> resp, YCurrencyID[] currencies)
@@ -208,18 +201,12 @@ namespace MaasOne.Finance.YahooFinance.Support
     public class ExchangeRateResult
     {
         private YCurrencyID[] mCurrencies;
-        public YCurrencyID[] Currencies
-        {
-            get { return mCurrencies; }
-        }
+        public YCurrencyID[] Currencies => mCurrencies;
 
-        private ExchangeRateData[] mItems = null;
-        public ExchangeRateData[] Items
-        {
-            get { return mItems; }
-        }
+	    private ExchangeRateData[] mItems;
+        public ExchangeRateData[] Items => mItems;
 
-        internal ExchangeRateResult(ExchangeRateData[] items, YCurrencyID[] curs)
+	    internal ExchangeRateResult(ExchangeRateData[] items, YCurrencyID[] curs)
         {
             mItems = items;
         }
@@ -243,8 +230,8 @@ namespace MaasOne.Finance.YahooFinance.Support
         /// <remarks></remarks>
         public YCurrencyID CurrencyRelation
         {
-            get { return mCurrencyRelation; }
-            set
+            get => mCurrencyRelation;
+	        set
             {
                 if (value != null)
                 {
@@ -262,12 +249,9 @@ namespace MaasOne.Finance.YahooFinance.Support
         /// <value></value>
         /// <returns>Value of LastTradePriceOnly of quote values</returns>
         /// <remarks></remarks>
-        public double DependencyValue
-        {
-            get { return base.LastTradePriceOnly; }
-        }
+        public double DependencyValue => base.LastTradePriceOnly;
 
-        /// <summary>
+	    /// <summary>
         /// Default constructor
         /// </summary>
         /// <remarks></remarks>

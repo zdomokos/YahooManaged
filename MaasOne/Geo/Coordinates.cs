@@ -1,4 +1,4 @@
-// ******************************************************************************
+﻿// ******************************************************************************
 // ** 
 // **  MaasOne WebServices
 // **  Written by Marius Häusler 2012
@@ -23,13 +23,6 @@
 // **  limitations under the License.
 // ** 
 // ******************************************************************************
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
-
 
 namespace MaasOne.Geo
 {
@@ -43,13 +36,13 @@ namespace MaasOne.Geo
 
         public double Longitude
         {
-            get { return mLongitude; }
-            set { mLongitude = value; }
+            get => mLongitude;
+	        set => mLongitude = value;
         }
         public double Latitude
         {
-            get { return mLatitude; }
-            set { mLatitude = value; }
+            get => mLatitude;
+	        set => mLatitude = value;
         }
 
         public Coordinates(double longitude, double latitude)
@@ -60,7 +53,7 @@ namespace MaasOne.Geo
 
         public override string ToString()
         {
-            return this.Latitude.ToString() + " " + this.Longitude;
+            return this.Latitude + " " + this.Longitude;
         }
 
         public static bool operator ==(Coordinates obj1, Coordinates obj2)
@@ -97,8 +90,8 @@ namespace MaasOne.Geo
         private Coordinates mNorthEast;
         public Coordinates SouthWest
         {
-            get { return mSouthWest; }
-            set { mSouthWest = value; }
+            get => mSouthWest;
+	        set => mSouthWest = value;
         }
         public Coordinates SouthEast
         {
@@ -116,8 +109,8 @@ namespace MaasOne.Geo
         }
         public Coordinates NorthEast
         {
-            get { return mNorthEast; }
-            set { mNorthEast = value; }
+            get => mNorthEast;
+	        set => mNorthEast = value;
         }
         public Coordinates NorthWest
         {

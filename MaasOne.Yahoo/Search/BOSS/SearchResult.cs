@@ -1,4 +1,4 @@
-// ******************************************************************************
+﻿// ******************************************************************************
 // ** 
 // **  Yahoo! Managed
 // **  Written by Marius Häusler 2012
@@ -23,14 +23,6 @@
 // **  limitations under the License.
 // ** 
 // ******************************************************************************
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
-using MaasOne.Xml;
-
 
 namespace MaasOne.Search.BOSS
 {
@@ -38,11 +30,11 @@ namespace MaasOne.Search.BOSS
 
     public class SearchResult : SearchBaseResult
     {
-        private SearchDownloadSettings mSettings = null;
-        public SearchDownloadSettings Settings { get { return mSettings; } }
-        public SearchDataContainer[] Containers { get { return (SearchDataContainer[])base.Containers; } }
+        private SearchDownloadSettings mSettings;
+        public SearchDownloadSettings Settings => mSettings;
+	    public SearchDataContainer[] Containers => (SearchDataContainer[])base.Containers;
 
-        internal SearchResult(SearchDataContainer[] items, SearchDownloadSettings settings)
+	    internal SearchResult(SearchDataContainer[] items, SearchDownloadSettings settings)
             : base(items)
         {
             mSettings = settings;
@@ -54,13 +46,10 @@ namespace MaasOne.Search.BOSS
     {
 
         private SearchResultType mType;
-        public SearchResultType Type
-        {
-            get { return mType; }
-        }
-        public SearchData[] Items { get { return (SearchData[])base.Items; ; } }
+        public SearchResultType Type => mType;
+	    public SearchData[] Items => (SearchData[])base.Items;
 
-        protected SearchDataContainer(SearchData[] results, SearchResultType type, int start, int count, long total)
+	    protected SearchDataContainer(SearchData[] results, SearchResultType type, int start, int count, long total)
             : base(results, start, count, total)
         {
             mType = type;
@@ -73,12 +62,9 @@ namespace MaasOne.Search.BOSS
     public class WebSearchDataContainer : SearchDataContainer
     {
 
-        public WebSearchData[] Items
-        {
-            get { return (WebSearchData[])base.Items; }
-        }
+        public WebSearchData[] Items => (WebSearchData[])base.Items;
 
-        internal WebSearchDataContainer(WebSearchData[] results, int start, int count, long total)
+	    internal WebSearchDataContainer(WebSearchData[] results, int start, int count, long total)
             : base(results, SearchResultType.Web, start, count, total)
         {
         }
@@ -90,12 +76,9 @@ namespace MaasOne.Search.BOSS
     public class ImageSearchDataContainer : SearchDataContainer
     {
 
-        public ImageSearchData[] Items
-        {
-            get { return (ImageSearchData[])base.Items; }
-        }
+        public ImageSearchData[] Items => (ImageSearchData[])base.Items;
 
-        internal ImageSearchDataContainer(ImageSearchData[] results, int start, int count, long total)
+	    internal ImageSearchDataContainer(ImageSearchData[] results, int start, int count, long total)
             : base(results, SearchResultType.Images, start, count, total)
         {
         }
@@ -107,12 +90,9 @@ namespace MaasOne.Search.BOSS
     public class NewsSearchDataContainer : SearchDataContainer
     {
 
-        public NewsSearchResult[] Items
-        {
-            get { return (NewsSearchResult[])base.Items; }
-        }
+        public NewsSearchResult[] Items => (NewsSearchResult[])base.Items;
 
-        internal NewsSearchDataContainer(NewsSearchResult[] results, int start, int count, long total)
+	    internal NewsSearchDataContainer(NewsSearchResult[] results, int start, int count, long total)
             : base(results, SearchResultType.News, start, count, total)
         {
         }
@@ -122,12 +102,9 @@ namespace MaasOne.Search.BOSS
     public class SpellingSearchDataContainer : SearchDataContainer
     {
 
-        public SpellingSearchData[] Items
-        {
-            get { return (SpellingSearchData[])base.Items; }
-        }
+        public SpellingSearchData[] Items => (SpellingSearchData[])base.Items;
 
-        internal SpellingSearchDataContainer(SpellingSearchData[] results, int start, int count, long total)
+	    internal SpellingSearchDataContainer(SpellingSearchData[] results, int start, int count, long total)
             : base(results, SearchResultType.Spelling, start, count, total)
         {
         }

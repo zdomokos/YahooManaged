@@ -24,8 +24,6 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 
 namespace MaasOne
@@ -33,17 +31,12 @@ namespace MaasOne
     public class Link
     {
         private string mTitle = string.Empty;
-        private Uri mLink = null;
-        public string Title
-        {
-            get { return mTitle; }
-        }
-        public Uri Url
-        {
-            get { return mLink; }
-        }
+        private Uri mLink;
+        public string Title => mTitle;
 
-        public Link(string title, Uri lnk)
+	    public Uri Url => mLink;
+
+	    public Link(string title, Uri lnk)
         {
             mTitle = title;
             mLink = lnk;

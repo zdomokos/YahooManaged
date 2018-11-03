@@ -24,12 +24,10 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Text;
 using MaasOne.Xml;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Xml.Linq;
 
 
 namespace MaasOne.Finance.YahooFinance
@@ -41,7 +39,9 @@ namespace MaasOne.Finance.YahooFinance
     public partial class IDSearchDownload : Base.DownloadClient<IDSearchResult>
     {
 
-        public IDSearchBaseSettings<IDSearchResult> Settings { get { return (IDSearchBaseSettings<IDSearchResult>)base.Settings; } set { base.SetSettings(value); } }
+        public IDSearchBaseSettings<IDSearchResult> Settings { get => (IDSearchBaseSettings<IDSearchResult>)base.Settings;
+	        set => base.SetSettings(value);
+        }
 
         /// <summary>
         /// Default constructor
@@ -162,11 +162,10 @@ namespace MaasOne.Finance.YahooFinance
                         if (navigationNode != null)
                         {
                             string s;
-                            int t;
 
 
-                            s = XPath.GetElement("li[1]/a/em", navigationNode).Value;
-                            if (int.TryParse(s.Substring(s.LastIndexOf("(") + 1).Replace(")", "").Trim(), out t))
+							s = XPath.GetElement("li[1]/a/em", navigationNode).Value;
+							if (int.TryParse(s.Substring(s.LastIndexOf("(") + 1).Replace(")", "").Trim(), out int t))
                             {
                                 resultsCount.Add(SecurityType.Any, t);
                             }
@@ -456,20 +455,18 @@ namespace MaasOne.Finance.YahooFinance
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public IDSearchData[] Items
-        {
-            get { return (IDSearchData[])base.Items; }
-        }
-        private int mFromIndex;
-        public int FromIndex { get { return mFromIndex; } }
-        private int mToIndex;
-        public int ToIndex { get { return mToIndex; } }
-        private int mOverallResults;
-        public int ToOverallResults { get { return mOverallResults; } }
-        private Dictionary<SecurityType, int> mResultsCount = null;
-        public Dictionary<SecurityType, int> ResultsCount { get { return mResultsCount; } }
+        public IDSearchData[] Items => (IDSearchData[])base.Items;
 
-        internal IDSearchResult(IDSearchData[] items, int fromIndex, int toIndex, int overallResults, Dictionary<SecurityType, int> resultsCount)
+	    private int mFromIndex;
+        public int FromIndex => mFromIndex;
+	    private int mToIndex;
+        public int ToIndex => mToIndex;
+	    private int mOverallResults;
+        public int ToOverallResults => mOverallResults;
+	    private Dictionary<SecurityType, int> mResultsCount;
+        public Dictionary<SecurityType, int> ResultsCount => mResultsCount;
+
+	    internal IDSearchResult(IDSearchData[] items, int fromIndex, int toIndex, int overallResults, Dictionary<SecurityType, int> resultsCount)
             : base(items)
         {
             mFromIndex = fromIndex;
@@ -490,8 +487,8 @@ namespace MaasOne.Finance.YahooFinance
         private string mName = string.Empty;
         private SecurityType mType = SecurityType.Any;
         private string mExchange = string.Empty;
-        private string mIndustry = null;
-        private ISIN mISIN = null;
+        private string mIndustry;
+        private ISIN mISIN;
 
         /// <summary>
         /// The name of the stock, index, etc.
@@ -499,46 +496,35 @@ namespace MaasOne.Finance.YahooFinance
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public string Name
-        {
-            get { return mName; }
-        }
-        /// <summary>
+        public string Name => mName;
+
+	    /// <summary>
         /// The type of the stock, index, etc.
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public SecurityType Type
-        {
-            get { return mType; }
-        }
-        /// <summary>
+        public SecurityType Type => mType;
+
+	    /// <summary>
         /// The stock exchange of the stock, index, etc.
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public string Exchange
-        {
-            get { return mExchange; }
-        }
-        /// <summary>
+        public string Exchange => mExchange;
+
+	    /// <summary>
         /// The industry name of the stock, index, etc.
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public string Industry
-        {
-            get { return mIndustry; }
-        }
-        public ISIN ISIN
-        {
-            get { return mISIN; }
-        }
+        public string Industry => mIndustry;
 
-        internal IDSearchData(string name, string id, string type, string exchange, string industry, ISIN isin)
+	    public ISIN ISIN => mISIN;
+
+	    internal IDSearchData(string name, string id, string type, string exchange, string industry, ISIN isin)
             : base(id)
         {
             mName = name;
@@ -657,8 +643,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public YahooServer Server
         {
-            get { return mServer; }
-            set { mServer = value; }
+            get => mServer;
+	        set => mServer = value;
         }
         /// <summary>
         /// The search will be limited to a special type or all
@@ -668,8 +654,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public SecurityType Type
         {
-            get { return mType; }
-            set { mType = value; }
+            get => mType;
+	        set => mType = value;
         }
         /// <summary>
         /// The search will be limited to a special market or all
@@ -679,8 +665,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks></remarks>
         public FinancialMarket Markets
         {
-            get { return mMarkets; }
-            set { mMarkets = value; }
+            get => mMarkets;
+	        set => mMarkets = value;
         }
         /// <summary>
         /// The ranking property of the result list
@@ -690,8 +676,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks>Will be ignored if "GermanServer" is True</remarks>
         public SecurityRankProperty RankedBy
         {
-            get { return mRankedBy; }
-            set { mRankedBy = value; }
+            get => mRankedBy;
+	        set => mRankedBy = value;
         }
         /// <summary>
         /// The ranking direction of the result list
@@ -701,8 +687,8 @@ namespace MaasOne.Finance.YahooFinance
         /// <remarks>Will be ignored if "GermanServer" is True</remarks>
         public System.ComponentModel.ListSortDirection RankingDirection
         {
-            get { return mRankingDirection; }
-            set { mRankingDirection = value; }
+            get => mRankingDirection;
+	        set => mRankingDirection = value;
         }
         public int ResultsIndex { get; set; }
 
@@ -795,7 +781,7 @@ namespace MaasOne.Finance.YahooFinance
             url.Append(this.ResultsIndex);
 
             return url.ToString();
-            string whereClause = string.Format("url=\"{0}\" AND xpath='//div[@id=\"yfi_sym_lookup\"]'", url.ToString());
+            string whereClause = $"url=\"{url}\" AND xpath='//div[@id=\"yfi_sym_lookup\"]'";
             return MyHelper.YqlUrl("*", "html", whereClause, null, false);
         }
 
@@ -830,7 +816,7 @@ namespace MaasOne.Finance.YahooFinance
         }
         protected override string GetUrl()
         {
-            return MyHelper.YqlUrl("*", "html", string.Format("url='{0}' AND xpath='//html/body/table/tr'", this.Index.URL), null, false);
+            return MyHelper.YqlUrl("*", "html", $"url='{this.Index.URL}' AND xpath='//html/body/table/tr'", null, false);
         }
 
         public override object Clone()

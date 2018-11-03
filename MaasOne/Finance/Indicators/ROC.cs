@@ -23,12 +23,8 @@
 // **  limitations under the License.
 // ** 
 // ******************************************************************************
-using System;
-using System.Collections;
+
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
 
 
 namespace MaasOne.Finance.Indicators
@@ -39,11 +35,11 @@ namespace MaasOne.Finance.Indicators
     {
 
 
-        public string Name { get { return "Rate of Change"; } }
-        public bool IsRealative { get { return true; } }
-        public double ScaleMaximum { get { return 100; } }
-        public double ScaleMinimum { get { return -100; } }
-        public int Period { get; set; }
+        public string Name => "Rate of Change";
+	    public bool IsRealative => true;
+	    public double ScaleMaximum => 100;
+	    public double ScaleMinimum => -100;
+	    public int Period { get; set; }
 
         public ROC()
         {

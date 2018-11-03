@@ -25,9 +25,7 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 using MaasOne.Xml;
-using System.Xml.Linq;
 
 
 namespace MaasOne.Finance.YahooFinance
@@ -42,7 +40,9 @@ namespace MaasOne.Finance.YahooFinance
     public partial class FuturesChainDownload : Base.DownloadClient<FuturesResult>
     {
 
-        public FuturesChainDownloadSettings Settings { get { return (FuturesChainDownloadSettings)base.Settings; } set { base.SetSettings(value); } }
+        public FuturesChainDownloadSettings Settings { get => (FuturesChainDownloadSettings)base.Settings;
+	        set => base.SetSettings(value);
+        }
 
         /// <summary>
         /// Default constructor
@@ -108,16 +108,16 @@ namespace MaasOne.Finance.YahooFinance
                                 try
                                 {
                                     FutureData data = new FutureData();
-                                    double d; XElement tempNode = null;
+									XElement tempNode = null;
 
-                                    tempNode = XPath.GetElement("/td[1]", node);
+									tempNode = XPath.GetElement("/td[1]", node);
                                     if (tempNode != null) data.SetID(tempNode.Value);
 
                                     tempNode = XPath.GetElement("/td[2]", node);
                                     if (tempNode != null) data.Name = tempNode.Value;
 
                                     tempNode = XPath.GetElement("/td[3]/b", node);
-                                    if (tempNode != null && double.TryParse(tempNode.Value, System.Globalization.NumberStyles.Any, ci, out d)) data.LastTradePriceOnly = d;
+                                    if (tempNode != null && double.TryParse(tempNode.Value, System.Globalization.NumberStyles.Any, ci, out double d)) data.LastTradePriceOnly = d;
 
                                     tempNode = XPath.GetElement("/td[3]/nobr/small", node);
                                     if (tempNode != null) data.LastTradeTime = tempNode.Value;
@@ -152,12 +152,12 @@ namespace MaasOne.Finance.YahooFinance
     {
 
         private string mID = string.Empty;
-        public string ID { get { return mID; } }
+        public string ID => mID;
 
-        private FutureData[] mItems = null;
-        public FutureData[] Items { get { return mItems; } }
+	    private FutureData[] mItems;
+        public FutureData[] Items => mItems;
 
-        internal FuturesResult(string id, FutureData[] items)
+	    internal FuturesResult(string id, FutureData[] items)
         {
             mID = id;
             mItems = items;
@@ -174,8 +174,9 @@ namespace MaasOne.Finance.YahooFinance
     public class FutureData : ISettableID
     {
         private string mID = string.Empty;
-        public string ID { get { return mID; } }
-        public void SetID(string value)
+        public string ID => mID;
+
+	    public void SetID(string value)
         {
             mID = value;
         }
@@ -211,7 +212,7 @@ namespace MaasOne.Finance.YahooFinance
         protected override string GetUrl()
         {
             if (this.ID == string.Empty) { throw new ArgumentException("ID is empty.", "ID"); }
-            return string.Format("http://finance.yahoo.com/q/fc?s={0}", this.ID);
+            return $"http://finance.yahoo.com/q/fc?s={this.ID}";
         }
 
         public override object Clone()

@@ -24,8 +24,6 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Net;
 
 
@@ -40,8 +38,8 @@ namespace MaasOne.Base
 
 
         private Exception mException;
-        private int mTimeout = 0;
-        private int mSizeInBytes = 0;
+        private int mTimeout;
+        private int mSizeInBytes;
         private DateTime mStartTime;
         private DateTime mEndTime;
 
@@ -83,61 +81,49 @@ namespace MaasOne.Base
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public Exception Exception
-        {
-            get { return mException; }
-        }
-        /// <summary>
+        public Exception Exception => mException;
+
+	    /// <summary>
         /// The size of downloaded data in bytes.
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public int SizeInBytes
-        {
-            get { return mSizeInBytes; }
-        }
-        /// <summary>
+        public int SizeInBytes => mSizeInBytes;
+
+	    /// <summary>
         /// The setted timeout for download process in milliseconds.
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public int Timeout
-        {
-            get { return mTimeout; }
-        }
-        /// <summary>
+        public int Timeout => mTimeout;
+
+	    /// <summary>
         /// The start time of download process, independent to individual preparation of passed parameters for start downloading.
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public DateTime StartTime
-        {
-            get { return mStartTime; }
-        }
-        /// <summary>
+        public DateTime StartTime => mStartTime;
+
+	    /// <summary>
         /// The end time of the download process, independent to post-processing actions like parsing.
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public DateTime EndTime
-        {
-            get { return mEndTime; }
-        }
-        /// <summary>
+        public DateTime EndTime => mEndTime;
+
+	    /// <summary>
         /// The time span of start and end time.
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public TimeSpan TimeSpan
-        {
-            get { return mTimeSpan; }
-        }
-        public double KBPerSecond
+        public TimeSpan TimeSpan => mTimeSpan;
+
+	    public double KBPerSecond
         {
             get
             {

@@ -24,13 +24,8 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
 using MaasOne.Xml;
-using System.Xml.Linq;
 
 
 namespace MaasOne.Geo.PlaceFinder
@@ -42,7 +37,9 @@ namespace MaasOne.Geo.PlaceFinder
 
 
 
-        public PlaceFinderDownloadSettings Settings { get { return (PlaceFinderDownloadSettings)base.Settings; } set { base.SetSettings(value); } }
+        public PlaceFinderDownloadSettings Settings { get => (PlaceFinderDownloadSettings)base.Settings;
+	        set => base.SetSettings(value);
+        }
 
         public PlaceFinderDownload()
         {
@@ -405,18 +402,15 @@ namespace MaasOne.Geo.PlaceFinder
 
     public class PlaceFinderResult
     {
-        private PlaceFinderDownloadSettings mSettings = null;
-        public PlaceFinderDownloadSettings Settings { get { return mSettings; } }
+        private PlaceFinderDownloadSettings mSettings;
+        public PlaceFinderDownloadSettings Settings => mSettings;
 
-        private AddressQualitiy mBestQuality;
-        public AddressQualitiy BestQuality
-        {
-            get { return mBestQuality; }
-        }
-        private PlaceFinderData[] mItems = null;
-        public PlaceFinderData[] Items { get { return mItems; } }
+	    private AddressQualitiy mBestQuality;
+        public AddressQualitiy BestQuality => mBestQuality;
+	    private PlaceFinderData[] mItems;
+        public PlaceFinderData[] Items => mItems;
 
-        internal PlaceFinderResult(PlaceFinderData[] items, AddressQualitiy bestQual, PlaceFinderDownloadSettings settings)
+	    internal PlaceFinderResult(PlaceFinderData[] items, AddressQualitiy bestQual, PlaceFinderDownloadSettings settings)
         {
             mItems = items;
             mBestQuality = bestQual;
@@ -460,8 +454,8 @@ namespace MaasOne.Geo.PlaceFinder
         public string UniqueZipCode { get; set; }
         string IPlace.ZipCode
         {
-            get { return UniqueZipCode; }
-            set { UniqueZipCode = value; }
+            get => UniqueZipCode;
+	        set => UniqueZipCode = value;
         }
         public string Hash { get; set; }
         public long WOEID { get; set; }
@@ -491,7 +485,7 @@ namespace MaasOne.Geo.PlaceFinder
             }
             else if (this.WOEID != 0)
             {
-                res = "WOEID: " + this.WOEID.ToString();
+                res = "WOEID: " + this.WOEID;
             }
 
             return res;

@@ -24,12 +24,6 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
-using MaasOne.Xml;
 using MaasOne.Finance.YahooFinance;
 
 
@@ -78,9 +72,7 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 		public abstract StockScreenerProperty[] ProvidedScreenerProperties { get; }
 		internal string CriteriaTag { get; set; }
 
-		internal override bool IsValid {
-			get { return this.CriteriaTag != string.Empty; }
-		}
+		internal override bool IsValid => this.CriteriaTag != string.Empty;
 
 		protected StockCriteriaDefinition(string paramType)
 		{
@@ -166,9 +158,7 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 		public Nullable<double> MaximumValue { get; set; }
 
 		internal int OptionalParamValue { get; set; }
-		internal override bool IsValid {
-			get { return base.IsValid && (this.MaximumValue.HasValue | this.MinimumValue.HasValue); }
-		}
+		internal override bool IsValid => base.IsValid && (this.MaximumValue.HasValue | this.MinimumValue.HasValue);
 
 		protected StockDigitCriteriaDefinition(string paramType) : base(paramType)
 		{
@@ -179,7 +169,7 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 		internal override string CriteriaParameter()
 		{
 			if (this.IsValid) {
-				return "&" + base.CriteriaTag + "=" + ((this.OptionalParamValue != -1) ? (this.OptionalParamValue.ToString() + "_") : "").ToString() + this.GetParamDigitValue(this.MinimumValue) + "_" + this.GetParamDigitValue(this.MaximumValue) + "_e_3";
+				return "&" + base.CriteriaTag + "=" + ((this.OptionalParamValue != -1) ? (this.OptionalParamValue + "_") : "") + this.GetParamDigitValue(this.MinimumValue) + "_" + this.GetParamDigitValue(this.MaximumValue) + "_e_3";
 			} else {
 				throw new NotSupportedException("The parameters are invalid.");
 			}
@@ -206,9 +196,7 @@ namespace MaasOne.Finance.YahooScreener.Criterias
 	{
 
 		internal string Value { get; set; }
-		internal override bool IsValid {
-			get { return base.IsValid && this.Value != string.Empty; }
-		}
+		internal override bool IsValid => base.IsValid && this.Value != string.Empty;
 
 		protected StockStringCriteriaDefinition(string paramType) : base(paramType)
 		{

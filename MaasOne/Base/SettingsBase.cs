@@ -25,7 +25,6 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Net;
 
 
@@ -40,29 +39,23 @@ namespace MaasOne.Base
 
         private List<KeyValuePair<HttpRequestHeader, string>> mAdditionalHeaders = new List<KeyValuePair<HttpRequestHeader, string>>();
 
-        protected virtual List<KeyValuePair<HttpRequestHeader, string>> AdditionalHeaders
-        {
-            get
-            {
-                return mAdditionalHeaders;
-            }
-        }
-        protected virtual RequestMethod Method { get { return RequestMethod.GET; } }
-        protected virtual CookieContainer Cookies { get { return null; } }
-        protected virtual string ContentType { get { return string.Empty; } }
-        protected virtual string PostData { get { return string.Empty; } }
-        protected virtual bool DownloadResponseStream { get { return true; } }
+        protected virtual List<KeyValuePair<HttpRequestHeader, string>> AdditionalHeaders => mAdditionalHeaders;
+	    protected virtual RequestMethod Method => RequestMethod.GET;
+	    protected virtual CookieContainer Cookies => null;
+	    protected virtual string ContentType => string.Empty;
+	    protected virtual string PostData => string.Empty;
+	    protected virtual bool DownloadResponseStream => true;
 
-        internal string GetUrlInternal()
+	    internal string GetUrlInternal()
         {
             return this.GetUrl();
         }
-        internal List<KeyValuePair<HttpRequestHeader, string>> GetAdditionalHeadersInternal { get { return mAdditionalHeaders; } }
-        internal RequestMethod MethodInternal { get { return this.Method; } }
-        internal CookieContainer CookiesInternal { get { return this.Cookies; } }
-        internal string ContentTypeInternal { get { return this.ContentType; } }
-        internal string PostDataInternal { get { return this.PostData; } }
-        internal bool DownloadResponseStreamInternal { get { return this.DownloadResponseStream; } }
+        internal List<KeyValuePair<HttpRequestHeader, string>> GetAdditionalHeadersInternal => mAdditionalHeaders;
+	    internal RequestMethod MethodInternal => this.Method;
+	    internal CookieContainer CookiesInternal => this.Cookies;
+	    internal string ContentTypeInternal => this.ContentType;
+	    internal string PostDataInternal => this.PostData;
+	    internal bool DownloadResponseStreamInternal => this.DownloadResponseStream;
     }
 
 }

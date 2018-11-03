@@ -24,8 +24,6 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Net;
 
 
@@ -44,8 +42,8 @@ namespace MaasOne.Base
         /// <remarks>Default value are proxy settings from Internet Explorer/Windows Internet Settings.</remarks>
         public IWebProxy Proxy
         {
-            get { return mProxy; }
-            set { mProxy = value; }
+            get => mProxy;
+	        set => mProxy = value;
         }
 
 
@@ -66,7 +64,7 @@ namespace MaasOne.Base
                     wc.Proxy = mProxy;
                 Response<System.IO.Stream> sr = wc.Download(settings);
                 Response<T> result = this.ConvertResponse(new DefaultResponse<T>(sr.Connection, this.ConvertResult(sr.Connection, sr.Result, settings)));
-                if (sr.Result != null) { sr.Result.Dispose(); }
+                sr.Result?.Dispose();
                 return result;
             }
         }
@@ -84,7 +82,7 @@ namespace MaasOne.Base
 
     public abstract partial class SettingsBase
     {
-        protected virtual bool KeepAlive { get { return true; } }
-        internal bool KeepAliveInternal { get { return this.KeepAlive; } }
+        protected virtual bool KeepAlive => true;
+	    internal bool KeepAliveInternal => this.KeepAlive;
     }
 }

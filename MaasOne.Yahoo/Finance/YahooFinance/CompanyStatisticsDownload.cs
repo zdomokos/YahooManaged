@@ -1,4 +1,4 @@
-// ******************************************************************************
+﻿// ******************************************************************************
 // ** 
 // **  Yahoo! Managed
 // **  Written by Marius Häusler 2012
@@ -24,14 +24,7 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using MaasOne.Xml;
-using System.Text.RegularExpressions;
-using MaasOne.Finance.YahooFinance;
-using System.Xml.Linq;
 
 
 namespace MaasOne.Finance.YahooFinance
@@ -44,7 +37,9 @@ namespace MaasOne.Finance.YahooFinance
     public partial class CompanyStatisticsDownload : Base.DownloadClient<CompanyStatisticsResult>
     {
 
-        public CompanyStatisticsDownloadSettings Settings { get { return (CompanyStatisticsDownloadSettings)base.Settings; } set { base.SetSettings(value); } }
+        public CompanyStatisticsDownloadSettings Settings { get => (CompanyStatisticsDownloadSettings)base.Settings;
+	        set => base.SetSettings(value);
+        }
 
         /// <summary>
         /// Default constructor
@@ -337,8 +332,7 @@ namespace MaasOne.Finance.YahooFinance
                         if (tempNode != null)
                         {
                             string[] txt = tempNode.Value.Split(':');
-                            int from, to;
-                            if (int.TryParse(txt[0], out to) && int.TryParse(txt[1], out from))
+							if (int.TryParse(txt[0], out int to) && int.TryParse(txt[1], out int from))
                             {
                                 sf = new SharesSplitFactor(to, from);
                             }
@@ -366,13 +360,10 @@ namespace MaasOne.Finance.YahooFinance
     public class CompanyStatisticsResult
     {
 
-        private CompanyStatisticsData mItem = null;
-        public CompanyStatisticsData Item
-        {
-            get { return mItem; }
-        }
+        private CompanyStatisticsData mItem;
+        public CompanyStatisticsData Item => mItem;
 
-        internal CompanyStatisticsResult(CompanyStatisticsData item)
+	    internal CompanyStatisticsResult(CompanyStatisticsData item)
         {
             mItem = item;
         }
@@ -388,35 +379,25 @@ namespace MaasOne.Finance.YahooFinance
     {
 
         private string mID;
-        private CompanyValuationMeasures mValuationMeasures = null;
-        private CompanyFinancialHighlights mFinancialHighlights = null;
+        private CompanyValuationMeasures mValuationMeasures;
+        private CompanyFinancialHighlights mFinancialHighlights;
 
-        private CompanyTradingInfo mTradingInfo = null;
+        private CompanyTradingInfo mTradingInfo;
         /// <summary>
         /// The ID of the company.
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public string ID
-        {
-            get { return mID; }
-        }
+        public string ID => mID;
 
-        public CompanyValuationMeasures ValuationMeasures
-        {
-            get { return mValuationMeasures; }
-        }
-        public CompanyFinancialHighlights FinancialHighlights
-        {
-            get { return mFinancialHighlights; }
-        }
-        public CompanyTradingInfo TradingInfo
-        {
-            get { return mTradingInfo; }
-        }
+	    public CompanyValuationMeasures ValuationMeasures => mValuationMeasures;
 
-        internal CompanyStatisticsData(string id, CompanyValuationMeasures vm, CompanyFinancialHighlights fh, CompanyTradingInfo ti)
+	    public CompanyFinancialHighlights FinancialHighlights => mFinancialHighlights;
+
+	    public CompanyTradingInfo TradingInfo => mTradingInfo;
+
+	    internal CompanyStatisticsData(string id, CompanyValuationMeasures vm, CompanyFinancialHighlights fh, CompanyTradingInfo ti)
         {
             mID = id;
             mValuationMeasures = vm;
@@ -982,7 +963,7 @@ namespace MaasOne.Finance.YahooFinance
 
         public override string ToString()
         {
-            return string.Format("{0} : {1}", this.NewShares, this.OldShares);
+            return $"{this.NewShares} : {this.OldShares}";
         }
 
     }
@@ -1008,7 +989,7 @@ namespace MaasOne.Finance.YahooFinance
         protected override string GetUrl()
         {
             if (this.ID == string.Empty) { throw new ArgumentException("ID is empty.", "ID"); }
-            return string.Format("http://finance.yahoo.com/q/ks?s={0}", this.ID);
+            return $"http://finance.yahoo.com/q/ks?s={this.ID}";
         }
 
         public override object Clone()

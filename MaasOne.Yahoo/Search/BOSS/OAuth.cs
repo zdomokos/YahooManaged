@@ -51,8 +51,8 @@ namespace MaasOne.Search.BOSS
         /// </summary>
         protected class QueryParameter
         {
-            private string name = null;
-            private string value = null;
+            private string name;
+            private string value;
 
             public QueryParameter(string name, string value)
             {
@@ -60,15 +60,9 @@ namespace MaasOne.Search.BOSS
                 this.value = value;
             }
 
-            public string Name
-            {
-                get { return name; }
-            }
+            public string Name => name;
 
-            public string Value
-            {
-                get { return value; }
-            }
+	        public string Value => value;
         }
 
         /// <summary>
@@ -197,7 +191,7 @@ namespace MaasOne.Search.BOSS
                 }
                 else
                 {
-                    result.Append('%' + String.Format("{0:X2}", (int)symbol));
+                    result.Append('%' + $"{(int) symbol:X2}");
                 }
             }
 
@@ -281,7 +275,7 @@ namespace MaasOne.Search.BOSS
 
             parameters.Sort(new QueryParameterComparer());
 
-            normalizedUrl = string.Format("{0}://{1}", url.Scheme, url.Host);
+            normalizedUrl = $"{url.Scheme}://{url.Host}";
             if (!((url.Scheme == "http" && url.Port == 80) || (url.Scheme == "https" && url.Port == 443)))
             {
                 normalizedUrl += ":" + url.Port;
@@ -342,12 +336,13 @@ namespace MaasOne.Search.BOSS
             switch (signatureType)
             {
                 case SignatureTypes.PLAINTEXT:
-                    return Uri.EscapeDataString(string.Format("{0}&{1}", consumerSecret, tokenSecret));
+                    return Uri.EscapeDataString($"{consumerSecret}&{tokenSecret}");
                 case SignatureTypes.HMACSHA1:
                     string signatureBase = GenerateSignatureBase(url, consumerKey, token, tokenSecret, httpMethod, timeStamp, nonce, HMACSHA1SignatureType, out normalizedUrl, out normalizedRequestParameters);
 
                     HMACSHA1 hmacsha1 = new HMACSHA1();
-                    hmacsha1.Key = YahooExtensions.StringToAscii(string.Format("{0}&{1}", UrlEncode(consumerSecret), string.IsNullOrEmpty(tokenSecret) ? "" : UrlEncode(tokenSecret)));
+                    hmacsha1.Key = YahooExtensions.StringToAscii(
+                        $"{UrlEncode(consumerSecret)}&{(string.IsNullOrEmpty(tokenSecret) ? "" : UrlEncode(tokenSecret))}");
 
                     return GenerateSignatureUsingHash(signatureBase, hmacsha1);
                 case SignatureTypes.RSASHA1:

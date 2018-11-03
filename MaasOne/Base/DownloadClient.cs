@@ -26,11 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Threading;
-using System.Text;
-using System.Net;
-using MaasOne;
 
 
 namespace MaasOne.Base
@@ -88,8 +84,8 @@ namespace MaasOne.Base
         /// <remarks></remarks>
         public int Timeout
         {
-            get { return mTimeout; }
-            set
+            get => mTimeout;
+	        set
             {
                 if (value >= 0)
                 {
@@ -107,11 +103,9 @@ namespace MaasOne.Base
         /// <value></value>
         /// <returns>The number of active downloads</returns>
         /// <remarks></remarks>
-        public int AsyncDownloadsCount
-        {
-            get { return mWebClients.Count; }
-        }
-        /// <summary>
+        public int AsyncDownloadsCount => mWebClients.Count;
+
+	    /// <summary>
         /// Cancels all running downloads.
         /// </summary>
         /// <returns>TRUE, if all downloads were canceled. FALSE, if something goes wrong.</returns>
@@ -181,9 +175,10 @@ namespace MaasOne.Base
             return count;
         }
 
-        private SettingsBase mSettings = null;
-        public SettingsBase Settings { get { return mSettings; } }
-        protected void SetSettings(SettingsBase value)
+        private SettingsBase mSettings;
+        public SettingsBase Settings => mSettings;
+
+	    protected void SetSettings(SettingsBase value)
         {
             mSettings = value;
         }
@@ -220,7 +215,7 @@ namespace MaasOne.Base
             {
                 snd.AsyncDownloadCompleted -= this.AsyncDownload_Completed;
                 if (mWebClients.Contains(sender)) mWebClients.Remove(sender);
-                using (System.IO.Stream stream = (e.Response.Result != null ? e.Response.Result : new System.IO.MemoryStream()))
+                using (System.IO.Stream stream = e.Response.Result ?? new System.IO.MemoryStream())
                 {
                     ConnectionInfo conn = e.Response.Connection;
                     T result = default(T);
@@ -239,8 +234,8 @@ namespace MaasOne.Base
                         if (args != null && (AsyncDownloadCompleted != null || AsyncDownloadCompletedEvent != null))
                         {
                             AsyncOperation asyncOp = AsyncOperationManager.CreateOperation(this);
-                            if (AsyncDownloadCompleted != null) asyncOp.Post(new SendOrPostCallback(delegate(object obj) { AsyncDownloadCompleted(this, (DownloadCompletedEventArgs<T>)obj); }), args);
-                            if (AsyncDownloadCompletedEvent != null) asyncOp.Post(new SendOrPostCallback(delegate(object obj) { AsyncDownloadCompletedEvent(this, (IDownloadCompletedEventArgs)obj); }), args);
+                            if (AsyncDownloadCompleted != null) asyncOp.Post(delegate(object obj) { AsyncDownloadCompleted(this, (DownloadCompletedEventArgs<T>)obj); }, args);
+                            if (AsyncDownloadCompletedEvent != null) asyncOp.Post(delegate(object obj) { AsyncDownloadCompletedEvent(this, (IDownloadCompletedEventArgs)obj); }, args);
                         }
                     }
                 }

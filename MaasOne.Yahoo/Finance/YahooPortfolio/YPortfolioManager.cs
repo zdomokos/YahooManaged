@@ -25,15 +25,9 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Net;
-using System.IO;
 using MaasOne.Base;
 using MaasOne.Xml;
-using MaasOne.Finance;
-using MaasOne.Finance.YahooFinance;
 using MaasOne.Finance.YahooFinance.Support;
-using System.Xml.Linq;
 
 namespace MaasOne.Finance.YahooPortfolio
 {
@@ -79,7 +73,7 @@ namespace MaasOne.Finance.YahooPortfolio
         private void PortfolioInfoDownload_Completed(DownloadClient<PortfolioInfoResult> sender, DownloadCompletedEventArgs<PortfolioInfoResult> e)
         {
             sender.AsyncDownloadCompleted -= this.PortfolioInfoDownload_Completed;
-            if (this.AsyncPortfolioInfoDownloadCompleted != null) this.AsyncPortfolioInfoDownloadCompleted(this, e);
+            this.AsyncPortfolioInfoDownloadCompleted?.Invoke(this, e);
         }
 
 
@@ -112,7 +106,7 @@ namespace MaasOne.Finance.YahooPortfolio
         {
             sender.AsyncUploadCompleted -= this.CreatePortfolio_DownloadCompleted;
             Portfolio pf = new PortfolioDownload().ConvertHtmlDoc(e.Response.Result);
-            if (this.AsyncCreatePortfolioCompleted != null) this.AsyncCreatePortfolioCompleted(this, e.CreateNew(pf));
+            this.AsyncCreatePortfolioCompleted?.Invoke(this, e.CreateNew(pf));
         }
 
         public void EditPortfolioAsync(string portfolioID, string name, object userArgs) { this.EditPortfolioAsync(portfolioID, name, null, null, userArgs); }
@@ -142,7 +136,7 @@ namespace MaasOne.Finance.YahooPortfolio
         private void EditPortfolio_DownloadCompleted(WebFormUpload sender, DefaultDownloadCompletedEventArgs<XDocument> e)
         {
             sender.AsyncUploadCompleted -= this.EditPortfolio_DownloadCompleted;
-            if (this.AsyncEditPortfolioCompleted != null) this.AsyncEditPortfolioCompleted(this, new DownloadEventArgs(e.UserArgs));
+            this.AsyncEditPortfolioCompleted?.Invoke(this, new DownloadEventArgs(e.UserArgs));
         }
 
 
@@ -181,7 +175,7 @@ namespace MaasOne.Finance.YahooPortfolio
         private void DeletePortfolio_DownloadCompleted(WebFormUpload sender, DefaultDownloadCompletedEventArgs<XDocument> e)
         {
             sender.AsyncUploadCompleted -= this.DeletePortfolio_DownloadCompleted;
-            if (this.AsyncDeletePortfolioCompleted != null) this.AsyncDeletePortfolioCompleted(this, e.CreateNew(new PortfolioInfoDownload().ConvertHtml(e.Response.Result)));
+            this.AsyncDeletePortfolioCompleted?.Invoke(this, e.CreateNew(new PortfolioInfoDownload().ConvertHtml(e.Response.Result)));
         }
 
 
@@ -228,7 +222,7 @@ namespace MaasOne.Finance.YahooPortfolio
 
             Portfolio pf = new PortfolioDownload().ConvertHtmlDoc(e.Response.Result);
 
-            if (this.AsyncEditPortfolioViewCompleted != null) this.AsyncEditPortfolioViewCompleted(this, e.CreateNew<Portfolio>(pf));
+            this.AsyncEditPortfolioViewCompleted?.Invoke(this, e.CreateNew<Portfolio>(pf));
         }
 
         public void DeletePortfolioViewAsync(int viewIndex, object userArgs) { this.DeletePortfolioViewAsync(viewIndex, userArgs); }
@@ -252,7 +246,7 @@ namespace MaasOne.Finance.YahooPortfolio
             lst.Add(new KeyValuePair<string, string>("yfi_pf_id", portfolioID));
             lst.Add(new KeyValuePair<string, string>("yfi_pf_symbol", ""));
             lst.Add(new KeyValuePair<string, string>("yfi_pf_lot", ""));
-            lst.Add(new KeyValuePair<string, string>("yfi_view_id", "v" + (viewIndex + 1).ToString()));
+            lst.Add(new KeyValuePair<string, string>("yfi_view_id", "v" + (viewIndex + 1)));
             lst.Add(new KeyValuePair<string, string>("yfi_quotes_symbols", ""));
             lst.Add(new KeyValuePair<string, string>("yfi_yes", ""));
 
@@ -271,7 +265,7 @@ namespace MaasOne.Finance.YahooPortfolio
         {
             sender.AsyncUploadCompleted -= this.DeletePortfolioView_DownloadCompleted;
             Portfolio pf = new PortfolioDownload().ConvertHtmlDoc(e.Response.Result);
-            if (this.AsyncDeletePortfolioViewCompleted != null) this.AsyncDeletePortfolioViewCompleted(this, e.CreateNew<Portfolio>(pf));
+            this.AsyncDeletePortfolioViewCompleted?.Invoke(this, e.CreateNew<Portfolio>(pf));
         }
 
         public void DownloadPortfolioAsync(PortfolioInfo portfolio, object userArgs) { this.DownloadPortfolioAsync(portfolio, 0, userArgs); }
@@ -294,7 +288,7 @@ namespace MaasOne.Finance.YahooPortfolio
         private void PortfolioDownload_DownloadCompleted(DownloadClient<Portfolio> sender, DownloadCompletedEventArgs<Portfolio> e)
         {
             sender.AsyncDownloadCompleted -= this.PortfolioDownload_DownloadCompleted;
-            if (this.AsyncPortfolioDownloadCompleted != null) this.AsyncPortfolioDownloadCompleted(this, e);
+            this.AsyncPortfolioDownloadCompleted?.Invoke(this, e);
         }
 
 
@@ -303,7 +297,8 @@ namespace MaasOne.Finance.YahooPortfolio
         {
             Html2XmlDownload html = new Html2XmlDownload();
             html.Settings.Account = this;
-            html.Settings.Url = string.Format("http://finance.yahoo.com/portfolio/add_symbols?portfolio_id={0}&portfolio_view_id=v1&quotes={1}", portfolioID, itemID);
+            html.Settings.Url =
+                $"http://finance.yahoo.com/portfolio/add_symbols?portfolio_id={portfolioID}&portfolio_view_id=v1&quotes={itemID}";
             html.AsyncDownloadCompleted += this.AddPortfolioItem_Completed;
             html.DownloadAsync(new AddPfItemAsyncArgs(userArgs) { PortfolioID = portfolioID });
 
@@ -312,7 +307,7 @@ namespace MaasOne.Finance.YahooPortfolio
         {
             AddPfItemAsyncArgs args = (AddPfItemAsyncArgs)e.UserArgs;
             Portfolio pf = new PortfolioDownload().ConvertHtmlDoc(e.Response.Result);
-            if (this.AsyncAddPortfolioItemCompleted != null) this.AsyncAddPortfolioItemCompleted(this, ((DefaultDownloadCompletedEventArgs<XDocument>)e).CreateNew(pf));
+            this.AsyncAddPortfolioItemCompleted?.Invoke(this, ((DefaultDownloadCompletedEventArgs<XDocument>)e).CreateNew(pf));
         }
 
 
@@ -350,7 +345,7 @@ namespace MaasOne.Finance.YahooPortfolio
         private void DeletePortfolioItem_DownloadCompleted(WebFormUpload sender, DefaultDownloadCompletedEventArgs<XDocument> e)
         {
             sender.AsyncUploadCompleted -= this.DeletePortfolioItem_DownloadCompleted;
-            if (this.AsyncDeletePortfolioItemCompleted != null) this.AsyncDeletePortfolioItemCompleted(this, new DownloadEventArgs(e.UserArgs));
+            this.AsyncDeletePortfolioItemCompleted?.Invoke(this, new DownloadEventArgs(e.UserArgs));
 
 
 
@@ -382,9 +377,9 @@ namespace MaasOne.Finance.YahooPortfolio
                 lst.Add(new KeyValuePair<string, string>("yfi_pf_symbol[]", holding.ID));
                 lst.Add(new KeyValuePair<string, string>("yfi_pf_lot[]", holding.Lot.ToString()));
                 lst.Add(new KeyValuePair<string, string>("date[]", ""));
-                lst.Add(new KeyValuePair<string, string>("yfi_pf_trade_date_day[]", holding.TradeDate.HasValue ? holding.TradeDate.Value.Day.ToString() : DateTime.Today.Day.ToString()));
-                lst.Add(new KeyValuePair<string, string>("yfi_pf_trade_date_month[]", holding.TradeDate.HasValue ? holding.TradeDate.Value.Month.ToString() : DateTime.Today.Month.ToString()));
-                lst.Add(new KeyValuePair<string, string>("yfi_pf_trade_date_year[]", holding.TradeDate.HasValue ? holding.TradeDate.Value.Year.ToString() : DateTime.Today.Year.ToString()));
+                lst.Add(new KeyValuePair<string, string>("yfi_pf_trade_date_day[]", holding.TradeDate?.Day.ToString() ?? DateTime.Today.Day.ToString()));
+                lst.Add(new KeyValuePair<string, string>("yfi_pf_trade_date_month[]", holding.TradeDate?.Month.ToString() ?? DateTime.Today.Month.ToString()));
+                lst.Add(new KeyValuePair<string, string>("yfi_pf_trade_date_year[]", holding.TradeDate?.Year.ToString() ?? DateTime.Today.Year.ToString()));
                 lst.Add(new KeyValuePair<string, string>("yfi_pf_shares_owned[]", holding.Shares != 0 ? holding.Shares.ToString() : ""));
                 lst.Add(new KeyValuePair<string, string>("yfi_pf_price_paid[]", holding.PricePaid != 0 ? holding.PricePaid.ToString(ci) : ""));
                 lst.Add(new KeyValuePair<string, string>("yfi_pf_commission[]", holding.Commission != 0 ? holding.Commission.ToString(ci) : ""));
@@ -428,7 +423,7 @@ namespace MaasOne.Finance.YahooPortfolio
         private void HoldingsDownload_Completed(DownloadClient<HoldingsResult> sender, DownloadCompletedEventArgs<HoldingsResult> e)
         {
             sender.AsyncDownloadCompleted -= this.HoldingsDownload_Completed;
-            if (this.AsyncHoldingsDownloadCompleted != null) this.AsyncHoldingsDownloadCompleted(this, e);
+            this.AsyncHoldingsDownloadCompleted?.Invoke(this, e);
         }
 
 

@@ -25,8 +25,6 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.ComponentModel;
 
 
 namespace MaasOne.Finance.YahooFinance.Support
@@ -42,61 +40,43 @@ namespace MaasOne.Finance.YahooFinance.Support
         private string mName = string.Empty;
         private string mSuffix = string.Empty;
 
-        private CountryInfo mCountry = null;
+        private CountryInfo mCountry;
 
-        private TradingTimeInfo mTradingTime = null;
+        private TradingTimeInfo mTradingTime;
         /// <summary>
         /// The ID of the exchange
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks>If the ID is in WorldMarket.DefaultStockExchanges, properties will be setted automatically</remarks>
-        public string ID
-        {
-            get { return mID; }
-        }
+        public string ID => mID;
 
-        /// <summary>
+	    /// <summary>
         /// The ending string for stock IDs
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks>If the suffix is in DefaultStockExchanges, properties will get automatically</remarks>
-        public string Suffix
-        {
-            get { return mSuffix; }
-        }
+        public string Suffix => mSuffix;
 
-        /// <summary>
+	    /// <summary>
         /// The name of the exchange
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public string Name
-        {
-            get { return mName; }
-        }
+        public string Name => mName;
 
 
-        public CountryInfo Country
-        {
-            get { return mCountry; }
-        }
+	    public CountryInfo Country => mCountry;
 
 
-        public TradingTimeInfo TradingTime
-        {
-            get { return mTradingTime; }
-        }
+	    public TradingTimeInfo TradingTime => mTradingTime;
 
-        private readonly List<string> mTags = new List<string>();
-        internal List<string> Tags
-        {
-            get { return mTags; }
-        }
+	    private readonly List<string> mTags = new List<string>();
+        internal List<string> Tags => mTags;
 
-        /// <summary>
+	    /// <summary>
         /// Default constructor
         /// </summary>
         /// <param name="id"></param>
@@ -168,12 +148,12 @@ namespace MaasOne.Finance.YahooFinance.Support
 
     public class TradingTimeInfo
     {
-        private int mDelayMinutes = 0;
+        private int mDelayMinutes;
         private List<DayOfWeek> mTradingDays = new List<DayOfWeek>();
         private List<System.DateTime> mHolidays = new List<System.DateTime>();
-        private DateTime mLocalOpeningTime = new DateTime();
+        private DateTime mLocalOpeningTime;
         private TimeSpan mTradingSpan = new TimeSpan(24, 0, 0);
-        private int mUtcOffsetStandardTime = 0;
+        private int mUtcOffsetStandardTime;
 
         private DaylightSavingTime[] mDaylightSavingTimes = new DaylightSavingTime[-1 + 1];
         /// <summary>
@@ -182,76 +162,59 @@ namespace MaasOne.Finance.YahooFinance.Support
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public int DelayMinutes
-        {
-            get { return mDelayMinutes; }
-        }
-        /// <summary>
+        public int DelayMinutes => mDelayMinutes;
+
+	    /// <summary>
         /// The days when trading is active
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public List<DayOfWeek> TradingDays
-        {
-            get { return mTradingDays; }
-        }
-        /// <summary>
+        public List<DayOfWeek> TradingDays => mTradingDays;
+
+	    /// <summary>
         /// Days without active trading time.
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public List<System.DateTime> Holidays
-        {
-            get { return mHolidays; }
-        }
-        /// <summary>
+        public List<System.DateTime> Holidays => mHolidays;
+
+	    /// <summary>
         /// The time when trading starts
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks>By setting a value, the date is not important, only hour and minute</remarks>
-        public DateTime LocalOpeningTime
-        {
-            get { return mLocalOpeningTime; }
-        }
-        /// <summary>
+        public DateTime LocalOpeningTime => mLocalOpeningTime;
+
+	    /// <summary>
         /// The timespan of active trading for each trading day
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public TimeSpan TradingSpan
-        {
-            get { return mTradingSpan; }
-        }
-        /// <summary>
+        public TimeSpan TradingSpan => mTradingSpan;
+
+	    /// <summary>
         /// The time when trading ends
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks>By setting a value, the date is not important, only hour and minute. If time value is smaler than opening, trading ends on the next day. 24 hours trading is maximum</remarks>
-        public DateTime LocalClosingTime
-        {
-            get { return mLocalOpeningTime.Add(mTradingSpan); }
-        }
-        /// <summary>
+        public DateTime LocalClosingTime => mLocalOpeningTime.Add(mTradingSpan);
+
+	    /// <summary>
         /// The number of hours relative to UTC of the exchange's timezone
         /// </summary>
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public int UtcOffsetStandardTime
-        {
-            get { return mUtcOffsetStandardTime; }
-        }
-        public DaylightSavingTime[] DaylightSavingTimes
-        {
-            get { return mDaylightSavingTimes; }
-        }
+        public int UtcOffsetStandardTime => mUtcOffsetStandardTime;
 
-        public TradingTimeInfo(int delayMinutes, IEnumerable<DayOfWeek> tradingDays, IEnumerable<System.DateTime> holidays, DateTime localOpeningTime, TimeSpan tradingSpan, int utcOffset)
+	    public DaylightSavingTime[] DaylightSavingTimes => mDaylightSavingTimes;
+
+	    public TradingTimeInfo(int delayMinutes, IEnumerable<DayOfWeek> tradingDays, IEnumerable<System.DateTime> holidays, DateTime localOpeningTime, TimeSpan tradingSpan, int utcOffset)
         {
             if (delayMinutes >= 0 & delayMinutes < 3600)
             {

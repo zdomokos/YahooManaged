@@ -1,4 +1,4 @@
-// ******************************************************************************
+﻿// ******************************************************************************
 // ** 
 // **  Yahoo! Managed
 // **  Written by Marius Häusler 2012
@@ -23,14 +23,6 @@
 // **  limitations under the License.
 // ** 
 // ******************************************************************************
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
-using MaasOne.Xml;
-
 
 namespace MaasOne.Weather.YahooWeather
 {
@@ -44,16 +36,16 @@ namespace MaasOne.Weather.YahooWeather
 
 		private string mCountry;
 		public string City {
-			get { return mCityName; }
-			set { mCityName = value; }
+			get => mCityName;
+			set => mCityName = value;
 		}
 		public string Region {
-			get { return mRegion; }
-			set { mRegion = value; }
+			get => mRegion;
+			set => mRegion = value;
 		}
 		public string Country {
-			get { return mCountry; }
-			set { mCountry = value; }
+			get => mCountry;
+			set => mCountry = value;
 		}
 
 

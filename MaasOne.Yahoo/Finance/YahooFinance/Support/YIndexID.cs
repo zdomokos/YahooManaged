@@ -24,8 +24,6 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 
 namespace MaasOne.Finance.YahooFinance.Support
@@ -38,7 +36,7 @@ namespace MaasOne.Finance.YahooFinance.Support
     {
 
 
-        private bool mDownloadComponents = false;
+        private bool mDownloadComponents;
         /// <summary>
         /// The Yahoo index ID
         /// </summary>
@@ -67,8 +65,8 @@ namespace MaasOne.Finance.YahooFinance.Support
         /// <remarks></remarks>
         public override SecurityType Type
         {
-            get { return SecurityType.Index; }
-            set { base.Type = SecurityType.Index; }
+            get => SecurityType.Index;
+	        set => base.Type = SecurityType.Index;
         }
         /// <summary>
         /// Indicates whether the downloader will query all stocks of an index or not
@@ -78,8 +76,8 @@ namespace MaasOne.Finance.YahooFinance.Support
         /// <remarks></remarks>
         public bool DownloadComponents
         {
-            get { return mDownloadComponents; }
-            set { mDownloadComponents = value; this.OnPropertyChanged("DownloadComponents"); }
+            get => mDownloadComponents;
+	        set { mDownloadComponents = value; this.OnPropertyChanged("DownloadComponents"); }
         }
 
         protected YIndexID()

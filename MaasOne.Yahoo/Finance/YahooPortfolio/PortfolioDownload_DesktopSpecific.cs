@@ -25,7 +25,6 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Data;
 
 
@@ -45,7 +44,7 @@ namespace MaasOne.Finance.YahooPortfolio
                 {
                     colDict[colType] += 1;
                     string colName = colType.ToString();
-                    if (colDict[colType] > 0) colName += "_" + colDict[colType].ToString();
+                    if (colDict[colType] > 0) colName += "_" + colDict[colType];
                     dt.Columns.Add(colName, typeof(object)).Caption = Portfolio.GetColumnTypeTitle(colType, System.Globalization.CultureInfo.CurrentUICulture);
                 }
 

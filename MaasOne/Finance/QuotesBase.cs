@@ -24,8 +24,6 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 
 namespace MaasOne.Finance
@@ -34,10 +32,10 @@ namespace MaasOne.Finance
 
     public class QuotesBaseResult { 
     
-        private QuotesBaseData[] mItems = null;
-        public QuotesBaseData[] Items { get { return mItems; } }
+        private QuotesBaseData[] mItems;
+        public QuotesBaseData[] Items => mItems;
 
-        public QuotesBaseResult(QuotesBaseData[] items)
+	    public QuotesBaseResult(QuotesBaseData[] items)
         {
             mItems = items;
         }
@@ -56,11 +54,9 @@ namespace MaasOne.Finance
         /// <value></value>
         /// <returns></returns>
         /// <remarks></remarks>
-        public virtual string ID
-        {
-            get { return mID; }
-        }
-        /// <summary>
+        public virtual string ID => mID;
+
+	    /// <summary>
         /// Sets a new ID value. Implementation from ISettableID.
         /// </summary>
         /// <param name="id">A valid Yahoo! ID</param>
@@ -97,11 +93,9 @@ namespace MaasOne.Finance
         /// <value></value>
         /// <returns></returns>
         /// <remarks>[LastTradePriceOnly] - [Change]</remarks>
-        public virtual double PreviewClose
-        {
-            get { return this.LastTradePriceOnly - this.Change; }
-        }
-        /// <summary>
+        public virtual double PreviewClose => this.LastTradePriceOnly - this.Change;
+
+	    /// <summary>
         /// The calculated price change in percent
         /// </summary>
         /// <value></value>

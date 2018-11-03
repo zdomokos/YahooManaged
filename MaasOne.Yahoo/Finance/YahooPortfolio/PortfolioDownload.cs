@@ -25,11 +25,8 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 using MaasOne.Base;
 using MaasOne.Xml;
-using System.Xml.Linq;
-
 
 
 namespace MaasOne.Finance.YahooPortfolio
@@ -37,7 +34,9 @@ namespace MaasOne.Finance.YahooPortfolio
 
     public partial class PortfolioDownload : DownloadClient<Portfolio>
     {
-        public PortfolioDownloadSettings Settings { get { return (PortfolioDownloadSettings)base.Settings; } set { base.SetSettings(value); } }
+        public PortfolioDownloadSettings Settings { get => (PortfolioDownloadSettings)base.Settings;
+	        set => base.SetSettings(value);
+        }
 
         public PortfolioDownload()
         {
@@ -241,24 +240,25 @@ namespace MaasOne.Finance.YahooPortfolio
 
     public partial class Portfolio
     {
-        private PortfolioInfo[] mPortfolios = null;
-        public PortfolioInfo[] Portfolios { get { return mPortfolios; } }
-        private PortfolioInfo mInfo = null;
-        public PortfolioInfo Info { get { return mInfo; } }
-        private IID[] mIDs = null;
-        public IID[] IDs { get { return mIDs; } }
-        private string mSelectedView = string.Empty;
-        public string SelectedView { get { return mSelectedView; } }
+        private PortfolioInfo[] mPortfolios;
+        public PortfolioInfo[] Portfolios => mPortfolios;
+	    private PortfolioInfo mInfo;
+        public PortfolioInfo Info => mInfo;
+	    private IID[] mIDs;
+        public IID[] IDs => mIDs;
+	    private string mSelectedView = string.Empty;
+        public string SelectedView => mSelectedView;
 
-        private PortfolioColumnType[] mViewColumns = new PortfolioColumnType[] { };
-        public PortfolioColumnType[] ViewColumns { get { return mViewColumns; } }
-        private PortfolioColumnType[] mColumns = new PortfolioColumnType[] { };
-        public PortfolioColumnType[] Columns { get { return mColumns; } }
-        private PortfolioDataRow[] mRows = null;
-        public PortfolioDataRow[] Rows { get { return mRows; } }
-        private string[] mAvailableViews = null;
-        public string[] AvailableViews { get { return mAvailableViews; } }
-        internal Portfolio(PortfolioInfo info, IID[] ids, PortfolioDataRow[] data, string selectedView, string[] views, PortfolioColumnType[] availableColumns, PortfolioColumnType[] availableViewColumns, PortfolioInfo[] portfolios)
+	    private PortfolioColumnType[] mViewColumns = new PortfolioColumnType[] { };
+        public PortfolioColumnType[] ViewColumns => mViewColumns;
+	    private PortfolioColumnType[] mColumns = new PortfolioColumnType[] { };
+        public PortfolioColumnType[] Columns => mColumns;
+	    private PortfolioDataRow[] mRows;
+        public PortfolioDataRow[] Rows => mRows;
+	    private string[] mAvailableViews;
+        public string[] AvailableViews => mAvailableViews;
+
+	    internal Portfolio(PortfolioInfo info, IID[] ids, PortfolioDataRow[] data, string selectedView, string[] views, PortfolioColumnType[] availableColumns, PortfolioColumnType[] availableViewColumns, PortfolioInfo[] portfolios)
         {
             mInfo = info;
             mIDs = ids;
@@ -278,7 +278,7 @@ namespace MaasOne.Finance.YahooPortfolio
         public static string GetColumnTypeTitle(PortfolioColumnType ct) { return GetColumnTypeTitle(ct, null); }
         public static string GetColumnTypeTitle(PortfolioColumnType ct, System.Globalization.CultureInfo culture)
         {
-            return YahooLocalizationManager.GetValue("fin_pf_viewColumn_" + ct.ToString(), culture);
+            return YahooLocalizationManager.GetValue("fin_pf_viewColumn_" + ct, culture);
         }
     }
 
@@ -288,18 +288,13 @@ namespace MaasOne.Finance.YahooPortfolio
         private PortfolioColumnType[] mAvailableColumns = new PortfolioColumnType[] { };
         private object[] mValues = new object[((int)PortfolioColumnType.comment) + 1];
 
-        public PortfolioColumnType[] AvailableColumns { get { return mAvailableColumns; } }
-        public object this[PortfolioColumnType column]
+        public PortfolioColumnType[] AvailableColumns => mAvailableColumns;
+
+	    public object this[PortfolioColumnType column]
         {
-            get
-            {
-                return mValues[(int)column];
-            }
-            set
-            {
-                mValues[(int)column] = value;
-            }
-        }
+            get => mValues[(int)column];
+		    set => mValues[(int)column] = value;
+	    }
 
         internal PortfolioDataRow()
         {
@@ -329,10 +324,10 @@ namespace MaasOne.Finance.YahooPortfolio
         public bool DownloadRealTimeView { get; set; }
         public bool DownloadFundamentalsView { get; set; }
 
-        protected override System.Net.CookieContainer Cookies { get { return this.Account != null ? this.Account.Cookies : null; } }
+        protected override System.Net.CookieContainer Cookies => Account?.Cookies;
 
 
-        public PortfolioDownloadSettings()
+	    public PortfolioDownloadSettings()
         {
             this.ViewIndex = 1;
         }
@@ -342,7 +337,7 @@ namespace MaasOne.Finance.YahooPortfolio
             string urlEnd = string.Empty;
             if (this.DownloadRealTimeView) { urlEnd = "e"; }
             else if (this.DownloadFundamentalsView) { urlEnd = "fv"; }
-            else { urlEnd = "v" + (this.ViewIndex + 1).ToString(); }
+            else { urlEnd = "v" + (this.ViewIndex + 1); }
             return "http://finance.yahoo.com/portfolio/" + this.PortfolioID + "/view/" + urlEnd;
         }
 

@@ -23,18 +23,15 @@
 // **  limitations under the License.
 // ** 
 // ******************************************************************************
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 
 namespace MaasOne.Finance.YahooPortfolio
 {
     public class SimpleID : IID
     {
         private string mID = string.Empty;
-        public string ID { get { return mID; } }
-        public SimpleID(string id)
+        public string ID => mID;
+
+	    public SimpleID(string id)
         {
             mID = id;
         }

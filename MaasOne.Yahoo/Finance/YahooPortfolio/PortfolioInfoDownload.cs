@@ -25,10 +25,8 @@
 // ******************************************************************************
 using System;
 using System.Collections.Generic;
-using System.Text;
 using MaasOne.Base;
 using MaasOne.Xml;
-using System.Xml.Linq;
 
 
 namespace MaasOne.Finance.YahooPortfolio
@@ -38,7 +36,9 @@ namespace MaasOne.Finance.YahooPortfolio
 
     public class PortfolioInfoDownload : DownloadClient<PortfolioInfoResult>
     {
-        public PortfolioInfoDownloadSettings Settings { get { return (PortfolioInfoDownloadSettings)base.Settings; } set { base.SetSettings(value); } }
+        public PortfolioInfoDownloadSettings Settings { get => (PortfolioInfoDownloadSettings)base.Settings;
+	        set => base.SetSettings(value);
+        }
 
         public PortfolioInfoDownload()
         {
@@ -81,9 +81,10 @@ namespace MaasOne.Finance.YahooPortfolio
 
     public class PortfolioInfoResult
     {
-        private PortfolioInfo[] mItems = null;
-        public PortfolioInfo[] Items { get { return mItems; } }
-        internal PortfolioInfoResult(PortfolioInfo[] items)
+        private PortfolioInfo[] mItems;
+        public PortfolioInfo[] Items => mItems;
+
+	    internal PortfolioInfoResult(PortfolioInfo[] items)
         {
             mItems = items;
         }
@@ -92,10 +93,11 @@ namespace MaasOne.Finance.YahooPortfolio
     public class PortfolioInfo
     {
         private string mName = string.Empty;
-        public string Name { get { return mName; } }
-        private string mID = string.Empty;
-        public string ID { get { return mID; } }
-        public PortfolioInfo(string name, string id)
+        public string Name => mName;
+	    private string mID = string.Empty;
+        public string ID => mID;
+
+	    public PortfolioInfo(string name, string id)
         {
             mName = name;
             mID = id;
@@ -111,9 +113,9 @@ namespace MaasOne.Finance.YahooPortfolio
     {
         public YAccountManager Account { get; set; }
 
-        protected override System.Net.CookieContainer Cookies { get { return this.Account != null ? this.Account.Cookies : null; } }
+        protected override System.Net.CookieContainer Cookies => Account?.Cookies;
 
-        protected override string GetUrl()
+	    protected override string GetUrl()
         {
             return "http://finance.yahoo.com/portfolios/manage";
         }

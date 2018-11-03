@@ -24,8 +24,6 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 
 namespace MaasOne.Search.BOSS
@@ -34,12 +32,9 @@ namespace MaasOne.Search.BOSS
     public class SearchData : SearchBaseData
     {
         private Uri mClickUrl;
-        public Uri ClickUrl
-        {
-            get { return mClickUrl; }
-        }
+        public Uri ClickUrl => mClickUrl;
 
-        internal SearchData(string title, string @abstract, Uri url, Uri clkUrl)
+	    internal SearchData(string title, string @abstract, Uri url, Uri clkUrl)
             : base(title, @abstract, url)
         {
             mClickUrl = clkUrl;
@@ -54,28 +49,19 @@ namespace MaasOne.Search.BOSS
     {
 
         private string mDisplayUrl = string.Empty;
-        private DateTime mCrawlingDate = new DateTime();
+        private DateTime mCrawlingDate;
         private Language mLanguage = Language.en;
 
         private string mSMFeed = string.Empty;
-        public string DisplayUrl
-        {
-            get { return mDisplayUrl; }
-        }
-        public DateTime CrawlingDate
-        {
-            get { return mCrawlingDate; }
-        }
-        public Language Language
-        {
-            get { return mLanguage; }
-        }
-        public string SMFeed
-        {
-            get { return mSMFeed; }
-        }
+        public string DisplayUrl => mDisplayUrl;
 
-        internal WebSearchData(SearchData result, string dispUrl, DateTime crwDate, Language language, string smFeed)
+	    public DateTime CrawlingDate => mCrawlingDate;
+
+	    public Language Language => mLanguage;
+
+	    public string SMFeed => mSMFeed;
+
+	    internal WebSearchData(SearchData result, string dispUrl, DateTime crwDate, Language language, string smFeed)
             : base(result.Title, result.Description, result.Url, result.ClickUrl)
         {
             mDisplayUrl = dispUrl;
@@ -98,37 +84,22 @@ namespace MaasOne.Search.BOSS
 
         private Thumbnail mThumbnail;
 
-        public Uri RefererUrl
-        {
-            get { return mRefererUrl; }
-        }
-        public Uri RefererClickUrl
-        {
-            get { return mRefererClickUrl; }
-        }
-        public long FileSize
-        {
-            get { return mFileSize; }
-        }
-        public ImageFileType FileFormat
-        {
-            get { return mFileFormat; }
-        }
-        public int Height
-        {
-            get { return mHeight; }
-        }
-        public int Width
-        {
-            get { return mWidth; }
-        }
-        public Thumbnail Thumbnail
-        {
-            get { return mThumbnail; }
-        }
+        public Uri RefererUrl => mRefererUrl;
+
+	    public Uri RefererClickUrl => mRefererClickUrl;
+
+	    public long FileSize => mFileSize;
+
+	    public ImageFileType FileFormat => mFileFormat;
+
+	    public int Height => mHeight;
+
+	    public int Width => mWidth;
+
+	    public Thumbnail Thumbnail => mThumbnail;
 
 
-        internal ImageSearchData(SearchData result, Uri refUrl, Uri refClkUrl, long fileSize, ImageFileType fileFormat, int height, int width, Uri tmbUrl, int tmbHeight, int tmbWidth)
+	    internal ImageSearchData(SearchData result, Uri refUrl, Uri refClkUrl, long fileSize, ImageFileType fileFormat, int height, int width, Uri tmbUrl, int tmbHeight, int tmbWidth)
             : base(result.Title, result.Description, result.Url, result.ClickUrl)
         {
             mRefererUrl = refUrl;
@@ -154,24 +125,15 @@ namespace MaasOne.Search.BOSS
         private string mSource = string.Empty;
 
         private Uri mSourceUrl;
-        public string Source
-        {
-            get { return mSource; }
-        }
-        public Uri SourceUrl
-        {
-            get { return mSourceUrl; }
-        }
-        public DateTime CrawlingDate
-        {
-            get { return mCrawlingDate; }
-        }
-        public Language Language
-        {
-            get { return mLanguage; }
-        }
+        public string Source => mSource;
 
-        internal NewsSearchResult(SearchData result, string source, Uri sourceUrl, DateTime crwDate, Language language)
+	    public Uri SourceUrl => mSourceUrl;
+
+	    public DateTime CrawlingDate => mCrawlingDate;
+
+	    public Language Language => mLanguage;
+
+	    internal NewsSearchResult(SearchData result, string source, Uri sourceUrl, DateTime crwDate, Language language)
             : base(result.Title, result.Description, result.Url, result.ClickUrl)
         {
             mSource = source;
@@ -189,12 +151,9 @@ namespace MaasOne.Search.BOSS
     public class SpellingSearchData : SearchData
     {
 
-        public string Suggestion
-        {
-            get { return base.Title; }
-        }
+        public string Suggestion => base.Title;
 
-        internal SpellingSearchData(string sugg)
+	    internal SpellingSearchData(string sugg)
             : base(sugg, string.Empty, null, null)
         {
         }

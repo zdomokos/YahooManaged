@@ -1,4 +1,4 @@
-// ******************************************************************************
+﻿// ******************************************************************************
 // ** 
 // **  Yahoo! Managed
 // **  Written by Marius Häusler 2012
@@ -24,12 +24,6 @@
 // ** 
 // ******************************************************************************
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net;
-using MaasOne.Xml;
 
 
 namespace MaasOne.Weather.YahooWeather
@@ -40,12 +34,9 @@ namespace MaasOne.Weather.YahooWeather
 		public string Description { get; set; }
 		public ConditionType Type { get; set; }
 		public DateTime ForecastDate { get; set; }
-		public Uri ImageNightUri {
-			get { return this.ConditionImageUri(true); }
-		}
-		public Uri ImageDayUri {
-			get { return this.ConditionImageUri(false); }
-		}
+		public Uri ImageNightUri => this.ConditionImageUri(true);
+
+		public Uri ImageDayUri => this.ConditionImageUri(false);
 
 		public Uri GetAutoImage(AstronomyInfo astro)
 		{
@@ -65,7 +56,7 @@ namespace MaasOne.Weather.YahooWeather
 				string dayNightTag = "d";
 				if (isNight)
 					dayNightTag = "n";
-				return new Uri("http://l.yimg.com/a/i/us/nws/weather/gr/" + Convert.ToInt32(this.Type).ToString() + dayNightTag + ".png");
+				return new Uri("http://l.yimg.com/a/i/us/nws/weather/gr/" + Convert.ToInt32(this.Type) + dayNightTag + ".png");
 			} else {
 				return null;
 			}
